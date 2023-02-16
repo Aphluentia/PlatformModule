@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebPlatform.Services;
 
 namespace WebPlatform.Controllers
 {
     public class ConfigurationController : Controller
     {
+        private readonly ICLogger _logger;
+        public ConfigurationController(ICLogger logger)
+        {
+            _logger = logger;
+            _logger.System("Initialized Configuration Controller");
+        }
         // GET: ConfigurationController
         public ActionResult Index()
         {

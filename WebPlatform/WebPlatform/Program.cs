@@ -1,7 +1,10 @@
+using WebPlatform.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICLogger, CLogger>();
 
 var app = builder.Build();
 
