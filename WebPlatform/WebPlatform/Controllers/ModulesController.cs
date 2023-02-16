@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebPlatform.Services;
 
 namespace WebPlatform.Controllers
 {
     public class ModulesController : Controller
     {
+        private readonly ICLogger _logger;
+        public ModulesController(ICLogger logger)
+        {
+            _logger = logger;
+            _logger.System("Initialized Modules Controller");
+        }
         // GET: ModulesController1
         public ActionResult Index()
         {

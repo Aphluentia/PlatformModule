@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebPlatform.Services;
 
 namespace WebPlatform.Controllers
 {
     public class DashboardController : Controller
     {
+        private readonly ICLogger _logger;
+        public DashboardController(ICLogger logger)
+        {
+            _logger = logger;
+            _logger.System("Initialized Dashboard Controller");
+        }
         // GET: DashboardController
         public ActionResult Index()
         {
