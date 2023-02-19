@@ -2,7 +2,7 @@
 /.vs
 *.cache
 /WebPlatform/WebPlatform/.vs
-
+*.idea
 ###################
 # compiled source #
 ###################
