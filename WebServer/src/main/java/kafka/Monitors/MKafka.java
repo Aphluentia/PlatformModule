@@ -2,6 +2,7 @@ package kafka.Monitors;
 
 import kafka.Entities.IKafkaConsumer;
 import kafka.Entities.IMessageHandler;
+import kafka.Entities.Message;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class MKafka implements IKafkaConsumer, IMessageHandler {
 
-    private Queue<String> messages;
+    private Queue<Message> messages;
     /**
      * reentrant mutual exclusion lock
      */
@@ -28,16 +29,14 @@ public class MKafka implements IKafkaConsumer, IMessageHandler {
      * Generates the ETH monitor
      */
     public MKafka(){
-        this.messages = new LinkedList<String>();
+        this.messages = new LinkedList<Message>();
         this.rl = new ReentrantLock();
-
         this.newMessage = rl.newCondition();
-
     }
 
 
     @Override
-    public void addMessage(String newMessage) {
+    public void addMessage(Message newMessage) {
         try{
             rl.lock();
             this.messages.add(newMessage);
@@ -48,8 +47,8 @@ public class MKafka implements IKafkaConsumer, IMessageHandler {
     }
 
     @Override
-    public String handleMessage() {
-        String message = "";
+    public Message handleMessage() {
+        Message message = null;
         try{
             rl.lock();
             while (this.messages.isEmpty()){

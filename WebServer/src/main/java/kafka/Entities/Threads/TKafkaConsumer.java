@@ -1,18 +1,22 @@
-package kafka.Entities;
+package kafka.Entities.Threads;
 
-import kafka.Constants;
+import com.google.gson.Gson;
+import kafka.Entities.IKafkaConsumer;
+import kafka.Entities.Message;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import kafka.Constants;
 
-public class TMessageHandler extends Thread{
+public class TKafkaConsumer extends Thread{
     /**
      * All Monitor Call Center Interfaces -> Includes CCH, ETH, WTH and MDH
      */
-    private final IMessageHandler imc;
+    private final IKafkaConsumer ikc;
     private Consumer<String, String> consumer;
     /**
      * Boolean flag for suspending process
@@ -27,12 +31,14 @@ public class TMessageHandler extends Thread{
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
-     * @param _imc: Interface  for the MKafka Monitor
+     * @param _ikc: Interface  for the MKafka Monitor
      */
-    public TMessageHandler(IMessageHandler _imc) {
-        this.imc = _imc;
+    public TKafkaConsumer(IKafkaConsumer _ikc, Properties _props) {
+        this.ikc = _ikc;
         this.threadSuspended = false;
         this.stopFlag = false;
+        this.consumer = new KafkaConsumer<String, String>(_props);
+
     }
 
     /**
@@ -68,6 +74,8 @@ public class TMessageHandler extends Thread{
      */
     @Override
     public void run() {
+        consumer.subscribe(Collections.singletonList(Constants.TOPIC));
+        System.out.printf("Starting Consumer connection to Topic %s on Broker %s", Constants.TOPIC, Constants.BOOTSTRAP_SERVERS);
         try {
             while(!this.stopFlag){
                 synchronized(this) {
@@ -79,9 +87,14 @@ public class TMessageHandler extends Thread{
                         }
                     }
                 }
+
                 while (true) {
-                    String str = this.imc.handleMessage();
-                    System.out.println(str);
+                    ConsumerRecords<String, String> records =
+                            consumer.poll(Duration.ofMillis(100));
+                    records.forEach(record -> {
+                        System.out.println(record.value());
+                        this.ikc.addMessage(new Gson().fromJson(record.value(), Message.class));
+                    });
                 }
             }
 

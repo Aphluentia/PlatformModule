@@ -1,5 +1,5 @@
 package kafka.Entities;
 
 public interface IKafkaConsumer {
-    void addMessage(String message);
+    void addMessage(Message message);
 }

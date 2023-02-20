@@ -7,5 +7,5 @@ public class Constants {
 
     public static int NO_MESSAGE_HANDLERS = 1;
 
-    public static String TOPIC = "KAFKA_BROKER";
+    public static String TOPIC = "kafkabroker";
 }

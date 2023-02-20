@@ -1,19 +1,23 @@
-package kafka.Entities;
+package kafka.Entities.Threads;
 
+import kafka.Constants;
+import kafka.Entities.AppType;
+import kafka.Entities.IMessageHandler;
+import kafka.Entities.ISocketMessageHandler;
+import kafka.Entities.Message;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
-import kafka.Constants;
 
-public class TKafkaConsumer extends Thread{
+public class TMessageHandler extends Thread{
     /**
      * All Monitor Call Center Interfaces -> Includes CCH, ETH, WTH and MDH
      */
-    private final IKafkaConsumer ikc;
+    private final IMessageHandler imc;
+    private final ISocketMessageHandler ismh;
     private Consumer<String, String> consumer;
     /**
      * Boolean flag for suspending process
@@ -28,14 +32,13 @@ public class TKafkaConsumer extends Thread{
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
-     * @param _ikc: Interface  for the MKafka Monitor
+     * @param _imc: Interface  for the MKafka Monitor
      */
-    public TKafkaConsumer(IKafkaConsumer _ikc, Properties _props) {
-        this.ikc = _ikc;
+    public TMessageHandler(IMessageHandler _imc, ISocketMessageHandler _ismh) {
+        this.imc = _imc;
+        this.ismh = _ismh;
         this.threadSuspended = false;
         this.stopFlag = false;
-        this.consumer = new KafkaConsumer<String, String>(_props);
-
     }
 
     /**
@@ -71,7 +74,6 @@ public class TKafkaConsumer extends Thread{
      */
     @Override
     public void run() {
-        consumer.subscribe(Collections.singletonList(Constants.TOPIC));
         try {
             while(!this.stopFlag){
                 synchronized(this) {
@@ -83,13 +85,11 @@ public class TKafkaConsumer extends Thread{
                         }
                     }
                 }
-
                 while (true) {
-                    ConsumerRecords<String, String> records =
-                            consumer.poll(Duration.ofMillis(100));
-                    records.forEach(record -> {
-                        this.ikc.addMessage(record.value());
-                    });
+                    Message str = this.imc.handleMessage();
+                    System.out.println("TMessageHandler "+ str.toString());
+                    this.ismh.addMessage(str, Enum.valueOf(AppType.class, str.ApplicationType));
+
                 }
             }
 

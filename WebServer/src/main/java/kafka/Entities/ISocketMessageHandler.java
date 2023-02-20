@@ -1,5 +1,5 @@
 package kafka.Entities;
 
 public interface ISocketMessageHandler {
-    void addMessage(String message, AppType appType);
+    void addMessage(Message message, AppType appType);
 }

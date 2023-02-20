@@ -5,22 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/AppType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/IWebSocketHub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/TMessageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/TSocketServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/TWebSocketHub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/kafka/AppTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketConnectionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketConnectionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/IKafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/IMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IWebSocketHub.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TSocketServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TWebSocketHub.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,30 +44,53 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="2Luu16nsfU20APNHrjbbmste4lo" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Application.Unnamed">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kafka.App" />
+      <module name="WebServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebServer" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Maven.WebServer" />
+    </list>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -79,10 +104,22 @@
       <workItem from="1676824380292" duration="2703000" />
       <workItem from="1676828391130" duration="2958000" />
       <workItem from="1676836194227" duration="1174000" />
+      <workItem from="1676886179497" duration="6510000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
