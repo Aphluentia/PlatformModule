@@ -2,9 +2,8 @@ package kafka.Monitors;
 
 import kafka.Entities.IKafkaConsumer;
 import kafka.Entities.IMessageHandler;
-import kafka.Entities.Message;
+import kafka.Entities.Models.Message;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;

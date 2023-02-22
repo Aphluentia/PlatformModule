@@ -1,17 +1,14 @@
 package kafka.Entities.Threads;
 
-import kafka.Constants;
-import kafka.Entities.AppType;
+import kafka.Entities.Enum.AppType;
 import kafka.Entities.IMessageHandler;
 import kafka.Entities.ISocketMessageHandler;
-import kafka.Entities.Message;
+import kafka.Entities.Models.Message;
 import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import java.util.Collections;
-import java.util.Properties;
-
+/**
+ * Handles Messages Received from the KafkaConsumer
+ */
 public class TMessageHandler extends Thread{
     /**
      * All Monitor Call Center Interfaces -> Includes CCH, ETH, WTH and MDH

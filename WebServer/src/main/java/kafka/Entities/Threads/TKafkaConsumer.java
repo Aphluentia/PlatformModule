@@ -2,15 +2,18 @@ package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
 import kafka.Entities.IKafkaConsumer;
-import kafka.Entities.Message;
+import kafka.Entities.Models.Message;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import kafka.Constants;
+import org.apache.kafka.common.TopicPartition;
 
 public class TKafkaConsumer extends Thread{
     /**
@@ -38,7 +41,6 @@ public class TKafkaConsumer extends Thread{
         this.threadSuspended = false;
         this.stopFlag = false;
         this.consumer = new KafkaConsumer<String, String>(_props);
-
     }
 
     /**
@@ -74,7 +76,8 @@ public class TKafkaConsumer extends Thread{
      */
     @Override
     public void run() {
-        consumer.subscribe(Collections.singletonList(Constants.TOPIC));
+
+        consumer.subscribe(Arrays.asList(Constants.TOPIC.split(",")));
         System.out.printf("Starting Consumer connection to Topic %s on Broker %s", Constants.TOPIC, Constants.BOOTSTRAP_SERVERS);
         try {
             while(!this.stopFlag){
@@ -88,14 +91,12 @@ public class TKafkaConsumer extends Thread{
                     }
                 }
 
-                while (true) {
-                    ConsumerRecords<String, String> records =
-                            consumer.poll(Duration.ofMillis(100));
-                    records.forEach(record -> {
-                        System.out.println(record.value());
-                        this.ikc.addMessage(new Gson().fromJson(record.value(), Message.class));
-                    });
-                }
+                ConsumerRecords<String, String> records =
+                        consumer.poll(Duration.ofMillis(1000));
+                records.forEach(record -> {
+                    this.ikc.addMessage(new Gson().fromJson(record.value(), Message.class));
+                });
+
             }
 
         } catch (Exception e) {

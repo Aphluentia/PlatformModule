@@ -1,4 +1,4 @@
-package kafka.Entities;
+package kafka.Entities.Models;
 
 public class Message {
     public String WebPlatformId;

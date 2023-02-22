@@ -5,24 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketConnectionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketConnectionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/Action.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ConnectionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/AppType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/AppType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/IKafkaConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/IMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketConnectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketConnectionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IWebSocketHub.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TSocketServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/TWebSocketHub.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketConnectionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../webMock.html" beforeDir="false" afterPath="$PROJECT_DIR$/../webMock.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +33,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -49,12 +50,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="kafka.App" />
@@ -105,11 +110,17 @@
       <workItem from="1676828391130" duration="2958000" />
       <workItem from="1676836194227" duration="1174000" />
       <workItem from="1676886179497" duration="6510000" />
+      <workItem from="1676903761533" duration="740000" />
+      <workItem from="1676907866969" duration="11221000" />
+      <workItem from="1677076390207" duration="2215000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.apache.kafka:kafka-clients" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

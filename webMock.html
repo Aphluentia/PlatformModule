@@ -9,17 +9,41 @@
     <script>
       const sendButton = document.getElementById('send-button');
       sendButton.addEventListener('click', (event) => {
-        socket.send('aph');
+        socket.send('{"action":"NEW_CONNECTION", "appType":"MOBILE_APP"}');
         });
         const socket = new WebSocket('ws://localhost:9005');
+        let appSocket = null;
+        socket.onmessage = function(evt) {
+          console.log('Message received from server:', evt.data);
 
+          if (evt.data.includes("CONNECT")){
+            appSocket = new WebSocket('ws://localhost:'+evt.data.split(":")[1])
+            appSocket.addEventListener('open', (event) => {
+              console.log('Socket connection established');
+            });
+            appSocket.addEventListener('close', (event) => {
+              console.log('Socket connection closed');
+            });
+
+            appSocket.addEventListener('error', (event) => {
+              console.log('Socket error occurred:', event);
+            });
+            appSocket.onmessage = function(evt) {
+              console.log('Message received from server:', evt.data);
+            };
+
+          }else if (evt.data.includes("CLOSED")){
+
+          }else if (evt.data.includes("NOT_AVAILABLE")){
+
+          }
+        };
+       
         socket.addEventListener('open', (event) => {
           console.log('Socket connection established');
         });
         
-        socket.addEventListener('message', (event) => {
-          console.log('Message received from server:', event.data);
-        });
+       
         
         socket.addEventListener('close', (event) => {
           console.log('Socket connection closed');
@@ -28,9 +52,6 @@
         socket.addEventListener('error', (event) => {
           console.log('Socket error occurred:', event);
         });
-        
-        // Sending a message to the server
-        socket.send('Hello server!');
     
       
     </script>
