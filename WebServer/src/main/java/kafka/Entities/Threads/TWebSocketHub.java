@@ -69,7 +69,7 @@ public class TWebSocketHub extends Thread {
             switch(conReq.getAction()){
                 case NEW_CONNECTION:
                     conns.get(conReq.getAppType()).add(conn);
-                    conn.send("CONNECT:"+this.typePorts.get(conReq.getAppType()).toString());
+                    conn.send("CONNECT:"+conReq.getAppType()+"-"+this.typePorts.get(conReq.getAppType()).toString());
                     break;
                 case CLOSE_CONNECTION:
                     conns.get(conReq.getAppType()).remove(conn);

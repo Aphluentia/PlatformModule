@@ -1,0 +1,44 @@
+﻿@model Connection
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<p>@Model.Port</p>
+<script>
+    function UpdateModule(message) {
+    $.ajax({
+        type: "GET",
+        url: "/Modules/UpdateModule",
+        data: { message:message },
+        success: function (data) {
+            $("#ModuleData").html(data);
+        }
+    });
+}
+
+    $(document).ready(function () {
+        const moduleSocket = new WebSocket('ws://localhost:' + '@Html.Raw(Model.Port)');
+
+        moduleSocket.onmessage = function (evt) {
+            console.log('Message received from server:', evt.data);
+            $("#messages").append("<p>"+evt.data+"</p>");
+        };
+
+        moduleSocket.addEventListener('open', (event) => {
+            console.log('Socket connection established');
+        });
+
+        moduleSocket.addEventListener('close', (event) => {
+            console.log('Socket connection closed');
+        });
+
+        moduleSocket.addEventListener('error', (event) => {
+            console.log('Socket error occurred:', event);
+        });
+       
+
+    });
+
+</script>
+<div id="messages">
+    <p id="ModuleData"></p>
+</div>
