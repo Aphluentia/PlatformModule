@@ -2,6 +2,7 @@ package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
 import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.ServerConfig;
 import kafka.Entities.IKafkaConsumer;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
@@ -13,7 +14,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
-import kafka.Constants;
 
 public class TKafkaConsumer extends Thread{
     /**
@@ -71,8 +71,8 @@ public class TKafkaConsumer extends Thread{
      */
     @Override
     public void run() {
-        consumer.subscribe(Arrays.asList(Constants.TOPIC.split(",")));
-        this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Broker %s Connection on Topic %s ", Constants.BOOTSTRAP_SERVERS, Constants.TOPIC)));
+        consumer.subscribe(Arrays.asList(ServerConfig.TOPIC.split(",")));
+        this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Broker %s Connection on Topic %s ", ServerConfig.BOOTSTRAP_SERVERS, ServerConfig.TOPIC)));
         try {
             while(!this.stopFlag){
                 synchronized(this) {

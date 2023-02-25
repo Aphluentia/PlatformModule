@@ -1,9 +1,9 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Constants;
 import kafka.Entities.Enum.AppType;
 import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.ServerConfig;
 import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
@@ -105,7 +105,7 @@ public class TWebSocketHub extends Thread {
 
         @Override
         public void onStart() {
-            this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TWebSocketHub Started at Port %s",Constants.SOCKET_HUB_PORT)));
+            this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TWebSocketHub Started at Port %s", ServerConfig.SOCKET_HUB_PORT)));
         }
     }
 }
