@@ -42,12 +42,15 @@ public class MWebSockets implements ISocketConnectionHandler, ISocketMessageHand
 
     @Override
     public void addMessage(Message newMessage, AppType appType) {
-        try{
+        try
+        {
             rl.lock();
             this.messages.get(appType).add(newMessage);
             this.newMessage.get(appType).signal();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, appType+": Adding Message to WebSocketsMonitor: "+newMessage));
-        }finally {
+        }
+        finally 
+        {
             rl.unlock();
         }
     }

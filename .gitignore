@@ -5,7 +5,7 @@
 /.idea
 
 /WebPlatform/WebPlatform/.vs
-
+*.idea
 ###################
 # compiled source #
 ###################

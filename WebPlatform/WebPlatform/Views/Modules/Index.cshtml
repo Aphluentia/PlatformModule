@@ -1,8 +1,50 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using System.Web;
 
+@model List<Connection>
+
+<script src="~/js/socketHubConnection.js"></script>
+<script>
+    $(document).ready(function () {
+        const socket = new WebSocket('ws://localhost:9005');
+
+        socket.onmessage = function (evt) {
+            console.log('Message received from server:', evt.data);
+            if (evt.data.includes("CONNECT")) {
+                onMessageReceived(evt.data.split(":")[1], '@Html.Raw(Model)')
+            } else if (evt.data.includes("CLOSED")) {
+
+            } else if (evt.data.includes("NOT_AVAILABLE")) {
+
+            }
+        };
+
+        socket.addEventListener('open', (event) => {
+            console.log('Socket connection established');
+
+        });
+
+        socket.addEventListener('close', (event) => {
+            console.log('Socket connection closed');
+        });
+
+        socket.addEventListener('error', (event) => {
+            console.log('Socket error occurred:', event);
+        });
+        const sendButton = document.getElementById('send-button');
+        sendButton.addEventListener('click', (event) => {
+            socket.send('{"action":"NEW_CONNECTION", "appType":"MOBILE_APP"}');
+        });
+
+    });
+
+</script>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Modules</h1>
+    <div id="ModulesPartial">
+        @await Html.PartialAsync("_Modules", Model);
+    </div>
+    <button id="send-button">Send Message</button>
 </div>

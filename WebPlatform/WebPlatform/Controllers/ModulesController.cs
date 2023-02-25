@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
+using NuGet.Protocol;
+using WebPlatform.Models;
+using WebPlatform.Models.Enum;
 using WebPlatform.Services;
 
 namespace WebPlatform.Controllers
@@ -15,8 +20,30 @@ namespace WebPlatform.Controllers
         // GET: ModulesController1
         public ActionResult Index()
         {
-            return View();
+            return View("Index",new List<Connection>());
         }
+        // Add Port 
+        
+      
+        
+        public async Task<IActionResult> AddModule(string port, string appType, List<Connection> conns)
+        {
+            AppType _appType;
+            int Port;
+            if (!int.TryParse(port, out Port))
+            {
+                return BadRequest("Provided Port is Not Supported");
+            }
+            if (!Enum.TryParse<AppType>(appType.Split("-")[0], true, out _appType))
+            {
+                return BadRequest("Provided AppType is Not Supported");
+            }
+            HttpContext.Response.Cookies.Append(_appType.ToString(), Port.ToString());
+
+            conns.Add(new Connection() { AppType = _appType, Port = Port });
+            return PartialView("_Modules", conns);
+        }
+
 
         // GET: ModulesController1/Details/5
         public ActionResult Details(int id)

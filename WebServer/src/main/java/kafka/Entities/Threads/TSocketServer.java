@@ -75,10 +75,8 @@ public class TSocketServer extends Thread {
 
         } catch (Exception e) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TSocketServer Error %s: %s ",this.appType,e)));
-
         }
     }
-
 
     private static class SocketServer extends WebSocketServer {
         private final Set<WebSocket> conns;
@@ -100,7 +98,6 @@ public class TSocketServer extends Thread {
         public void onOpen(WebSocket conn, ClientHandshake handshake) {
             conns.add(conn);
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TSocketServer New Connection %s from Client %s", this.appType, conn.getRemoteSocketAddress().getAddress().getHostAddress())));
-
         }
 
         @Override
@@ -112,7 +109,6 @@ public class TSocketServer extends Thread {
         @Override
         public void onMessage(WebSocket conn, String message) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TSocketServer New Message From Client %s: %s - Client %s",this.appType, message, conn.getRemoteSocketAddress().getAddress().getHostAddress())));
-
         }
 
         @Override

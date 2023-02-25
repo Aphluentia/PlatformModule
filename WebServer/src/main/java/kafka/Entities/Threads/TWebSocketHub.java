@@ -29,8 +29,6 @@ public class TWebSocketHub extends Thread {
         socketHub = new WebSocketHub(_port, _typePorts, _mlogger);
         socketHub.start();
     }
-
-
     /**
      * <p>stopFlag flag set to true, process ends</p>
      */

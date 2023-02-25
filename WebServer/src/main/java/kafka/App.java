@@ -53,6 +53,5 @@ public class App
             Thread _tkc = new TKafkaConsumer(mKafka, props, mlogger);
             _tkc.start();
         }
-
     }
 }

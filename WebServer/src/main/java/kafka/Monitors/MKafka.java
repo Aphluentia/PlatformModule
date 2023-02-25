@@ -12,7 +12,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MKafka implements IKafkaConsumer, IMessageHandler {
-
     private final Queue<Message> messages;
     /**
      * reentrant mutual exclusion lock
@@ -22,6 +21,7 @@ public class MKafka implements IKafkaConsumer, IMessageHandler {
      * Condition which indicates when there is space available in the CHILD Patients Room
      */
     private final Condition newMessage;
+    
     private final MLogger mlogger;
     /**
      * Generates the ETH monitor
