@@ -2,11 +2,9 @@ package kafka;
 
 import kafka.Entities.*;
 import kafka.Entities.Enum.AppType;
-import kafka.Entities.Threads.TKafkaConsumer;
-import kafka.Entities.Threads.TMessageHandler;
-import kafka.Entities.Threads.TSocketServer;
-import kafka.Entities.Threads.TWebSocketHub;
+import kafka.Entities.Threads.*;
 import kafka.Monitors.MKafka;
+import kafka.Monitors.MLogger;
 import kafka.Monitors.MWebSockets;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -22,9 +20,9 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-        MKafka mKafka = new MKafka();
-        MWebSockets mWebSockets = new MWebSockets();
+        MLogger mlogger = new MLogger();
+        MKafka mKafka = new MKafka(mlogger);
+        MWebSockets mWebSockets = new MWebSockets(mlogger);
 
         final Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, Constants.BOOTSTRAP_SERVERS);
@@ -36,26 +34,24 @@ public class App
         HashMap<AppType, Integer> _typePorts = new HashMap<>();
         int _port = Constants.BASE_MODULES_PORT;
         for (AppType appType: AppType.values()){
-            Thread _tkc = new TSocketServer((ISocketConnectionHandler) mWebSockets, appType, _port);
+            Thread _tkc = new TSocketServer(mWebSockets, appType, _port, mlogger);
             _tkc.start();
             _typePorts.put(appType, _port);
             _port++;
         }
-        Thread wshub = new TWebSocketHub(_typePorts, Constants.SOCKET_HUB_PORT);
+        Thread tLogger = new TLogger(mlogger, Constants.FILEPATH);
+        tLogger.start();
+        Thread wshub = new TWebSocketHub(_typePorts, Constants.SOCKET_HUB_PORT, mlogger);
         wshub.start();
         // Threads For Monitors
         for (int i = 0;i<Constants.NO_MESSAGE_HANDLERS;i++){
-            Thread _tkc = new TMessageHandler((IMessageHandler) mKafka, (ISocketMessageHandler)mWebSockets);
+            Thread _tkc = new TMessageHandler(mKafka, mWebSockets, mlogger);
             _tkc.start();
         }
         for (int i = 0;i<Constants.NO_KAFKA_CONSUMERS;i++){
-            props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaConsumerGroup#"+String.valueOf(i));
-            Thread _tkc = new TKafkaConsumer((IKafkaConsumer) mKafka, props);
+            props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaConsumerGroup#"+ i);
+            Thread _tkc = new TKafkaConsumer(mKafka, props, mlogger);
             _tkc.start();
         }
-
-
-
-
     }
 }

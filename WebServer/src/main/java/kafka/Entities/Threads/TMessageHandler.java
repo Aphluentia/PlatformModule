@@ -1,10 +1,12 @@
 package kafka.Entities.Threads;
 
 import kafka.Entities.Enum.AppType;
+import kafka.Entities.Enum.LogLevel;
 import kafka.Entities.IMessageHandler;
 import kafka.Entities.ISocketMessageHandler;
 import kafka.Entities.Models.Message;
-import org.apache.kafka.clients.consumer.Consumer;
+import kafka.Entities.Models.ServerLog;
+import kafka.Monitors.MLogger;
 
 /**
  * Handles Messages Received from the KafkaConsumer
@@ -15,7 +17,6 @@ public class TMessageHandler extends Thread{
      */
     private final IMessageHandler imc;
     private final ISocketMessageHandler ismh;
-    private Consumer<String, String> consumer;
     /**
      * Boolean flag for suspending process
      */
@@ -25,13 +26,14 @@ public class TMessageHandler extends Thread{
      * Boolean Flag for stopping process
      */
     private boolean stopFlag;
-
+    private final MLogger mlogger;
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
      * @param _imc: Interface  for the MKafka Monitor
      */
-    public TMessageHandler(IMessageHandler _imc, ISocketMessageHandler _ismh) {
+    public TMessageHandler(IMessageHandler _imc, ISocketMessageHandler _ismh, MLogger _mlogger) {
+        this.mlogger =_mlogger;
         this.imc = _imc;
         this.ismh = _ismh;
         this.threadSuspended = false;
@@ -82,16 +84,13 @@ public class TMessageHandler extends Thread{
                         }
                     }
                 }
-                while (true) {
-                    Message str = this.imc.handleMessage();
-                    System.out.println("TMessageHandler "+ str.toString());
-                    this.ismh.addMessage(str, Enum.valueOf(AppType.class, str.ApplicationType));
+                Message newMessage = this.imc.handleMessage();
+                this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TMessageHandler Handling %s :%s: %s", newMessage.ApplicationType, newMessage.Action, newMessage.WebPlatformId)));
+                this.ismh.addMessage(newMessage, Enum.valueOf(AppType.class, newMessage.ApplicationType));
 
-                }
             }
-
         } catch (Exception e) {
-            System.out.println(e);
+            this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TMessageHandler Error %s",e)));
         }
     }
 }

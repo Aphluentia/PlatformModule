@@ -2,7 +2,9 @@ package kafka.Monitors;
 
 import kafka.Entities.*;
 import kafka.Entities.Enum.AppType;
+import kafka.Entities.Enum.LogLevel;
 import kafka.Entities.Models.Message;
+import kafka.Entities.Models.ServerLog;
 
 import java.util.*;
 import java.util.concurrent.locks.Condition;
@@ -10,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class MWebSockets implements ISocketConnectionHandler, ISocketMessageHandler {
 
-    private HashMap<AppType, Queue<Message>> messages;
+    private final HashMap<AppType, Queue<Message>> messages;
     /**
      * reentrant mutual exclusion lock
      */
@@ -20,13 +22,14 @@ public class MWebSockets implements ISocketConnectionHandler, ISocketMessageHand
      */
     private final HashMap<AppType, Condition> newMessage;
 
-
+    private final MLogger mlogger;
 
 
     /**
      * Generates the ETH monitor
      */
-    public MWebSockets(){
+    public MWebSockets(MLogger _mlogger){
+        this.mlogger = _mlogger;
         this.messages = new HashMap<AppType, Queue<Message>>();
         this.newMessage = new HashMap<AppType, Condition>();
         this.rl = new ReentrantLock();
@@ -34,19 +37,20 @@ public class MWebSockets implements ISocketConnectionHandler, ISocketMessageHand
             this.messages.put(app, new LinkedList<>());
             this.newMessage.put(app, rl.newCondition());
         }
-
-
     }
 
 
     @Override
     public void addMessage(Message newMessage, AppType appType) {
-        try{
+        try
+        {
             rl.lock();
             this.messages.get(appType).add(newMessage);
-            System.out.println(newMessage);
             this.newMessage.get(appType).signal();
-        }finally {
+            this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, appType+": Adding Message to WebSocketsMonitor: "+newMessage));
+        }
+        finally 
+        {
             rl.unlock();
         }
     }
@@ -59,13 +63,16 @@ public class MWebSockets implements ISocketConnectionHandler, ISocketMessageHand
                 this.newMessage.get(appType).await();
             }
             message = this.messages.get(appType).remove();
+            this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, appType+": Retrieving Message From WebSocketsMonitor: "+message));
 
         } catch (InterruptedException e) {
+            this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, "Error When Retrieving Message From the WebSocketsMonitor: "+e));
             e.printStackTrace();
         } catch(NoSuchElementException e)
         {
-
-        }finally {
+            this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, "Error When Retrieving Message From the WebSocketsMonitor: "+e));
+        }
+        finally {
             rl.unlock();
         }
         return message;
