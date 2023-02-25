@@ -1,0 +1,5 @@
+# Exclude Maven files and directories
+**/.m2/**
+**/target/**
+**/mvnw
+**/mvnw.cmd
