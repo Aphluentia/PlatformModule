@@ -1,5 +1,6 @@
 package kafka.guis;
 
+import kafka.App;
 import kafka.Entities.Enum.AppType;
 import kafka.Entities.Enum.ServerConfig;
 
@@ -7,29 +8,37 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.HashMap;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ConfigPrompt {
     public static JTextField brokerConnection, kafkaTopic, logsFile;
+    public static HashMap<AppType, JTextField> socketPorts;
+    public static JTextField socketHubPort;
 
     public static void generateConfigurationGui(){
-
-
         JFrame jframe = new JFrame("Configuration Screen");
         jframe.getContentPane().setLayout(new BoxLayout(jframe.getContentPane(), BoxLayout.Y_AXIS));
 
         //Config Panel
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-        mainPanel.setPreferredSize(new Dimension(600, 500));
+        JPanel mainPanel = new JPanel(new GridLayout(1,2));
         JPanel mainConfigPanel = new JPanel( new GridLayout(3, 1));
         mainConfigPanel.setBorder(BorderFactory.createTitledBorder("Main Configs"));
         mainConfigPanel = ConfigPrompt.setUpMainConfigs(mainConfigPanel);
+        mainConfigPanel.setMaximumSize(new Dimension(400,600));
         mainPanel.add(mainConfigPanel, BorderLayout.WEST);
 
 
 
-        JPanel socketsPanel = new JPanel(new GridLayout(AppType.values().length+1, 1));
+        JPanel socketsPanel = new JPanel();
+        socketsPanel.setLayout(new BoxLayout(socketsPanel, BoxLayout.Y_AXIS));
         socketsPanel.setBorder(BorderFactory.createTitledBorder("Sockets Configs"));
+        socketsPanel = ConfigPrompt.setUpSocketConfigs(socketsPanel);
+        socketsPanel.setMaximumSize(new Dimension(400,600));
         mainPanel.add(socketsPanel, BorderLayout.EAST);
 
         //Button Panel
@@ -37,13 +46,20 @@ public class ConfigPrompt {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setPreferredSize(new Dimension(600, 100));
         JButton firstButton = new JButton("Start Server");
+        firstButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Validate()){
+                    App.startApp();
+                    jframe.dispatchEvent(new WindowEvent(jframe, WindowEvent.WINDOW_CLOSING));
+                }
+            }
+        });
         buttonPanel.add(firstButton, BorderLayout.SOUTH);
-
         jframe.add(mainPanel, BorderLayout.PAGE_START);
         jframe.add(buttonPanel, BorderLayout.SOUTH);
-        jframe.setSize(600, 600);
 
-        jframe.pack();
+        jframe.setSize(600, 600);
         jframe.setVisible(true);
     }
     public static JPanel setUpMainConfigs(JPanel mainConfigsPanel) {
@@ -83,25 +99,81 @@ public class ConfigPrompt {
         JPanel kafkaConfigs = new JPanel(new GridLayout(2, 1));
         kafkaConfigs.setBorder(BorderFactory.createTitledBorder("Kafka Configs"));
 
+        JPanel brokerConnectionPanel = new JPanel(new GridLayout(1,1));
+        brokerConnectionPanel.setBorder(BorderFactory.createTitledBorder("Kafka Broker Connection Servers"));
         ConfigPrompt.brokerConnection = new JTextField(ServerConfig.BOOTSTRAP_SERVERS);
-        ConfigPrompt.brokerConnection.setBorder(BorderFactory.createTitledBorder("Kafka Broker Connection String"));
-        kafkaConfigs.add(ConfigPrompt.brokerConnection);
+        brokerConnectionPanel.add(ConfigPrompt.brokerConnection);
+        kafkaConfigs.add(brokerConnectionPanel);
 
+        JPanel kafkaTopicPanel = new JPanel(new GridLayout(1,1));
+        kafkaTopicPanel.setBorder(BorderFactory.createTitledBorder("Kafka Broker Topic"));
         ConfigPrompt.kafkaTopic  = new JTextField(ServerConfig.TOPIC);
-        ConfigPrompt.kafkaTopic.setBorder(BorderFactory.createTitledBorder("Kafka Broker Topic"));
-        kafkaConfigs.add(ConfigPrompt.kafkaTopic);
-        mainConfigsPanel.add(kafkaConfigs);
+        kafkaTopicPanel.add(ConfigPrompt.kafkaTopic);
+        kafkaConfigs.add(kafkaTopicPanel);
 
+        mainConfigsPanel.add(kafkaConfigs);
+        // Logging Configs Panel
         JPanel logsConfig = new JPanel();
         logsConfig.setLayout(new GridLayout(2,1));
         logsConfig.setBorder(BorderFactory.createTitledBorder("Logging Config"));
+
+        JPanel logFilePanel = new JPanel(new GridLayout(1,1));
+        logFilePanel.setBorder(BorderFactory.createTitledBorder("Logging File Path"));
         ConfigPrompt.logsFile  = new JTextField(ServerConfig.LOGS_FILEPATH);
-        ConfigPrompt.logsFile.setBorder(BorderFactory.createTitledBorder("Logging File"));
-        logsConfig.add(ConfigPrompt.logsFile);
+        logFilePanel.add(ConfigPrompt.logsFile);
+        logsConfig.add(logFilePanel);
+
         mainConfigsPanel.add(logsConfig);
         return mainConfigsPanel;
     }
     public static JPanel setUpSocketConfigs(JPanel socketsPanel){
+        JPanel socketHubPanel  = new JPanel();
+        socketHubPanel.setLayout(new BoxLayout(socketHubPanel, BoxLayout.Y_AXIS));
+        socketHubPanel.setMaximumSize(new Dimension(400, 50));
+        socketHubPanel.setBorder(BorderFactory.createTitledBorder("Socket Hub Port"));
+        ConfigPrompt.socketHubPort  = new JTextField(Integer.toString(ServerConfig.SOCKET_HUB_PORT),4);
+        socketHubPanel.add(ConfigPrompt.socketHubPort);
+        socketsPanel.add(socketHubPanel);
+
+        // Socket Server Ports
+        ConfigPrompt.socketPorts = new HashMap<>();
+        JPanel serverSocketPanel = new JPanel();
+        serverSocketPanel.setLayout(new BoxLayout(serverSocketPanel, BoxLayout.Y_AXIS));
+        serverSocketPanel.setBorder(BorderFactory.createTitledBorder("AppType Socket Ports"));
+        for (AppType appType: AppType.values()){
+            JPanel socket = new JPanel();
+            socket.setLayout(new BoxLayout(socket, BoxLayout.Y_AXIS));
+            socket.setBorder(BorderFactory.createTitledBorder(appType + " Port"));
+            socket.setMaximumSize(new Dimension(400, 50));
+            JTextField socketTextField = new JTextField(Integer.toString(ServerConfig.MODULES_PORT.get(appType)), 4);
+            ConfigPrompt.socketPorts.put(appType, socketTextField);
+            socket.add(socketTextField);
+            serverSocketPanel.add(socket);
+        }
+        socketsPanel.add(serverSocketPanel);
         return socketsPanel;
+    }
+
+    public static boolean Validate(){
+        boolean valid = true;
+        ServerConfig.BOOTSTRAP_SERVERS = ConfigPrompt.brokerConnection.getText();
+        ServerConfig.TOPIC = ConfigPrompt.kafkaTopic.getText();
+        ServerConfig.LOGS_FILEPATH = ConfigPrompt.logsFile.getText();
+
+        for (AppType app: AppType.values()) {
+            try {
+                int port = Integer.parseInt(ConfigPrompt.socketPorts.get(app).getText());
+                ServerConfig.MODULES_PORT.put(app, port);
+            }catch (Exception e){
+                valid = false;
+            }
+        }
+        try {
+            int port = Integer.parseInt(ConfigPrompt.socketHubPort.getText());
+            ServerConfig.SOCKET_HUB_PORT = port;
+        }catch (Exception e){
+            valid = false;
+        }
+        return valid;
     }
 }

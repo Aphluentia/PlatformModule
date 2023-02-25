@@ -14,16 +14,16 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import java.util.HashMap;
 import java.util.Properties;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main( String[] args )
     {
         ServerConfig.DefaultConfig();
         ConfigPrompt.generateConfigurationGui();
+
+    }
+    public static void startApp(){
         MLogger mlogger = new MLogger();
         MKafka mKafka = new MKafka(mlogger);
         MWebSockets mWebSockets = new MWebSockets(mlogger);

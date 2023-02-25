@@ -1,0 +1,2 @@
+{"level":"INFO","datetime":"2023-02-25T23:54:38.706463100","message":"TWebSocketHub Started at Port 9005"}
+{"level":"INFO","datetime":"2023-02-25T23:54:38.759778700","message":"TKafkaConsumer Broker localhost:8095, localhost:8096,localhost:8097 Connection on Topic kafkabroker "}

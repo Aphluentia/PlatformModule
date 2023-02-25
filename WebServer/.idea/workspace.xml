@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ServerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/ConfigPrompt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Constants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/guis/ConfigPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/ConfigPrompt.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +103,7 @@
       <workItem from="1677076390207" duration="2215000" />
       <workItem from="1677096283118" duration="1651000" />
       <workItem from="1677146565873" duration="2682000" />
-      <workItem from="1677350256812" duration="6260000" />
+      <workItem from="1677350256812" duration="11967000" />
     </task>
     <servers />
   </component>
