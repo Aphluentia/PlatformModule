@@ -1,6 +1,9 @@
 # Ignore VS Folder
 /.vs
 *.cache
+*.idea
+/.idea
+
 /WebPlatform/WebPlatform/.vs
 
 ###################
