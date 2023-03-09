@@ -1,9 +1,10 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Entities.Enum.AppType;
+import kafka.Entities.Enum.ApplicationType;
 import kafka.Entities.Enum.LogLevel;
 import kafka.Entities.Enum.ServerConfig;
+import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHub;
 import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
@@ -13,20 +14,19 @@ import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
-public class TWebSocketHub extends Thread {
+public class TSocketHub extends Thread {
     private boolean stopFlag;
     private final boolean threadSuspended;
     private final WebSocketHub socketHub;
     private final MLogger mlogger;
 
-    public TWebSocketHub(HashMap<AppType, Integer> _typePorts, int _port, MLogger _mlogger) {
+    public TSocketHub(HashMap<ApplicationType, Integer> _typePorts, int _port, ISocketHub _mSocketHub, MLogger _mlogger) {
         this.mlogger =_mlogger;
         this.stopFlag = false;
         this.threadSuspended = false;
-        socketHub = new WebSocketHub(_port, _typePorts, _mlogger);
+
+        socketHub = new WebSocketHub(_port, _typePorts,_mSocketHub, _mlogger);
         socketHub.start();
     }
     /**
@@ -57,22 +57,20 @@ public class TWebSocketHub extends Thread {
 
 
     private static class WebSocketHub extends WebSocketServer {
-        private final HashMap<AppType, Integer> typePorts;
-        private final HashMap<AppType, Set<WebSocket>> conns;
+        private final HashMap<ApplicationType, Integer> typePorts;
         private final MLogger mlogger;
-        public WebSocketHub(int PORT, HashMap<AppType, Integer> _typePorts, MLogger _mlogger) {
+        private final ISocketHub mSocketHub;
+        public WebSocketHub(int PORT, HashMap<ApplicationType, Integer> _typePorts, ISocketHub _mSocketHub, MLogger _mlogger) {
             super(new InetSocketAddress(PORT));
             this.mlogger =_mlogger;
-            this.conns = new HashMap<>();
-            for (AppType aT: AppType.values()){
-                this.conns.put(aT, new HashSet<>());
-            }
             this.typePorts = _typePorts;
+            this.mSocketHub = _mSocketHub;
         }
 
         @Override
         public void onOpen(WebSocket conn, ClientHandshake handshake) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TWebSocketHub New Connection %s", conn.getRemoteSocketAddress().getAddress().getHostAddress())));
+
         }
 
         @Override
@@ -84,14 +82,13 @@ public class TWebSocketHub extends Thread {
         public void onMessage(WebSocket conn, String message) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TWebSocketHub Message Client %s: %s", conn.getRemoteSocketAddress().getAddress().getHostAddress(), message)));
             ConnectionRequest conReq = new Gson().fromJson(message, ConnectionRequest.class);
-            switch(conReq.getAction()){
-                case NEW_CONNECTION:
-                    conns.get(conReq.getAppType()).add(conn);
-                    conn.send("CONNECT:"+conReq.getAppType()+"-"+this.typePorts.get(conReq.getAppType()).toString());
+
+            switch(conReq.Action){
+                case CREATE_CONNECTION:
+                    this.mSocketHub.AddNewSocketConnection(conReq.PlatformId, conn);
                     break;
                 case CLOSE_CONNECTION:
-                    conns.get(conReq.getAppType()).remove(conn);
-                    conn.send("CLOSED");
+                    this.mSocketHub.CloseConnection(conReq.PlatformId, conn);
                     break;
                 default:
                     conn.send("NOT_AVAILABLE");
@@ -100,7 +97,7 @@ public class TWebSocketHub extends Thread {
 
         @Override
         public void onError(WebSocket conn, Exception ex) {
-            this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TWebSocketHub Socket Error %s - Client %s"+ ex, conn.getRemoteSocketAddress().getAddress().getHostAddress())));
+            if (conn!=null) this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TWebSocketHub Socket Error %s - Client %s", ex, conn)));
         }
 
         @Override

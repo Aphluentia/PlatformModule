@@ -5,9 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ConnectionAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/KafkaMonitor/IKafkaMessageHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IKafkaModulesMessageHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IModules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IModulesBroadcaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/SocketHubMonitor/IHubBroadcaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/SocketHubMonitor/ISocketHub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/SocketHubMonitor/ISocketHubKafkaMessageHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ServerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesBroadcaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MModules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MSocketHub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/ServerGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Controllers/ModulesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Controllers/ModulesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Views/Modules/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Views/Modules/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/WebPlatform.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/WebPlatform.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/Action.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/AppType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ApplicationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/KafkaMonitor/IKafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ILogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ILogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/IMessageHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketConnectionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/ISocketMessageHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ConnectionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ConnectionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesSocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MWebSockets.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/guis/ConfigPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/ConfigPrompt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../webMock.html" beforeDir="false" afterPath="$PROJECT_DIR$/../webMock.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +54,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -30,7 +67,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2Luu16nsfU20APNHrjbbmste4lo" />
   <component name="ProjectViewState">
@@ -45,6 +82,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -103,7 +141,25 @@
       <workItem from="1677076390207" duration="2215000" />
       <workItem from="1677096283118" duration="1651000" />
       <workItem from="1677146565873" duration="2682000" />
-      <workItem from="1677350256812" duration="11967000" />
+      <workItem from="1677350256812" duration="12658000" />
+      <workItem from="1677510136449" duration="1935000" />
+      <workItem from="1677516377896" duration="2545000" />
+      <workItem from="1677595850223" duration="275000" />
+      <workItem from="1678026891977" duration="2969000" />
+      <workItem from="1678037879528" duration="4864000" />
+      <workItem from="1678113556815" duration="741000" />
+      <workItem from="1678124862266" duration="3468000" />
+      <workItem from="1678187154772" duration="2311000" />
+      <workItem from="1678195810906" duration="8392000" />
+      <workItem from="1678295944019" duration="579000" />
+      <workItem from="1678296572791" duration="1662000" />
+      <workItem from="1678298861864" duration="2349000" />
+      <workItem from="1678302515951" duration="474000" />
+      <workItem from="1678308021392" duration="2252000" />
+      <workItem from="1678358992849" duration="405000" />
+      <workItem from="1678359411100" duration="34000" />
+      <workItem from="1678361375418" duration="4292000" />
+      <workItem from="1678365941761" duration="12068000" />
     </task>
     <servers />
   </component>

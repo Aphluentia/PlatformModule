@@ -5,6 +5,7 @@
 
 @model List<Connection>
 
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 <script src="~/js/socketHubConnection.js"></script>
 <script>
     $(document).ready(function () {
@@ -23,6 +24,7 @@
 
         socket.addEventListener('open', (event) => {
             console.log('Socket connection established');
+            socket.send('{"action":"CREATE_CONNECTION","PlatformId":"KAFKA", "appType":"MOBILE_APP"}');
 
         });
 
@@ -33,18 +35,31 @@
         socket.addEventListener('error', (event) => {
             console.log('Socket error occurred:', event);
         });
-        const sendButton = document.getElementById('send-button');
-        sendButton.addEventListener('click', (event) => {
-            socket.send('{"action":"NEW_CONNECTION", "appType":"MOBILE_APP"}');
-        });
+        
+        $("#qrCollapse").on('click', function(){
 
+            $('.collapse').toggle()
+        })
     });
 
 </script>
 <div class="text-center">
     <h1 class="display-4">Modules</h1>
     <div id="ModulesPartial">
-        @await Html.PartialAsync("_Modules", Model);
+        @await Html.PartialAsync("_Modules", Model)
     </div>
-    <button id="send-button">Send Message</button>
+   
+    
+    <a id="qrCollapse" class="btn btn-primary" data-toggle="collapse" href="#qrcode_collapse" role="button" aria-expanded="false" aria-controls="qrcode_collapse">
+        Pair Application
+    </a>
+    <div class="collapse" id="qrcode_collapse" style="max-width:200px">
+        
+        <div class="card card-body">
+            <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(@ViewBag.QrCodeUri))"  />
+        </div>
+    </div>
+    <div class="form-group">
+        
+    </div>
 </div>

@@ -3,7 +3,7 @@ package kafka.Entities.Threads;
 import com.google.gson.Gson;
 import kafka.Entities.Enum.LogLevel;
 import kafka.Entities.Enum.ServerConfig;
-import kafka.Entities.IKafkaConsumer;
+import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
+// NO CHANGES---------------------------------------------------------------------
 public class TKafkaConsumer extends Thread{
     /**
      * All Monitor Call Center Interfaces -> Includes CCH, ETH, WTH and MDH
@@ -89,7 +90,8 @@ public class TKafkaConsumer extends Thread{
                 records.forEach(record -> {
                     Message newMessage = new Gson().fromJson(record.value(), Message.class);
                     this.ikc.addMessage(newMessage);
-                    this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.ApplicationType, newMessage.Action, newMessage.WebPlatformId)));
+                    System.out.println("NEW MESSAGE "+newMessage.toString());
+                    this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
                 });
             }
         }

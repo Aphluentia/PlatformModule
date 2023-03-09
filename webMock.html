@@ -9,17 +9,18 @@
     <script>
       const sendButton = document.getElementById('send-button');
       sendButton.addEventListener('click', (event) => {
-        socket.send('{"action":"NEW_CONNECTION", "appType":"MOBILE_APP"}');
+        socket.send('{"Action":"CREATE_CONNECTION", "PlatformId":"EXAMPLE"}');
         });
         const socket = new WebSocket('ws://localhost:9005');
         let appSocket = null;
         socket.onmessage = function(evt) {
           console.log('Message received from server:', evt.data);
-
-          if (evt.data.includes("CONNECT")){
-            appSocket = new WebSocket('ws://localhost:'+evt.data.split(":")[1])
+          let data = JSON.parse(evt.data);
+          if (data.SourceApplicationType == "MOBILE_APP"){
+            appSocket = new WebSocket('ws://localhost:'+data.data)
             appSocket.addEventListener('open', (event) => {
               console.log('Socket connection established');
+              appSocket.send('{"Action":"CREATE_CONNECTION", ModuleId:"MA1","PlatformId":"EXAMPLE"}')
             });
             appSocket.addEventListener('close', (event) => {
               console.log('Socket connection closed');

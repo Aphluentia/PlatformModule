@@ -1,4 +1,4 @@
-package kafka.Entities;
+package kafka.Entities.Interfaces;
 
 import kafka.Entities.Models.ServerLog;
 

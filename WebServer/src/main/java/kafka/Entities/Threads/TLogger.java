@@ -2,7 +2,7 @@ package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
 
-import kafka.Entities.ILogger;
+import kafka.Entities.Interfaces.ILogger;
 import kafka.Entities.Models.ServerLog;
 
 import java.io.File;

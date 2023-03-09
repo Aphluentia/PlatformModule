@@ -1,4 +1,4 @@
-package kafka.Entities;
+package kafka.Entities.Interfaces.KafkaMonitor;
 
 import kafka.Entities.Models.Message;
 
