@@ -70,7 +70,7 @@ public class TModulesBroadcaster extends Thread {
                     WebSocket broadcastConnection = this.mModules.FetchConnection(broadcastRequest.Source, broadcastRequest.Target);
                     broadcastConnection.send((new Gson()).toJson(broadcastRequest));
                 }else{
-                     this.mModules.InsertRejectedMessage(broadcastRequest);
+                     this.mModules.SignalRejectedMessage(broadcastRequest);
                     System.out.println("Rejected Request: " + new Gson().toJson(broadcastRequest));
                 }
             }

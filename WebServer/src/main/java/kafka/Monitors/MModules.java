@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import kafka.Entities.Enum.ApplicationType;
 import kafka.Entities.Interfaces.KafkaMonitor.IKafkaMessageHandler;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IKafkaModulesMessageHandler;
+import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModuleRejectedMessageHandler;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModules;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModulesBroadcaster;
 import kafka.Entities.Models.ConnectionRequest;
@@ -15,9 +16,10 @@ import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MModules implements IKafkaModulesMessageHandler, IModules, IModulesBroadcaster {
+public class MModules implements IKafkaModulesMessageHandler, IModules, IModulesBroadcaster, IModuleRejectedMessageHandler {
 
     private final Queue<Message> messages;
+    private Queue<Message> rejected;
     public HashMap<String, HashMap<String, WebSocket>> connections;
     /**
      * reentrant mutual exclusion lock
@@ -26,7 +28,7 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
     /**
      * Condition which indicates when there is space available in the CHILD Patients Room
      */
-    private final Condition newMessage;
+    private final Condition newMessage, newRejectedMessage;
 
     private final MLogger mlogger;
 
@@ -37,7 +39,9 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
     public MModules(MLogger _mlogger){
         this.mlogger = _mlogger;
         this.messages = new LinkedList<Message>();
+        this.rejected = new LinkedList<Message>();
         this.rl = new ReentrantLock();
+        this.newRejectedMessage = rl.newCondition();
         this.newMessage = rl.newCondition();
         this.connections = new HashMap<>();
 
@@ -141,15 +145,43 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
     }
 
     @Override
-    public void InsertRejectedMessage(Message broadcastRequest) {
+    public void SignalRejectedMessage(Message broadcastRequest) {
 
         try{
             rl.lock();
-            this.messages.add(broadcastRequest);
+            this.rejected.add(broadcastRequest);
+            this.newRejectedMessage.signal();
+        } finally {
+            rl.unlock();
+        }
+    }
+
+    @Override
+    public void InsertRejectedMessage(Message message) {
+        try{
+            rl.lock();
+            this.messages.add(message);
             this.newMessage.signal();
         } finally {
             rl.unlock();
         }
+    }
+
+    @Override
+    public Message FetchRejectedMessage() {
+        Message value = null;
+        try{
+            rl.lock();
+            while(this.rejected.isEmpty()){
+                this.newRejectedMessage.wait();
+            }
+            value = this.rejected.remove();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            rl.unlock();
+        }
+        return value;
     }
 
 

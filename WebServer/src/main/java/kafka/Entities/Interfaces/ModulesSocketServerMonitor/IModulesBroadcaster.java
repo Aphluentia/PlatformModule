@@ -11,5 +11,5 @@ public interface IModulesBroadcaster {
 
     boolean IsValidBroadcastRequest(Message BroadcastRequest);
 
-    void InsertRejectedMessage(Message broadcastRequest);
+    void SignalRejectedMessage(Message broadcastRequest);
 }

@@ -3,6 +3,8 @@ package kafka.Entities.Enum;
 import java.util.HashMap;
 
 public class ServerConfig {
+    public static final long VALIDITY = 20;
+    public static final long TIME_WAIT_BEFORE_REINSERTION = 20;
     public static int NO_MODULES_BROADCASTERS;
     public static String BOOTSTRAP_SERVERS;
     public static int NO_KAFKA_CONSUMERS;

@@ -7,6 +7,7 @@ import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
+import kafka.guis.TServerGui;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -90,8 +91,10 @@ public class TKafkaConsumer extends Thread{
                 records.forEach(record -> {
                     Message newMessage = new Gson().fromJson(record.value(), Message.class);
                     this.ikc.addMessage(newMessage);
-                    System.out.println("NEW MESSAGE "+newMessage.toString());
                     this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
+                    TServerGui.nMessagesReceived++;
+                    TServerGui.kafkaInboundMessagesList.add(newMessage);
+                    TServerGui.revalidateKafkaPanel();
                 });
             }
         }

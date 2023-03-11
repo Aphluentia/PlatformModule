@@ -1,15 +1,17 @@
 package kafka.Entities.Models;
 import kafka.Entities.Enum.*;
 
+import java.util.Date;
+
 
 public class Message {
     public String Source, Target;
     public ConnectionAction Action;
     public ApplicationType SourceApplicationType, TargetApplicationType;
-    public double Timestamp;
-    public String Message;
 
-    public Message(String source, String target, ConnectionAction action, ApplicationType sourceApplicationType, ApplicationType targetApplicationType, double timestamp, String message) {
+    public String Message, Timestamp;
+
+    public Message(String source, String target, ConnectionAction action, ApplicationType sourceApplicationType, ApplicationType targetApplicationType, String timestamp, String message) {
         Source = source;
         Target = target;
         Action = action;
@@ -19,7 +21,7 @@ public class Message {
         Message = message;
     }
 
-    public Message(String source, String target,ApplicationType sourceApplicationType, ApplicationType targetApplicationType, ConnectionAction action, double timestamp) {
+    public Message(String source, String target,ApplicationType sourceApplicationType, ApplicationType targetApplicationType, ConnectionAction action, String timestamp) {
         Source = source;
         SourceApplicationType = sourceApplicationType;
         TargetApplicationType= targetApplicationType;

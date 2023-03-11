@@ -5,6 +5,7 @@ import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Interfaces.KafkaMonitor.IKafkaMessageHandler;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
+import kafka.guis.TServerGui;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -39,6 +40,9 @@ public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
         try{
             rl.lock();
             this.messages.add(newMessage);
+
+            TServerGui.nMessagesFetched++;
+            TServerGui.revalidateKafkaPanel();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Adding Message to KafkaMonitor: "+newMessage));
             this.newMessage.signal();
         }finally {
@@ -56,6 +60,9 @@ public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
             while (this.messages.isEmpty()){
                 this.newMessage.await();
             }
+
+            TServerGui.nMessagesFetched--;
+            TServerGui.revalidateKafkaPanel();
             message = this.messages.remove();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Processing Message: "+message));
         } catch (InterruptedException e) {
@@ -65,4 +72,5 @@ public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
         }
         return message;
     }
+
 }

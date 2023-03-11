@@ -9,6 +9,7 @@ import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHubKafkaMessageHandler;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
+import kafka.guis.TServerGui;
 import org.java_websocket.WebSocket;
 
 /**
@@ -70,6 +71,8 @@ public class TKafkaMessageHandler extends Thread{
                     }
                 }
                 Message newMessage = this.mKafka.FetchMessage();
+                TServerGui.nMessagesFetched++;
+                TServerGui.revalidateKafkaPanel();
                 this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TMessageHandler Handling %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
 
                 switch(newMessage.Action){

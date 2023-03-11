@@ -9,6 +9,7 @@ import kafka.Monitors.MLogger;
 import kafka.Monitors.MModules;
 import kafka.Monitors.MSocketHub;
 import kafka.guis.ConfigPrompt;
+import kafka.guis.TServerGui;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
@@ -35,6 +36,8 @@ public class App
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
+        TServerGui tsgui = new TServerGui();
+        tsgui.start();
         //Socket Definition
         for (ApplicationType appType: ApplicationType.values()){
             Thread _tkc = new TModulesSocketServer(mModules, appType, ServerConfig.MODULES_PORT.get(appType), mlogger);
@@ -45,6 +48,8 @@ public class App
         // Start Web Socket Hub
         Thread webSocketHub = new TSocketHub(ServerConfig.MODULES_PORT, ServerConfig.SOCKET_HUB_PORT,mSocketHub, mlogger);
         webSocketHub.start();
+
+
         // Start Kafka Message Handlers
         for (int i = 0;i<ServerConfig.NO_MESSAGE_HANDLERS;i++){
             Thread _tkc = new TKafkaMessageHandler(mKafka, mModules,mSocketHub, mlogger);
@@ -59,12 +64,17 @@ public class App
             Thread _tkc = new TSocketHubBroadcaster(mSocketHub, ServerConfig.MODULES_PORT, mlogger);
             _tkc.start();
         }
+        for (int i = 0;i<ServerConfig.NO_MESSAGE_HANDLERS;i++){
+            Thread _tkc = new TModuleRejectedMessageHandler(mModules, mlogger);
+            _tkc.start();
+        }
         // Start Kafka Consumers
         for (int i = 0;i<ServerConfig.NO_KAFKA_CONSUMERS;i++){
             props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaConsumerGroup#"+ i);
             Thread _tkc = new TKafkaConsumer(mKafka, props, mlogger);
             _tkc.start();
         }
+
 
     }
 }
