@@ -5,20 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IModuleRejectedMessageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModuleRejectedMessageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/TServerGui.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/GuiPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/NumberLabel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/GuiMonitor/IGui.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MGui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ServerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IModulesBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/ModulesSocketServerMonitor/IModulesBroadcaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesBroadcaster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MKafka.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MModules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MModules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/guis/ServerGui.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MSocketHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/guis/TServerGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/TServerGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,9 +29,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -48,18 +49,10 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/E1493/source/repos/Aphluentia/PlatformModule/WebServer&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
   <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="kafka.App" />
@@ -135,6 +128,10 @@
       <workItem from="1678361375418" duration="4292000" />
       <workItem from="1678365941761" duration="12068000" />
       <workItem from="1678459299629" duration="8885000" />
+      <workItem from="1678565080153" duration="130000" />
+      <workItem from="1678565252414" duration="159000" />
+      <workItem from="1678565514329" duration="2245000" />
+      <workItem from="1678629626661" duration="9441000" />
     </task>
     <servers />
   </component>

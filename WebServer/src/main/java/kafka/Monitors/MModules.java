@@ -9,6 +9,7 @@ import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModules;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModulesBroadcaster;
 import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.Message;
+import kafka.guis.TServerGui;
 import org.java_websocket.WebSocket;
 import org.slf4j.event.KeyValuePair;
 
@@ -56,6 +57,7 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
         try{
             rl.lock();
             this.messages.add(newMessage);
+
             this.newMessage.signal();
         }finally {
             rl.unlock();

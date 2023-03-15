@@ -40,9 +40,6 @@ public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
         try{
             rl.lock();
             this.messages.add(newMessage);
-
-            TServerGui.nMessagesFetched++;
-            TServerGui.revalidateKafkaPanel();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Adding Message to KafkaMonitor: "+newMessage));
             this.newMessage.signal();
         }finally {
@@ -61,8 +58,6 @@ public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
                 this.newMessage.await();
             }
 
-            TServerGui.nMessagesFetched--;
-            TServerGui.revalidateKafkaPanel();
             message = this.messages.remove();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Processing Message: "+message));
         } catch (InterruptedException e) {

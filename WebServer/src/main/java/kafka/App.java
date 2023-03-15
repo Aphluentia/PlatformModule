@@ -4,10 +4,7 @@ import kafka.Entities.Enum.ApplicationType;
 import kafka.Entities.Enum.ServerConfig;
 import kafka.Entities.Interfaces.SocketHubMonitor.IHubBroadcaster;
 import kafka.Entities.Threads.*;
-import kafka.Monitors.MKafka;
-import kafka.Monitors.MLogger;
-import kafka.Monitors.MModules;
-import kafka.Monitors.MSocketHub;
+import kafka.Monitors.*;
 import kafka.guis.ConfigPrompt;
 import kafka.guis.TServerGui;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -25,6 +22,7 @@ public class App
 
     }
     public static void startApp(){
+        MGui mGui = new MGui();
         MLogger mlogger = new MLogger();
         MKafka mKafka = new MKafka(mlogger);
         MModules mModules = new MModules(mlogger);
@@ -46,13 +44,13 @@ public class App
         Thread tLogger = new TLogger(mlogger, ServerConfig.LOGS_FILEPATH);
         tLogger.start();
         // Start Web Socket Hub
-        Thread webSocketHub = new TSocketHub(ServerConfig.MODULES_PORT, ServerConfig.SOCKET_HUB_PORT,mSocketHub, mlogger);
+        Thread webSocketHub = new TSocketHub(ServerConfig.MODULES_PORT, ServerConfig.SOCKET_HUB_PORT,mSocketHub,mGui, mlogger);
         webSocketHub.start();
 
 
         // Start Kafka Message Handlers
         for (int i = 0;i<ServerConfig.NO_MESSAGE_HANDLERS;i++){
-            Thread _tkc = new TKafkaMessageHandler(mKafka, mModules,mSocketHub, mlogger);
+            Thread _tkc = new TKafkaMessageHandler(mKafka, mModules,mSocketHub, mGui, mlogger);
             _tkc.start();
         }
         // Start Modules Broadcasters
@@ -61,7 +59,7 @@ public class App
             _tkc.start();
         }
         for (int i = 0;i<ServerConfig.NO_MODULES_BROADCASTERS;i++){
-            Thread _tkc = new TSocketHubBroadcaster(mSocketHub, ServerConfig.MODULES_PORT, mlogger);
+            Thread _tkc = new TSocketHubBroadcaster(mSocketHub, mGui, ServerConfig.MODULES_PORT, mlogger);
             _tkc.start();
         }
         for (int i = 0;i<ServerConfig.NO_MESSAGE_HANDLERS;i++){
@@ -71,7 +69,7 @@ public class App
         // Start Kafka Consumers
         for (int i = 0;i<ServerConfig.NO_KAFKA_CONSUMERS;i++){
             props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaConsumerGroup#"+ i);
-            Thread _tkc = new TKafkaConsumer(mKafka, props, mlogger);
+            Thread _tkc = new TKafkaConsumer(mKafka,mGui, props, mlogger);
             _tkc.start();
         }
 

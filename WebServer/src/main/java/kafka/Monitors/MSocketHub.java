@@ -7,6 +7,7 @@ import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHub;
 import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHubKafkaMessageHandler;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
+import kafka.guis.TServerGui;
 import org.java_websocket.WebSocket;
 
 import java.util.*;
@@ -16,7 +17,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class MSocketHub implements IHubBroadcaster, ISocketHub, ISocketHubKafkaMessageHandler {
 
     private HashMap<String, WebSocket> platformConnections;
-    private HashMap<String, Set<ApplicationType>> moduleConnections;
     /**
      * reentrant mutual exclusion lock
      */
@@ -34,7 +34,6 @@ public class MSocketHub implements IHubBroadcaster, ISocketHub, ISocketHubKafkaM
     public MSocketHub(MLogger _mlogger){
         this.mlogger = _mlogger;
         this.platformConnections = new HashMap<>();
-        this.moduleConnections = new HashMap<>();
         this.broadcastRequests = new LinkedList<>();
         this.rl = new ReentrantLock();
         this.newBroadcastRequest = rl.newCondition();
@@ -133,7 +132,6 @@ public class MSocketHub implements IHubBroadcaster, ISocketHub, ISocketHubKafkaM
         {
             rl.lock();
             this.platformConnections.remove(PlatformId);
-            this.moduleConnections.remove(PlatformId);
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("Removed Connection %s to %s", PlatformId, conn.getRemoteSocketAddress().getAddress().getHostAddress())));
         }
         finally

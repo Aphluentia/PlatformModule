@@ -1,8 +1,11 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
+import kafka.Entities.Enum.GuiPanel;
 import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.NumberLabel;
 import kafka.Entities.Enum.ServerConfig;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
@@ -14,6 +17,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 
 // NO CHANGES---------------------------------------------------------------------
@@ -27,14 +31,16 @@ public class TKafkaConsumer extends Thread{
     private boolean threadSuspended;
     private boolean stopFlag;
     private final MLogger mlogger;
+    private final IGui gui;
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
      * @param _ikc: Interface  for the MKafka Monitor
      */
-    public TKafkaConsumer(IKafkaConsumer _ikc, Properties _props, MLogger _mlogger) {
+    public TKafkaConsumer(IKafkaConsumer _ikc, IGui _gui, Properties _props, MLogger _mlogger) {
         this.mlogger =_mlogger;
         this.ikc = _ikc;
+        this.gui = _gui;
         this.threadSuspended = false;
         this.stopFlag = false;
         this.consumer = new KafkaConsumer<>(_props);
@@ -90,16 +96,18 @@ public class TKafkaConsumer extends Thread{
                         consumer.poll(Duration.ofMillis(1000));
                 records.forEach(record -> {
                     Message newMessage = new Gson().fromJson(record.value(), Message.class);
+                    if (newMessage.Timestamp == null) newMessage.Timestamp = new Date().toString();
                     this.ikc.addMessage(newMessage);
                     this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
-                    TServerGui.nMessagesReceived++;
+
                     TServerGui.kafkaInboundMessagesList.add(newMessage);
-                    TServerGui.revalidateKafkaPanel();
+                    gui.numberOperation(GuiPanel.KAFKA, NumberLabel.nMessagesReceived, "+");
                 });
             }
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TKafkaConsumer Connecting to Broker Error %s",e)));
         }
     }

@@ -1,13 +1,13 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Entities.Enum.ApplicationType;
-import kafka.Entities.Enum.LogLevel;
-import kafka.Entities.Enum.ServerConfig;
+import kafka.Entities.Enum.*;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHub;
 import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
+import kafka.guis.TServerGui;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -21,12 +21,12 @@ public class TSocketHub extends Thread {
     private final WebSocketHub socketHub;
     private final MLogger mlogger;
 
-    public TSocketHub(HashMap<ApplicationType, Integer> _typePorts, int _port, ISocketHub _mSocketHub, MLogger _mlogger) {
+    public TSocketHub(HashMap<ApplicationType, Integer> _typePorts, int _port, ISocketHub _mSocketHub, IGui _gui, MLogger _mlogger) {
         this.mlogger =_mlogger;
         this.stopFlag = false;
         this.threadSuspended = false;
 
-        socketHub = new WebSocketHub(_port, _typePorts,_mSocketHub, _mlogger);
+        socketHub = new WebSocketHub(_port, _typePorts,_mSocketHub, _gui, _mlogger);
         socketHub.start();
     }
     /**
@@ -60,8 +60,10 @@ public class TSocketHub extends Thread {
         private final HashMap<ApplicationType, Integer> typePorts;
         private final MLogger mlogger;
         private final ISocketHub mSocketHub;
-        public WebSocketHub(int PORT, HashMap<ApplicationType, Integer> _typePorts, ISocketHub _mSocketHub, MLogger _mlogger) {
+        private final IGui gui;
+        public WebSocketHub(int PORT, HashMap<ApplicationType, Integer> _typePorts, ISocketHub _mSocketHub,IGui _gui, MLogger _mlogger) {
             super(new InetSocketAddress(PORT));
+            this.gui = _gui;
             this.mlogger =_mlogger;
             this.typePorts = _typePorts;
             this.mSocketHub = _mSocketHub;
@@ -83,12 +85,17 @@ public class TSocketHub extends Thread {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TWebSocketHub Message Client %s: %s", conn.getRemoteSocketAddress().getAddress().getHostAddress(), message)));
             ConnectionRequest conReq = new Gson().fromJson(message, ConnectionRequest.class);
 
+            TServerGui.revalidateSocketHubPanel();
             switch(conReq.Action){
                 case CREATE_CONNECTION:
                     this.mSocketHub.AddNewSocketConnection(conReq.PlatformId, conn);
+                    TServerGui.hubInboundConnectionRequestList.add(String.format("%s %s", conReq.PlatformId, conn.getRemoteSocketAddress().getHostString()));
+                    gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "+");
                     break;
                 case CLOSE_CONNECTION:
                     this.mSocketHub.CloseConnection(conReq.PlatformId, conn);
+                    TServerGui.hubInboundConnectionRequestList.remove(String.format("%s %s", conReq.PlatformId, conn.getRemoteSocketAddress().getHostString()));
+                    gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "-");
                     break;
                 default:
                     conn.send("NOT_AVAILABLE");

@@ -1,14 +1,14 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Entities.Enum.ApplicationType;
-import kafka.Entities.Enum.ConnectionAction;
-import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.*;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.SocketHubMonitor.IHubBroadcaster;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
 import kafka.Entities.Models.ServerResponse;
 import kafka.Monitors.MLogger;
+import kafka.guis.TServerGui;
 import org.java_websocket.WebSocket;
 
 import java.sql.SQLOutput;
@@ -23,12 +23,14 @@ public class TSocketHubBroadcaster extends Thread{
     private final MLogger mlogger;
     private final HashMap<ApplicationType, Integer> typePorts;
     private final IHubBroadcaster mSocketHub;
+    private final IGui gui;
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
      */
-    public TSocketHubBroadcaster(IHubBroadcaster _mSocketHub, HashMap<ApplicationType, Integer> _typePorts, MLogger _mlogger) {
+    public TSocketHubBroadcaster(IHubBroadcaster _mSocketHub, IGui _gui, HashMap<ApplicationType, Integer> _typePorts, MLogger _mlogger) {
         this.mlogger =_mlogger;
+        this.gui = _gui;
         this.mSocketHub = _mSocketHub;
         this.typePorts = _typePorts;
         this.threadSuspended = false;
@@ -73,10 +75,14 @@ public class TSocketHubBroadcaster extends Thread{
                // Add Code
                 Message broadcastRequest = this.mSocketHub.FetchForBroadcastRequest();
                 WebSocket conn = this.mSocketHub.FetchConnection(broadcastRequest.Target);
+                TServerGui.hubInboundMessagesList.remove(broadcastRequest);
+                gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesInQueue, "-");
+
                 if (broadcastRequest.Action == ConnectionAction.CREATE_CONNECTION){
                     ServerResponse res = new ServerResponse(broadcastRequest.Source, broadcastRequest.Target, broadcastRequest.SourceApplicationType,
                             typePorts.get(broadcastRequest.SourceApplicationType).toString());
                     conn.send((new Gson()).toJson(res));
+                    gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesBroadcasted, "+");
                 }
 
             }

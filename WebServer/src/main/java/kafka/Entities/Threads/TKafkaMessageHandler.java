@@ -1,8 +1,7 @@
 package kafka.Entities.Threads;
 
-import kafka.Entities.Enum.ApplicationType;
-import kafka.Entities.Enum.ConnectionAction;
-import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.*;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.KafkaMonitor.IKafkaMessageHandler;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IKafkaModulesMessageHandler;
 import kafka.Entities.Interfaces.SocketHubMonitor.ISocketHubKafkaMessageHandler;
@@ -32,12 +31,14 @@ public class TKafkaMessageHandler extends Thread{
      */
     private boolean stopFlag;
     private final MLogger mlogger;
+    private final IGui gui;
 
     public TKafkaMessageHandler(IKafkaMessageHandler _mKafka, IKafkaModulesMessageHandler _mModules,
-                                ISocketHubKafkaMessageHandler _mSocketHub, MLogger _mlogger)
+                                ISocketHubKafkaMessageHandler _mSocketHub, IGui _gui, MLogger _mlogger)
     {
         this.mlogger =_mlogger;
         this.mKafka = _mKafka;
+        this.gui = _gui;
         this.mModules = _mModules;
         this.mSocketHub = _mSocketHub;
         this.threadSuspended = false;
@@ -71,8 +72,7 @@ public class TKafkaMessageHandler extends Thread{
                     }
                 }
                 Message newMessage = this.mKafka.FetchMessage();
-                TServerGui.nMessagesFetched++;
-                TServerGui.revalidateKafkaPanel();
+                gui.numberOperation(GuiPanel.KAFKA, NumberLabel.nMessagesFetched, "+");
                 this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TMessageHandler Handling %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
 
                 switch(newMessage.Action){
@@ -81,6 +81,7 @@ public class TKafkaMessageHandler extends Thread{
                         if (this.mSocketHub.IsValidTargetConnection(newMessage.Target))
                         {
                             this.mSocketHub.BroadcastNewModuleConnectionRequest(newMessage);
+                            gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "+");
                             this.mModules.AddNewModule(newMessage);
                         }
                         break;
@@ -91,9 +92,15 @@ public class TKafkaMessageHandler extends Thread{
 
                     case PING:
                         this.mModules.AddNewMessage(newMessage);
+                        TServerGui.hubInboundMessagesList.add(newMessage);
+                        gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesReceived, "+");
+                        gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesInQueue, "+");
                         break;
                     case UPDATE:
                         this.mModules.AddNewMessage(newMessage);
+                        TServerGui.hubInboundMessagesList.add(newMessage);
+                        gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesReceived, "+");
+                        gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesInQueue, "+");
                         break;
 
                     default:
