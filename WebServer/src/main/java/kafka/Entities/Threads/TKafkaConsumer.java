@@ -1,10 +1,7 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Entities.Enum.GuiPanel;
-import kafka.Entities.Enum.LogLevel;
-import kafka.Entities.Enum.NumberLabel;
-import kafka.Entities.Enum.ServerConfig;
+import kafka.Entities.Enum.*;
 import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Models.Message;
@@ -98,6 +95,7 @@ public class TKafkaConsumer extends Thread{
                     Message newMessage = new Gson().fromJson(record.value(), Message.class);
                     if (newMessage.Timestamp == null) newMessage.Timestamp = new Date().toString();
                     this.ikc.addMessage(newMessage);
+                    gui.addMessage(ComponentJList.kafkaInboundMessagesList, newMessage);
                     this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
 
                     TServerGui.kafkaInboundMessagesList.add(newMessage);

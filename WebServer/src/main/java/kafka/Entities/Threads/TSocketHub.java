@@ -91,11 +91,13 @@ public class TSocketHub extends Thread {
                     this.mSocketHub.AddNewSocketConnection(conReq.PlatformId, conn);
                     TServerGui.hubInboundConnectionRequestList.add(String.format("%s %s", conReq.PlatformId, conn.getRemoteSocketAddress().getHostString()));
                     gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "+");
+                    gui.addConnectionRequest(ComponentJList.hubInboundConnectionRequestList, ApplicationType.WEB_PLATFORM, conReq);
                     break;
                 case CLOSE_CONNECTION:
                     this.mSocketHub.CloseConnection(conReq.PlatformId, conn);
                     TServerGui.hubInboundConnectionRequestList.remove(String.format("%s %s", conReq.PlatformId, conn.getRemoteSocketAddress().getHostString()));
                     gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "-");
+                    gui.removeConnectionRequest(ComponentJList.hubInboundConnectionRequestList, ApplicationType.WEB_PLATFORM, conReq);
                     break;
                 default:
                     conn.send("NOT_AVAILABLE");

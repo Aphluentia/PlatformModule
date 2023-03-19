@@ -77,6 +77,7 @@ public class TSocketHubBroadcaster extends Thread{
                 WebSocket conn = this.mSocketHub.FetchConnection(broadcastRequest.Target);
                 TServerGui.hubInboundMessagesList.remove(broadcastRequest);
                 gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesInQueue, "-");
+                gui.removeMessage(ComponentJList.hubInboundMessagesList, broadcastRequest);
 
                 if (broadcastRequest.Action == ConnectionAction.CREATE_CONNECTION){
                     ServerResponse res = new ServerResponse(broadcastRequest.Source, broadcastRequest.Target, broadcastRequest.SourceApplicationType,

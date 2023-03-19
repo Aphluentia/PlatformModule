@@ -1,8 +1,11 @@
 package kafka.Monitors;
 
+import kafka.Entities.Enum.ApplicationType;
+import kafka.Entities.Enum.ComponentJList;
 import kafka.Entities.Enum.GuiPanel;
 import kafka.Entities.Enum.NumberLabel;
 import kafka.Entities.Interfaces.GuiMonitor.IGui;
+import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.Message;
 import kafka.guis.TServerGui;
 
@@ -77,5 +80,111 @@ public class MGui implements IGui {
             rl.unlock();
         }
 
+    }
+
+    @Override
+    public void addMessage(ComponentJList jlist, Message message) {
+        try{
+            rl.lock();
+            switch (jlist){
+                case kafkaInboundMessagesList:
+                    TServerGui.kafkaInboundMessagesList.add(message);
+                    TServerGui.revalidateKafkaPanel();
+                    break;
+                case hubInboundMessagesList:
+                    TServerGui.hubInboundMessagesList.add(message);
+                    TServerGui.revalidateSocketHubPanel();
+                    break;
+                case moduleInboundMessageList:
+                    TServerGui.moduleInboundMessageList.add(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+                case moduleDiscardedMessageList:
+                    TServerGui.moduleDiscardedMessageList.add(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+                case moduleBroadcastedMessageList:
+                    TServerGui.moduleBroadcastedMessageList.add(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+            }
+
+        }finally {
+            rl.unlock();
+        }
+    }
+
+    @Override
+    public void removeMessage(ComponentJList jlist, Message message) {
+        try{
+            rl.lock();
+            switch (jlist){
+                case kafkaInboundMessagesList:
+                    TServerGui.kafkaInboundMessagesList.remove(message);
+                    TServerGui.revalidateKafkaPanel();
+                    break;
+                case hubInboundMessagesList:
+                    TServerGui.hubInboundMessagesList.remove(message);
+                    TServerGui.revalidateSocketHubPanel();
+                    break;
+                case moduleInboundMessageList:
+                    TServerGui.moduleInboundMessageList.remove(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+                case moduleDiscardedMessageList:
+                    TServerGui.moduleDiscardedMessageList.remove(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+                case moduleBroadcastedMessageList:
+                    TServerGui.moduleBroadcastedMessageList.remove(message);
+                    TServerGui.revalidateModulesPanel();
+                    break;
+            }
+
+        }finally {
+            rl.unlock();
+        }
+    }
+
+    @Override
+    public void addConnectionRequest(ComponentJList jlist, ApplicationType appType, ConnectionRequest message) {
+        try{
+            rl.lock();
+            switch (jlist){
+                case hubInboundConnectionRequestList:
+                    TServerGui.hubInboundConnectionRequestList.add(String.valueOf(message));
+                    TServerGui.revalidateSocketHubPanel();
+                    break;
+                case connectionsList:
+                    TServerGui.connectionsList.get(appType).add(String.valueOf(message));
+                    TServerGui.revalidateModulesPanel();
+                    break;
+
+            }
+
+        }finally {
+            rl.unlock();
+        }
+    }
+
+    @Override
+    public void removeConnectionRequest(ComponentJList jlist, ApplicationType appType, ConnectionRequest message) {
+        try{
+            rl.lock();
+            switch (jlist){
+                case hubInboundConnectionRequestList:
+                    TServerGui.hubInboundConnectionRequestList.remove(String.valueOf(message));
+                    TServerGui.revalidateSocketHubPanel();
+                    break;
+                case connectionsList:
+                    TServerGui.connectionsList.get(appType).remove(String.valueOf(message));
+                    TServerGui.revalidateModulesPanel();
+                    break;
+
+            }
+
+        }finally {
+            rl.unlock();
+        }
     }
 }

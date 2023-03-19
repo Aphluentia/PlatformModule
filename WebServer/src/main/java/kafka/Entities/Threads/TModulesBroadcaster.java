@@ -1,7 +1,11 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
+import kafka.Entities.Enum.ComponentJList;
+import kafka.Entities.Enum.GuiPanel;
 import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Enum.NumberLabel;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModulesBroadcaster;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
@@ -16,13 +20,15 @@ public class TModulesBroadcaster extends Thread {
     private boolean stopFlag;
     private final MLogger mlogger;
     private final IModulesBroadcaster mModules;
+    private final IGui mGui;
 
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
      */
-    public TModulesBroadcaster(IModulesBroadcaster _mModules, MLogger _mlogger) {
+    public TModulesBroadcaster(IModulesBroadcaster _mModules, IGui _gui, MLogger _mlogger) {
         this.mlogger = _mlogger;
+        this.mGui = _gui;
         this.mModules = _mModules;
         this.threadSuspended = false;
         this.stopFlag = false;
@@ -66,11 +72,16 @@ public class TModulesBroadcaster extends Thread {
                 }
                 // Add Code
                 Message broadcastRequest = this.mModules.FetchMessage();
+                mGui.removeMessage(ComponentJList.moduleInboundMessageList, broadcastRequest);
+                mGui.numberOperation(GuiPanel.MODULES, NumberLabel.nModuleMessagesInQueue,"-");
                  if (this.mModules.IsValidBroadcastRequest(broadcastRequest)){
                     WebSocket broadcastConnection = this.mModules.FetchConnection(broadcastRequest.Source, broadcastRequest.Target);
                     broadcastConnection.send((new Gson()).toJson(broadcastRequest));
+                    mGui.numberOperation(GuiPanel.MODULES, NumberLabel.nModuleMessagesBroadcasted,"+");
+                     mGui.addMessage(ComponentJList.moduleBroadcastedMessageList, broadcastRequest);
                 }else{
                      this.mModules.SignalRejectedMessage(broadcastRequest);
+                     mGui.addMessage(ComponentJList.moduleDiscardedMessageList, broadcastRequest);
                     System.out.println("Rejected Request: " + new Gson().toJson(broadcastRequest));
                 }
             }

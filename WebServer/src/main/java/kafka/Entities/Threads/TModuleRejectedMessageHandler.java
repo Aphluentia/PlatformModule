@@ -1,8 +1,7 @@
 package kafka.Entities.Threads;
 
-import kafka.Entities.Enum.ApplicationType;
-import kafka.Entities.Enum.LogLevel;
-import kafka.Entities.Enum.ServerConfig;
+import kafka.Entities.Enum.*;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModuleRejectedMessageHandler;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModules;
 import kafka.Entities.Models.Message;
@@ -15,14 +14,16 @@ public class TModuleRejectedMessageHandler extends Thread {
     private final IModuleRejectedMessageHandler mModules;
     private boolean stopFlag;
     private boolean threadSuspended;
+    private IGui gui;
     private final MLogger mlogger;
     /**
      * Initialize TServer
      *
      * @param _mModules    Server Port
      */
-    public TModuleRejectedMessageHandler(IModuleRejectedMessageHandler _mModules, MLogger _mlogger) {
+    public TModuleRejectedMessageHandler(IModuleRejectedMessageHandler _mModules, IGui _gui, MLogger _mlogger) {
         this.mlogger =_mlogger;
+        this.gui = _gui;
         this.stopFlag = false;
         this.mModules = _mModules;
     }
@@ -60,11 +61,14 @@ public class TModuleRejectedMessageHandler extends Thread {
                     }
                 }
                 Message message = this.mModules.FetchRejectedMessage();
-                long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+                gui.removeMessage(ComponentJList.moduleDiscardedMessageList, message);
                 if ((new Date(message.Timestamp)).toInstant().plusSeconds( ServerConfig.VALIDITY).isBefore(new Date().toInstant()) ){
                     wait(ServerConfig.TIME_WAIT_BEFORE_REINSERTION);
                     this.mModules.InsertRejectedMessage(message);
+                    gui.addMessage(ComponentJList.moduleDiscardedMessageList, message);
+                    this.gui.numberOperation(GuiPanel.MODULES, NumberLabel.nModuleMessagesInQueue,"+");
                 }else{
+                    this.gui.numberOperation(GuiPanel.MODULES, NumberLabel.nModuleMessagesDiscarded,"+");
                     this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Rejected message has expired"));
                 }
             }

@@ -73,6 +73,7 @@ public class TKafkaMessageHandler extends Thread{
                 }
                 Message newMessage = this.mKafka.FetchMessage();
                 gui.numberOperation(GuiPanel.KAFKA, NumberLabel.nMessagesFetched, "+");
+                gui.removeMessage(ComponentJList.kafkaInboundMessagesList, newMessage);
                 this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TMessageHandler Handling %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
 
                 switch(newMessage.Action){

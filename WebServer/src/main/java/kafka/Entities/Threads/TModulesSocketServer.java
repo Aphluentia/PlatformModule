@@ -2,7 +2,9 @@ package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
 import kafka.Entities.Enum.ApplicationType;
+import kafka.Entities.Enum.ComponentJList;
 import kafka.Entities.Enum.LogLevel;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
 import kafka.Entities.Interfaces.ModulesSocketServerMonitor.IModules;
 import kafka.Entities.Models.ConnectionRequest;
 import kafka.Entities.Models.ServerLog;
@@ -20,17 +22,19 @@ public class TModulesSocketServer extends Thread {
     private boolean threadSuspended;
     private final SocketServer server;
     private final MLogger mlogger;
+    private final IGui mGui;
     /**
      * Initialize TServer
      *
      * @param _port    Server Port
      */
-    public TModulesSocketServer(IModules _mModules, ApplicationType _appType, int _port, MLogger _mlogger) {
+    public TModulesSocketServer(IModules _mModules, IGui _gui, ApplicationType _appType, int _port, MLogger _mlogger) {
         this.mlogger =_mlogger;
         this.stopFlag = false;
+        this.mGui = _gui;
         this.mModules = _mModules;
         this.appType = _appType;
-        this.server = new SocketServer(_port, _appType, _mModules, _mlogger);
+        this.server = new SocketServer(_port, _appType, _gui, _mModules, _mlogger);
         this.server.start();
     }
     /**
@@ -77,9 +81,11 @@ public class TModulesSocketServer extends Thread {
         private final MLogger mlogger;
         private final ApplicationType appType;
         private final IModules mModules;
-        public SocketServer(int PORT, ApplicationType _appType, IModules _mModules, MLogger _mlogger) {
+        private final IGui mGui;
+        public SocketServer(int PORT, ApplicationType _appType,IGui _gui, IModules _mModules, MLogger _mlogger) {
             super(new InetSocketAddress(PORT));
             this.appType = _appType;
+            this.mGui = _gui;
             this.mModules = _mModules;
             this.mlogger = _mlogger;
         }
@@ -102,9 +108,11 @@ public class TModulesSocketServer extends Thread {
             switch(conReq.Action){
                 case CREATE_CONNECTION:
                     this.mModules.AddNewSocketConnection(conReq, conn);
+                    mGui.addConnectionRequest(ComponentJList.connectionsList, appType, conReq);
                     break;
                 case CLOSE_CONNECTION:
                     this.mModules.CloseConnection(conReq, conn);
+                    mGui.removeConnectionRequest(ComponentJList.connectionsList, appType, conReq);
                     break;
                 default:
                     conn.send("NOT_AVAILABLE");

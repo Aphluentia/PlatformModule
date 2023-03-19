@@ -38,7 +38,7 @@ public class App
         tsgui.start();
         //Socket Definition
         for (ApplicationType appType: ApplicationType.values()){
-            Thread _tkc = new TModulesSocketServer(mModules, appType, ServerConfig.MODULES_PORT.get(appType), mlogger);
+            Thread _tkc = new TModulesSocketServer(mModules, mGui, appType, ServerConfig.MODULES_PORT.get(appType), mlogger);
             _tkc.start();
         }
         Thread tLogger = new TLogger(mlogger, ServerConfig.LOGS_FILEPATH);
@@ -55,7 +55,7 @@ public class App
         }
         // Start Modules Broadcasters
         for (int i = 0;i<ServerConfig.NO_MODULES_BROADCASTERS;i++){
-            Thread _tkc = new TModulesBroadcaster(mModules, mlogger);
+            Thread _tkc = new TModulesBroadcaster(mModules, mGui, mlogger);
             _tkc.start();
         }
         for (int i = 0;i<ServerConfig.NO_MODULES_BROADCASTERS;i++){
@@ -63,7 +63,7 @@ public class App
             _tkc.start();
         }
         for (int i = 0;i<ServerConfig.NO_MESSAGE_HANDLERS;i++){
-            Thread _tkc = new TModuleRejectedMessageHandler(mModules, mlogger);
+            Thread _tkc = new TModuleRejectedMessageHandler(mModules, mGui, mlogger);
             _tkc.start();
         }
         // Start Kafka Consumers
