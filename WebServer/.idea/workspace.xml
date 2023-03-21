@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Enum/ComponentJList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/GuiMonitor/IGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Interfaces/GuiMonitor/IGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModuleRejectedMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModuleRejectedMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesBroadcaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesSocketServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LogsFile.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,6 +127,7 @@
       <workItem from="1678629626661" duration="9441000" />
       <workItem from="1678985225874" duration="213000" />
       <workItem from="1679237428644" duration="163000" />
+      <workItem from="1679334662752" duration="1490000" />
     </task>
     <servers />
   </component>
