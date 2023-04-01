@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Controllers/ModulesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Controllers/ModulesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebPlatform/WebPlatform/WebPlatform.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../WebPlatform/WebPlatform/WebPlatform.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Base/Navbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Modules/Modules.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TWebSocketHub.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +100,7 @@
       <workItem from="1677076390207" duration="2215000" />
       <workItem from="1677096283118" duration="1651000" />
       <workItem from="1677146565873" duration="2682000" />
+      <workItem from="1680006030761" duration="748000" />
     </task>
     <servers />
   </component>
