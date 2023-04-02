@@ -1,23 +1,31 @@
 package kafka.Entities.Models;
+import kafka.Entities.Enum.*;
+
+import java.util.Date;
+
 
 public class Message {
-    public String WebPlatformId;
-    public String ApplicationType;
-    public String Action;
-    public double Timestamp;
-    public String Message;
+    public String Source, Target;
+    public ConnectionAction Action;
+    public ApplicationType SourceApplicationType, TargetApplicationType;
 
-    public Message(String webPlatformId, String applicationType, String action, double timestamp, String message) {
-        WebPlatformId = webPlatformId;
-        ApplicationType = applicationType;
+    public String Message, Timestamp;
+
+    public Message(String source, String target, ConnectionAction action, ApplicationType sourceApplicationType, ApplicationType targetApplicationType, String timestamp, String message) {
+        Source = source;
+        Target = target;
         Action = action;
+        SourceApplicationType = sourceApplicationType;
+        TargetApplicationType= targetApplicationType;
         Timestamp = timestamp;
         Message = message;
     }
 
-    public Message(String webPlatformId, String applicationType, String action, double timestamp) {
-        WebPlatformId = webPlatformId;
-        ApplicationType = applicationType;
+    public Message(String source, String target,ApplicationType sourceApplicationType, ApplicationType targetApplicationType, ConnectionAction action, String timestamp) {
+        Source = source;
+        SourceApplicationType = sourceApplicationType;
+        TargetApplicationType= targetApplicationType;
+        Target = target;
         Action = action;
         Timestamp = timestamp;
     }
@@ -25,9 +33,11 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "WebPlatformId='" + WebPlatformId + '\'' +
-                ", ApplicationType='" + ApplicationType + '\'' +
-                ", Action='" + Action + '\'' +
+                "Source='" + Source + '\'' +
+                ", Target='" + Target + '\'' +
+                ", Action=" + Action +
+                ", SourceApplicationType=" + SourceApplicationType +
+                ", TargetApplicationType=" + TargetApplicationType +
                 ", Timestamp=" + Timestamp +
                 ", Message='" + Message + '\'' +
                 '}';

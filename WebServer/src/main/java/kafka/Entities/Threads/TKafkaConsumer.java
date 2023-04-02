@@ -1,20 +1,23 @@
 package kafka.Entities.Threads;
 
 import com.google.gson.Gson;
-import kafka.Entities.Enum.LogLevel;
-import kafka.Entities.IKafkaConsumer;
+import kafka.Entities.Enum.*;
+import kafka.Entities.Interfaces.GuiMonitor.IGui;
+import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
 import kafka.Monitors.MLogger;
+import kafka.guis.TServerGui;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
-import kafka.Constants;
 
+// NO CHANGES---------------------------------------------------------------------
 public class TKafkaConsumer extends Thread{
     /**
      * All Monitor Call Center Interfaces -> Includes CCH, ETH, WTH and MDH
@@ -25,14 +28,16 @@ public class TKafkaConsumer extends Thread{
     private boolean threadSuspended;
     private boolean stopFlag;
     private final MLogger mlogger;
+    private final IGui gui;
     /**
      * <b>Class Constructor</b>
      * <p>threadSuspended and stopFlag initialized as False</p>
      * @param _ikc: Interface  for the MKafka Monitor
      */
-    public TKafkaConsumer(IKafkaConsumer _ikc, Properties _props, MLogger _mlogger) {
+    public TKafkaConsumer(IKafkaConsumer _ikc, IGui _gui, Properties _props, MLogger _mlogger) {
         this.mlogger =_mlogger;
         this.ikc = _ikc;
+        this.gui = _gui;
         this.threadSuspended = false;
         this.stopFlag = false;
         this.consumer = new KafkaConsumer<>(_props);
@@ -71,8 +76,8 @@ public class TKafkaConsumer extends Thread{
      */
     @Override
     public void run() {
-        consumer.subscribe(Arrays.asList(Constants.TOPIC.split(",")));
-        this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Broker %s Connection on Topic %s ", Constants.BOOTSTRAP_SERVERS, Constants.TOPIC)));
+        consumer.subscribe(Arrays.asList(ServerConfig.TOPIC.split(",")));
+        this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Broker %s Connection on Topic %s ", ServerConfig.BOOTSTRAP_SERVERS, ServerConfig.TOPIC)));
         try {
             while(!this.stopFlag){
                 synchronized(this) {
@@ -88,13 +93,19 @@ public class TKafkaConsumer extends Thread{
                         consumer.poll(Duration.ofMillis(1000));
                 records.forEach(record -> {
                     Message newMessage = new Gson().fromJson(record.value(), Message.class);
+                    if (newMessage.Timestamp == null) newMessage.Timestamp = new Date().toString();
                     this.ikc.addMessage(newMessage);
-                    this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.ApplicationType, newMessage.Action, newMessage.WebPlatformId)));
+                    gui.addMessage(ComponentJList.kafkaInboundMessagesList, newMessage);
+                    this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TKafkaConsumer Retrieved Message %s :%s: %s", newMessage.Source, newMessage.Action, newMessage.Target)));
+
+                    TServerGui.kafkaInboundMessagesList.add(newMessage);
+                    gui.numberOperation(GuiPanel.KAFKA, NumberLabel.nMessagesReceived, "+");
                 });
             }
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             this.mlogger.WriteLog(new ServerLog(LogLevel.ERROR, String.format("TKafkaConsumer Connecting to Broker Error %s",e)));
         }
     }

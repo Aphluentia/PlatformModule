@@ -1,10 +1,8 @@
 package kafka.Monitors;
-import kafka.Entities.ILogger;
+import kafka.Entities.Interfaces.ILogger;
 import kafka.Entities.Models.ServerLog;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;

@@ -1,17 +1,18 @@
 package kafka.Monitors;
 
 import kafka.Entities.Enum.LogLevel;
-import kafka.Entities.IKafkaConsumer;
-import kafka.Entities.IMessageHandler;
+import kafka.Entities.Interfaces.KafkaMonitor.IKafkaConsumer;
+import kafka.Entities.Interfaces.KafkaMonitor.IKafkaMessageHandler;
 import kafka.Entities.Models.Message;
 import kafka.Entities.Models.ServerLog;
+import kafka.guis.TServerGui;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MKafka implements IKafkaConsumer, IMessageHandler {
+public class MKafka implements IKafkaConsumer, IKafkaMessageHandler {
     private final Queue<Message> messages;
     /**
      * reentrant mutual exclusion lock
@@ -46,14 +47,17 @@ public class MKafka implements IKafkaConsumer, IMessageHandler {
         }
     }
 
+
+
     @Override
-    public Message handleMessage() {
+    public Message FetchMessage() {
         Message message = null;
         try{
             rl.lock();
             while (this.messages.isEmpty()){
                 this.newMessage.await();
             }
+
             message = this.messages.remove();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, "Processing Message: "+message));
         } catch (InterruptedException e) {
@@ -63,4 +67,5 @@ public class MKafka implements IKafkaConsumer, IMessageHandler {
         }
         return message;
     }
+
 }
