@@ -7,5 +7,6 @@ namespace Backend.Models.Dtos
     {
         public SessionData SessionData { get; set; }
         public string qrCodeData{ get; set; }
+        public int messageServerPort { get; set; }
     }
 }

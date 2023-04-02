@@ -74,13 +74,17 @@ public class TSocketHubBroadcaster extends Thread{
                 }
                // Add Code
                 Message broadcastRequest = this.mSocketHub.FetchForBroadcastRequest();
+
+                System.out.println("Checkpoint: Broadcast Request Fetched "+broadcastRequest.Target +" from "+ broadcastRequest.Source);
                 WebSocket conn = this.mSocketHub.FetchConnection(broadcastRequest.Target);
                 TServerGui.hubInboundMessagesList.remove(broadcastRequest);
                 gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesInQueue, "-");
                 gui.removeMessage(ComponentJList.hubInboundMessagesList, broadcastRequest);
 
                 if (broadcastRequest.Action == ConnectionAction.CREATE_CONNECTION){
-                    ServerResponse res = new ServerResponse(broadcastRequest.Source, broadcastRequest.Target, broadcastRequest.SourceApplicationType,
+                    System.out.println("Checkpoint: Broadcasting to "+conn.getRemoteSocketAddress().toString()+" Request Fetched "+broadcastRequest.Target +" from "+ broadcastRequest.Source);
+
+                    ServerResponse res = new ServerResponse(ConnectionAction.CREATE_CONNECTION, broadcastRequest.Source, broadcastRequest.Target, broadcastRequest.SourceApplicationType,
                             typePorts.get(broadcastRequest.SourceApplicationType).toString());
                     conn.send((new Gson()).toJson(res));
                     gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubMessagesBroadcasted, "+");

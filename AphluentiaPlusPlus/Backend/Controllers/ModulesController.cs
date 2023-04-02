@@ -38,6 +38,7 @@ namespace Backend.Controllers
                  new GetModulesSessionInformationOutputDto()
                  {
                      SessionData = sessionData,
+                     messageServerPort = 9005,
                      qrCodeData = $"http://localhost:8008/pair?webPlatformId={sessionData.WebPlatformId}"
                  }
 

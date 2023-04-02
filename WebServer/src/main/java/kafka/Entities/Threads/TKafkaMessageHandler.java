@@ -81,6 +81,7 @@ public class TKafkaMessageHandler extends Thread{
                         // Só vem dos módulos se a conexão foi criada
                         if (this.mSocketHub.IsValidTargetConnection(newMessage.Target))
                         {
+                            System.out.println("Checkpoint: Connection Created "+newMessage.Target +" from "+ newMessage.Source);
                             this.mSocketHub.BroadcastNewModuleConnectionRequest(newMessage);
                             gui.numberOperation(GuiPanel.SOCKET_HUB, NumberLabel.nHubConnections, "+");
                             this.mModules.AddNewModule(newMessage);

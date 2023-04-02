@@ -71,7 +71,6 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
 
             if (!this.connections.containsKey(newMessage.Source))
                 this.connections.put(newMessage.Source, new HashMap<String, WebSocket>());
-            System.out.println(this.connections.keySet());
         }finally {
             rl.unlock();
         }
@@ -83,7 +82,13 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
     public void AddNewSocketConnection(ConnectionRequest request, WebSocket conn) {
         try{
             rl.lock();
+            System.out.println(this.connections.keySet()+"-----------------"+ request.ModuleId);
+            System.out.println(this.connections.containsKey(request.ModuleId));
+
             this.connections.get(request.ModuleId).put(request.PlatformId, conn);
+            System.out.println("\n "+request.toString());
+            System.out.println("Inserted Valid "+request.ModuleId + "  "+request.PlatformId);
+
         }finally {
             rl.unlock();
         }
@@ -128,6 +133,9 @@ public class MModules implements IKafkaModulesMessageHandler, IModules, IModules
             rl.lock();
 
             IsValid =  this.connections.containsKey(broadcastRequest.Source) && this.connections.get(broadcastRequest.Source).containsKey(broadcastRequest.Target);
+            System.out.println("\n "+broadcastRequest.toString());
+            System.out.println("Is Valid "+this.connections.containsKey(broadcastRequest.Source));
+            System.out.println("Is Valid2 "+ this.connections.get(broadcastRequest.Source).containsKey(broadcastRequest.Target));
         } finally {
             rl.unlock();
         }

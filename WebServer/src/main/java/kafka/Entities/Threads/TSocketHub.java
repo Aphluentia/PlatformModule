@@ -27,6 +27,7 @@ public class TSocketHub extends Thread {
         this.threadSuspended = false;
 
         socketHub = new WebSocketHub(_port, _typePorts,_mSocketHub, _gui, _mlogger);
+
         socketHub.start();
     }
     /**

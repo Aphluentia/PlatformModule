@@ -101,7 +101,7 @@ public class TServerGui extends Thread{
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SocketHub Panel /////////////////////////////////////////////////////////////////////////////////////////////////
     public static int nHubConnections, nHubMessagesReceived, nHubMessagesInQueue, nHubMessagesBroadcasted;
-    public static JLabel nHubMessagesReceivedLabel, nHubMessagesInQueueLabel, nHubMessagesBroadcastedLabel;
+    public static JLabel nHubConnectionsLabel, nHubMessagesReceivedLabel, nHubMessagesInQueueLabel, nHubMessagesBroadcastedLabel;
     public static ArrayList<Message> hubInboundMessagesList;
     public static JScrollPane hubInboundMessagesScrollPane, hubInboundConnectionRequestsScrollPane;
     public static JList<Message> hubInboundMessagesJList;
@@ -120,6 +120,8 @@ public class TServerGui extends Thread{
                 new JLabel("Number of messages in queue: "+nHubMessagesInQueue));
         SocketHubPanel.add(nHubMessagesBroadcastedLabel =
                 new JLabel("Number of messages broadcasted: "+nHubMessagesBroadcasted));
+        SocketHubPanel.add(nHubConnectionsLabel =
+                new JLabel("Number of hub Connections: "+nHubConnections));
 
         setSocketHubInboundMessagesJList();
         setSocketHubInboundConnectionRequestJList();

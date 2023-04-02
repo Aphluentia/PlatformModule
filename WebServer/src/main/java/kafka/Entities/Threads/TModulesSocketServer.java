@@ -105,9 +105,13 @@ public class TModulesSocketServer extends Thread {
         public void onMessage(WebSocket conn, String message) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("TSocketServer New Message From Client %s: %s - Client %s",this.appType, message, conn.getRemoteSocketAddress().getAddress().getHostAddress())));
             ConnectionRequest conReq = new Gson().fromJson(message, ConnectionRequest.class);
+
+            System.out.println("Checkpoint Module: "+ conReq.Action+" from " +conReq.PlatformId);
             switch(conReq.Action){
                 case CREATE_CONNECTION:
+                    System.out.println("Creating New Connection");
                     this.mModules.AddNewSocketConnection(conReq, conn);
+                    System.out.println("Checkpoint Module: New Connection "+conn.getRemoteSocketAddress().toString()+" Added "+conReq.PlatformId);
                     mGui.addConnectionRequest(ComponentJList.connectionsList, appType, conReq);
                     break;
                 case CLOSE_CONNECTION:

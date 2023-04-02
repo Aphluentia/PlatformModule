@@ -63,6 +63,7 @@ public class MSocketHub implements IHubBroadcaster, ISocketHub, ISocketHubKafkaM
         try
         {
             rl.lock();
+            System.out.println("Checkpoint: Adding broadcast request To Queue "+newMessage.Target+ " from "+newMessage.Source);
             broadcastRequests.add(newMessage);
             this.newBroadcastRequest.signal();
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("Added New Module Connection %s to %s", newMessage.Source, newMessage.Target)));
@@ -84,6 +85,7 @@ public class MSocketHub implements IHubBroadcaster, ISocketHub, ISocketHubKafkaM
                 this.newBroadcastRequest.await();
             }
             broadcastReq = this.broadcastRequests.remove();
+            System.out.println("Checkpoint: Fetching broadcast request "+broadcastReq.Target+ " from "+broadcastReq.Source);
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("Received New Broadcast Request From %s to %s", broadcastReq.Source, broadcastReq.Target)));
         } catch (InterruptedException e) {
             this.mlogger.WriteLog(new ServerLog(LogLevel.INFO, String.format("Error Waiting For Broadcast Request: %s", e)));
