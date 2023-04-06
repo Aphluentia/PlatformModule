@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import QRCode from 'qrcode.react';
-import { io } from 'socket.io-client';
 import GlobalHub from './GlobalHub.js'
 
 

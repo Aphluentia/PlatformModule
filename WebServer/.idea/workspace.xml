@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/FileContentIndex/9064de0d-252d-4a79-94a6-fd5b58459e00.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/v17/.futdcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/v17/.futdcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.metadata.v5.2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.metadata.v5.2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.projects.v5.2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.projects.v5.2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/Controllers/ModulesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/Controllers/ModulesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Modules/Modules.js" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Modules/Modules.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ServerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Models/ServerResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TKafkaMessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TModulesSocketServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Entities/Threads/TSocketHubBroadcaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MModules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MModules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MSocketHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/Monitors/MSocketHub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/guis/TServerGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/guis/TServerGui.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,16 +39,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="kafka.App" />
@@ -111,7 +106,8 @@
       <workItem from="1677146565873" duration="2682000" />
       <workItem from="1680006030761" duration="748000" />
       <workItem from="1680364491242" duration="2988000" />
-      <workItem from="1680447064665" duration="9873000" />
+      <workItem from="1680447064665" duration="11068000" />
+      <workItem from="1680520640252" duration="536000" />
     </task>
     <servers />
   </component>
