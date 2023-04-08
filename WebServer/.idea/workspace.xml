@@ -5,14 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ef0cf41-9736-417c-a958-104db47ea9ec" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/FileContentIndex/9064de0d-252d-4a79-94a6-fd5b58459e00.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/v17/.futdcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/Backend/v17/.futdcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.metadata.v5.2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.metadata.v5.2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.projects.v5.2" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/.vs/ProjectEvaluation/backend.projects.v5.2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/Controllers/ModulesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/Backend/Controllers/ModulesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Modules/Modules.js" beforeDir="false" afterPath="$PROJECT_DIR$/../AphluentiaPlusPlus/frontend/src/Modules/Modules.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/DesignTimeBuild/.dtbcache.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/FileContentIndex/4ca0da51-40a7-4a3b-96db-0fe132674c9b.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/FileContentIndex/6198e57c-7c5d-4a78-ae1f-34c92ab2042c.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/FileContentIndex/63ea6cae-50d9-42e4-bec1-99582cb02f18.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/FileContentIndex/9b14a753-53ac-4d39-b808-b9de12b2fde2.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/FileContentIndex/read.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/config/applicationhost.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/AphluentiaPlusPlusBackend/v17/.futdcache.v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/ProjectEvaluation/aphluentiaplusplusbackend.metadata.v5.2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/.vs/ProjectEvaluation/aphluentiaplusplusbackend.projects.v5.2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Backend.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Controllers/ModulesController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Controllers/WeatherForecastController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Models/Dto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Models/Dtos/ModulesInputDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Models/Dtos/ModulesOutputDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Models/Error.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Models/Metadata.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/Settings/SocketServerSection.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/WeatherForecast.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/AphluentiaPlusPlusBackend/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AphluentiaPlusPlusBackend/Frontend/Frontend.sln" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +130,8 @@
       <workItem from="1680364491242" duration="2988000" />
       <workItem from="1680447064665" duration="11068000" />
       <workItem from="1680520640252" duration="536000" />
+      <workItem from="1680791717446" duration="299000" />
+      <workItem from="1680797260924" duration="1412000" />
     </task>
     <servers />
   </component>
