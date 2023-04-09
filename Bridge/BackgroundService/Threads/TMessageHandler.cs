@@ -21,10 +21,12 @@ namespace Bridge.BackgroundService.Threads
         private bool StopFlag;
         private readonly IKafkaMessageHandler _kafkaMonitor;
         private readonly IConnectionManagerMessageHandler _connectionManager;
-        public TMessageHandler(IKafkaMessageHandler mKafka, IConnectionManagerMessageHandler mConnectionManager)
+        private KafkaStatus _status;
+        public TMessageHandler(MKafka mKafka, MConnectionManager mConnectionManager, KafkaStatus status)
         {
             _kafkaMonitor = mKafka;
             _connectionManager = mConnectionManager;
+            _status = status;
 
             StopFlag = false;
             _worker = new BackgroundWorker();
@@ -43,23 +45,38 @@ namespace Bridge.BackgroundService.Threads
             {
 
                 var message = this._kafkaMonitor.FetchIncomingMessage();
-
-                KafkaStatus.MessagesInQueue.Remove(message);
-                KafkaStatus.MessagesInQueueCounter--;
-                switch (message.Action)
+                if (message != null)
                 {
-                    case Dtos.Enum.Action.Create_Connection:
-                        this._connectionManager.CreateConnection
-                        break;
-                    case Dtos.Enum.Action.Close_Connection:
-                        break;
-                    case Dtos.Enum.Action.Ping_Connection:
-                        break;
-                    case Dtos.Enum.Action.Update_Section:
-                        break;
-                };
-                KafkaStatus.MessagesProcessed.Add(message);
-                KafkaStatus.MessagesProcessedCounter++;
+                    var connection = new Connection()
+                    {
+                        WebPlatformId = message.TargetId,
+                        ModuleId = message.SourceId,
+                        ModuleType = message.SourceModuleType
+                    };
+                    switch (message.Action)
+                    {
+                        case Dtos.Enum.Action.Create_Connection:
+                            this._connectionManager.CreateConnection(connection);
+                            break;
+                        case Dtos.Enum.Action.Close_Connection:
+                            this._connectionManager.CloseConnection(connection);
+                            break;
+                        case Dtos.Enum.Action.Ping_Connection:
+                            this._connectionManager.PingConnection(connection);
+                            break;
+                        case Dtos.Enum.Action.Update_Section:
+                            this._connectionManager.UpdateSection(connection);
+                            break;
+                    };
+
+
+                    _status.MessagesProcessed.Add(message);
+                    _status.MessagesProcessedCounter++;
+                    
+                    
+                    
+                }
+                
 
             }
             

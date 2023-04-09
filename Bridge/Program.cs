@@ -2,6 +2,8 @@ using Bridge.BackgroundService.Interfaces;
 using Bridge.BackgroundService.Monitors;
 using Bridge.BackgroundService.Threads;
 using Bridge.ConfigurationSections;
+using Bridge.Dtos.Enum;
+using Bridge.Dtos.Status;
 using Bridge.Providers;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
@@ -10,17 +12,24 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<KafkaConfigSection>(builder.Configuration.GetSection("KafkaConfigSection"));
+builder.Services.Configure<ServerSocketConfigSection>(builder.Configuration.GetSection("ServerSocketConfigSection"));
 
 // Add your shared resource here
-builder.Services.AddSingleton<IKafkaConsumer, MKafka>();
-builder.Services.AddSingleton<IKafkaMessageHandler, MKafka>();
+builder.Services.AddSingleton<MKafka>();
 builder.Services.AddSingleton<TKafkaConsumer>();
 
 
 builder.Services.AddSingleton<ConnectionManagerProvider>();
-builder.Services.AddSingleton<IConnectionManagerMessageHandler, MConnectionManager>();
+builder.Services.AddSingleton<MConnectionManager>();
 builder.Services.AddSingleton<TMessageHandler>();
-// Add your worker here
+builder.Services.AddSingleton<SocketServerProvider>();
+
+
+builder.Services.AddSingleton<KafkaStatus>();
+builder.Services.AddSingleton<ConnectionProviderStatus>();
+builder.Services.AddSingleton<ServerSocketStatus>();
+
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -29,11 +38,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-var kafkaConsumer = app.Services.GetService<TKafkaConsumer>();
-kafkaConsumer.Start();
-var messageHandler = app.Services.GetService<TMessageHandler>();
-messageHandler.Start();
 
+var messageHandler = app.Services.GetService<TMessageHandler>();
+messageHandler?.Start();
+
+// Register the factory method for message handler with a Port argument
+
+var kafkaConsumer = app.Services.GetService<TKafkaConsumer>();
+kafkaConsumer?.Start();
+
+var serverSocketProvider = app.Services.GetService<SocketServerProvider>();
+serverSocketProvider?.StartServers();
+
+
+    
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

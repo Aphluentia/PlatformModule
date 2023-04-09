@@ -11,14 +11,16 @@ namespace Bridge.Controllers
        
 
         private readonly ILogger<KafkaController> _logger;
-        public KafkaController(ILogger<KafkaController> logger)
+        private KafkaStatus _status;
+        public KafkaController(ILogger<KafkaController> logger, KafkaStatus status)
         {
             _logger = logger;
+            this._status = status;
         }
         [HttpGet("Status")]
-        public Dictionary<string, object> GetData()
+        public KafkaStatus GetData()
         {
-            return KafkaStatus.ToJson();
+            return _status;
         }
 
       

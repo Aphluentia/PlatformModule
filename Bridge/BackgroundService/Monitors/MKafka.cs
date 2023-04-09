@@ -1,6 +1,7 @@
 ﻿using Bridge.BackgroundService.Interfaces;
 using Bridge.Dtos.Entities;
 using Bridge.Dtos.Status;
+using Confluent.Kafka;
 using System.Xml.Linq;
 
 namespace Bridge.BackgroundService.Monitors
@@ -11,33 +12,29 @@ namespace Bridge.BackgroundService.Monitors
 
         // Reentrant Lock
         private readonly object _lock = new object();
-        public MKafka() {
+        private KafkaStatus _status;
+        public MKafka(KafkaStatus status) {
             this.IncomingMessages = new Queue<Message>();
+            this._status = status;
         }
 
         public bool AddIncomingMessage(Message _message)
         {
             lock (_lock)
             {
-                // Use Monitor.Enter() to acquire the lock
-                Monitor.Enter(_lock);
-
                 try
                 {
+
+                    _status.MessagesReceivedCounter++;
                     // Critical section where the shared resource is accessed
                     IncomingMessages.Enqueue(_message);
-                    KafkaStatus.MessagesInQueueCounter++;
-                    KafkaStatus.MessagesInQueue.Add(_message);
-                    Monitor.Pulse(this);
+                    _status.MessagesInQueueCounter++;
+                    _status.MessagesInQueue.Add(_message);
+                    Monitor.PulseAll(_lock);
                 }
                 catch(Exception e)
                 {
                     return false;
-                }
-                finally
-                {
-                    // Use Monitor.Exit() to release the lock
-                    Monitor.Exit(_lock);
                 }
             }
             return true;
@@ -48,30 +45,22 @@ namespace Bridge.BackgroundService.Monitors
             var fetchedMessage = new Message();
             lock (_lock)
             {
-                // Use Monitor.Enter() to acquire the lock
-                Monitor.Enter(_lock);
-
                 try
                 {
                     while (IncomingMessages.Count() == 0)
                     {
-                        Monitor.Wait(this);
+                        Monitor.Wait(_lock);
                     }
                     // Critical section where the shared resource is accessed
                     fetchedMessage = IncomingMessages.Dequeue();
-                    KafkaStatus.MessagesInQueueCounter--;
-                    KafkaStatus.MessagesInQueue.Remove(fetchedMessage);
-                    
+                    _status.MessagesInQueue.Remove(fetchedMessage);
+                    _status.MessagesInQueueCounter--;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return null;
                 }
-                finally
-                {
-                    // Use Monitor.Exit() to release the lock
-                    Monitor.Exit(_lock);
-                }
+              
             }
             return fetchedMessage;
         }

@@ -7,37 +7,10 @@
     <h1>WebSocket Example</h1>
     <button id="send-button">Send Message</button>
     <script>
-      const sendButton = document.getElementById('send-button');
-      sendButton.addEventListener('click', (event) => {
-        socket.send('{"Action":"CREATE_CONNECTION", "PlatformId":"EXAMPLE"}');
-        });
-        const socket = new WebSocket('ws://localhost:9005');
-        let appSocket = null;
+      
+        const socket = new WebSocket('ws://localhost:9000');
         socket.onmessage = function(evt) {
           console.log('Message received from server:', evt.data);
-          let data = JSON.parse(evt.data);
-          if (data.SourceApplicationType == "MOBILE_APP"){
-            appSocket = new WebSocket('ws://localhost:'+data.data)
-            appSocket.addEventListener('open', (event) => {
-              console.log('Socket connection established');
-              appSocket.send('{"Action":"CREATE_CONNECTION", ModuleId:"MA1","PlatformId":"EXAMPLE"}')
-            });
-            appSocket.addEventListener('close', (event) => {
-              console.log('Socket connection closed');
-            });
-
-            appSocket.addEventListener('error', (event) => {
-              console.log('Socket error occurred:', event);
-            });
-            appSocket.onmessage = function(evt) {
-              console.log('Message received from server:', evt.data);
-            };
-
-          }else if (evt.data.includes("CLOSED")){
-
-          }else if (evt.data.includes("NOT_AVAILABLE")){
-
-          }
         };
        
         socket.addEventListener('open', (event) => {

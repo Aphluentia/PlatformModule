@@ -21,7 +21,7 @@ namespace Bridge.BackgroundService.Threads
         private readonly KafkaConfigSection _kafkaConfig;
         private bool StopFlag;
         private IKafkaConsumer mKafka;
-        public TKafkaConsumer(IOptions<KafkaConfigSection> kafkaConfig, IKafkaConsumer mKafka)
+        public TKafkaConsumer(IOptions<KafkaConfigSection> kafkaConfig, MKafka mKafka)
         {
             this._kafkaConfig = kafkaConfig.Value;
             StopFlag = false;
@@ -52,9 +52,13 @@ namespace Bridge.BackgroundService.Threads
                 while (!StopFlag)
                 {
                     var consumed = consumer.Consume(CancellationToken.None).Message.Value;
-                    KafkaStatus.MessagesReceivedCounter++;
+                    
+                    
+                 
+                   
                     var newMessageAsJson = JsonConvert.DeserializeObject<Message>(consumed);
-                    mKafka.AddIncomingMessage(newMessageAsJson);
+                    if (newMessageAsJson!=null) 
+                        mKafka.AddIncomingMessage(newMessageAsJson);
 
                 }
 
