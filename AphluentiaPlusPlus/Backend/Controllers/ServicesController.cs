@@ -1,4 +1,6 @@
-﻿using Backend.Helpers;
+﻿using Backend.Configs;
+using Backend.Helpers;
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Models.Dtos.Base;
 using Backend.Models.Dtos.Session;
@@ -6,6 +8,7 @@ using Backend.Models.Entities;
 using Backend.Providers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace Backend.Controllers
@@ -14,24 +17,45 @@ namespace Backend.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public ServicesController(IHttpContextAccessor httpContextAccessor)
+        private readonly SessionConfigSection _config;
+        private readonly SessionProvider _provider;
+        public ServicesController(SessionProvider provider, IOptions<SessionConfigSection> config)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _config = config.Value;
+            _provider = provider;
         }
 
-        [HttpPost]
-        public OutputDto AddSessionData([FromBody] SessionData input)
+        [HttpGet("KeepAlive")]
+        public OutputDto KeepAlive([FromQuery]InputDto input)
         {
-            SessionProvider.StoreSessionData(input);
-            return OutputHelper.GetOutputMessage(new ());
+            var validation = _provider.ValidateSession(input.SessionId);
+            if (validation.Item1 == false)
+                return OutputHelper.GetOutputMessage(null).AddError(validation.Item2);
+
+            var sessionData = _provider.GetSessionData((Guid)input.SessionId);
+            var result = _provider.KeepAlive(sessionData);
+            
+            return result == null? OutputHelper.GetOutputMessage(null).AddError(ApplicationError.KeepAliveFailed) : OutputHelper.GetOutputMessage(new VoidDto());
         }
-        [HttpGet]
+        [HttpGet("GenerateSession")]
+        public OutputDto GenerateSession([FromQuery] GenerateSessionInputDto input)
+        {
+            var sessionData = new SessionData
+            {
+                WebPlatformId = input.WebPlatformId,
+                SessionId = new Guid("c12c9647-1168-4585-af29-032a9168781b"),//Guid.NewGuid()
+                ValidityUtcNow = DateTime.UtcNow.AddMinutes(45),
+            };
+            _provider.StoreSessionData(sessionData);
+            return OutputHelper.GetOutputMessage(sessionData);
+        }
+        [HttpGet("SessionData")]
         public OutputDto GetSessionData([FromQuery]GetSessionDataInputDto input)
         {
-            var result = SessionProvider.GetSessionData((Guid)input.SessionId);
-            if (result == null) OutputHelper.GetOutputMessage(null);
+            var validation = _provider.ValidateSession(input.SessionId);
+            if (validation.Item1 == false)
+                return OutputHelper.GetOutputMessage(null).AddError(validation.Item2);
+            var result = _provider.GetSessionData((Guid)input.SessionId);
             return OutputHelper.GetOutputMessage(result);
 
         }

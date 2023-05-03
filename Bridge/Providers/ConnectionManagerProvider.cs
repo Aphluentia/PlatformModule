@@ -1,105 +1,99 @@
 ﻿using Bridge.Dtos.Entities;
 using Bridge.Dtos.Enum;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Reflection;
 
 namespace Bridge.Providers
 {
+
+    // Stores Messages to Be Polled
+    // Adds Messages according to WebPlatformID
     public class ConnectionManagerProvider
     {
 
         public ICollection<Connection> connections;
-
-        public ICollection<SocketConnection> socketConnections;
-
-        public ICollection<TcpClient> withstandingSocketConnections;
         public ConnectionManagerProvider()
         {
             connections = new HashSet<Connection>();
-            socketConnections = new HashSet<SocketConnection>();
-            withstandingSocketConnections = new HashSet<TcpClient>();
         }
-        public Connection? GetWebPlatformConnection(string WebPlatformId)
+        public bool RegisterWebPlatformConnection(string WebPlatformId)
         {
-            return connections.FirstOrDefault(x => x.WebPlatformId == WebPlatformId);
-        }
-        public Connection? GetModuleConnection(string ModuleId)
-        {
-            return connections.FirstOrDefault(x => x.ModuleId == ModuleId);
-        }
-        public Connection? GetModuleTypeConnection(ModuleType ModuleType)
-        {
-            return connections.FirstOrDefault(x => x.ModuleType == ModuleType);
-        }
-        public bool ExistsWebPlatformModuleConnection(string WebPlatformId, ModuleType ModuleType)
-        {
-            return connections.FirstOrDefault(x => x.ModuleType == ModuleType && x.WebPlatformId == WebPlatformId) != null ? true : false;
-        }
-        public bool AddConnection(Connection connection)
-        {
-            if ((connection.ModuleId!= null && this.GetModuleConnection(connection.ModuleId)!=null) || 
-                (connection.WebPlatformId!=null && this.ExistsWebPlatformModuleConnection(connection.WebPlatformId, connection.ModuleType)))
+            var modules = ((IList<ModuleType>)Enum.GetValues(typeof(ModuleType))).Where(c=>c!=ModuleType.AphluentiaPlusPlus_Web);
+            foreach (ModuleType mType in modules)
             {
-                return false;
+                var connection = new Connection { WebPlatformId = WebPlatformId, ModuleType = mType, Messages = new List<Message>() };
+                if (connections.Any(c => c.WebPlatformId == WebPlatformId && c.ModuleType == mType)) return false;
+                connections.Add(connection);
             }
-            connections.Add(connection);
             return true;
         }
-        public Connection? RemoveConnection(string sourceId)
+        public bool RemoveWebPlatformConnection(string WebPlatformId)
         {
-            Connection? conn = null;
-            if ((conn = GetModuleConnection(sourceId)) != null)
-            {
-                connections.Remove(conn);
-            }
-            
+            if (!connections.Any(c => c.WebPlatformId == WebPlatformId))
+                return false;
+            var filteredConnections = connections.Where(c=> c.WebPlatformId == WebPlatformId).ToList();
+            filteredConnections.ForEach(c => connections.Remove(c));
+            return true;
+        }
+        public Connection? AddMessage(Connection connection, Message message)
+        {
+
+            var conn = connections.ToList().Find(c => c.ModuleId == connection.ModuleId && c.WebPlatformId == connection.WebPlatformId);
+            if (conn != null)
+                conn.Messages.Add(message);
             return conn;
         }
 
-        // Socket Connections
-        public SocketConnection? GetSocketConnection(Connection connection)
+        // If Last Message is CloseConnection remove
+        public ICollection<Message>? PollMessages(string WebPlatformId, ModuleType ModuleType)
         {
-            return this.socketConnections.FirstOrDefault(x => x.WebPlatformId == connection.WebPlatformId && x.ModuleType == connection.ModuleType);
-        }
-        // Pair a socket channel with a webplatformid and a module type
-        public bool ProcessSocketConnection(string WebPlatformId, string clientSocketAddress, ModuleType moduleType)
-        {
-            TcpClient? socket = null;
-            if ((socket = withstandingSocketConnections.FirstOrDefault(x => ((IPEndPoint?)x?.Client.RemoteEndPoint)?.ToString() == clientSocketAddress)) == null) return false;
+            if (!connections.Any(c => c.WebPlatformId == WebPlatformId && c.ModuleType == ModuleType))
+                return null;
+            var filteredConnections = connections.ToList().Find(c => c.WebPlatformId == WebPlatformId && c.ModuleType == ModuleType);
+            var messages = filteredConnections.Messages;
+            if (filteredConnections.Messages.Any(m => m.Action == Dtos.Enum.Action.Close_Connection))
+            {
 
-            if (this.socketConnections.FirstOrDefault(x => x.WebPlatformId == WebPlatformId && x.ModuleType == moduleType) != null)
-            {
-                socketConnections.Remove(socketConnections.First(x => x.WebPlatformId == WebPlatformId && x.ModuleType == moduleType));
+                (connections).Remove(filteredConnections);
+                var cleanConnection = Connection.Reset(filteredConnections);
+                connections.Add(cleanConnection);
             }
-            socketConnections.Add(new SocketConnection()
-            {
-                ModuleType = moduleType,
-                WebPlatformId = WebPlatformId,
-                ClientSocket = socket
-            });
-            return true;
+            
+            return messages;
         }
 
-        // Add new socket connection, each module server socket will have a diff address for the clients
-        public bool AddUnprocessedSocketConnection(TcpClient clientSocket)
-        {
-            if (this.withstandingSocketConnections.FirstOrDefault(x => ((IPEndPoint?)x?.Client.RemoteEndPoint)?.ToString() == ((IPEndPoint?)clientSocket.Client.RemoteEndPoint)?.ToString()) != null)
-            {
-                return false;
-            }
-            withstandingSocketConnections.Add(clientSocket);
-            return true;
-        }
-        public bool ExistsWithstandingSocketConnection(TcpClient clientSocket)
-        {
-            if (this.withstandingSocketConnections.FirstOrDefault(x => ((IPEndPoint?)x?.Client.RemoteEndPoint)?.ToString() == ((IPEndPoint?)clientSocket.Client.RemoteEndPoint)?.ToString()) != null)
-            {
-                return true;
-            }
-            return false;
-        }
 
+
+        public Connection? CreateConnection(Connection newBrokerConnection)
+        {
+
+            if (!connections.Any(c => (c.WebPlatformId == newBrokerConnection.WebPlatformId && c.ModuleType == newBrokerConnection.ModuleType) || c.ModuleId == newBrokerConnection.ModuleId))
+                return null;
+            var con = connections.ToList().Find(c => c.WebPlatformId == newBrokerConnection.WebPlatformId && c.ModuleType == newBrokerConnection.ModuleType);
+            con.ModuleId = newBrokerConnection.ModuleId;
+            return con;
+            
+        }
+        public Connection? CloseConnection(Connection newBrokerConnection)
+        {
+
+            if (!connections.Any(c => (c.WebPlatformId == newBrokerConnection.WebPlatformId && c.ModuleType == newBrokerConnection.ModuleType) || c.ModuleId == newBrokerConnection.ModuleId))
+                return null;
+
+            var con = connections.ToList().Find(c => c.WebPlatformId == newBrokerConnection.WebPlatformId && c.ModuleType == newBrokerConnection.ModuleType);
+            con.ModuleId = null;
+            return con;
+
+        }
+        public Connection? CheckConnection(Connection newBrokerConnection)
+        {
+            return connections.FirstOrDefault(c => c.WebPlatformId == newBrokerConnection.WebPlatformId && c.ModuleType == newBrokerConnection.ModuleType && c.ModuleId == newBrokerConnection.ModuleId);
+            
+        }
+        
 
     }
 }

@@ -9,6 +9,7 @@ namespace Bridge.Dtos.Entities
         public ModuleType ModuleType { get; set; }
         public string? WebPlatformId { get; set; }
         public string? ModuleId { get; set; }
+        public ICollection<Message> Messages { get; set; }
         public string ToJson()
         {
             return $"{{ ModuleType: {ModuleType.GetName(this.ModuleType)}, " +
@@ -18,6 +19,10 @@ namespace Bridge.Dtos.Entities
         public static ICollection<string> ToJson(ICollection<Connection> connections)
         {
             return connections.Select(s => s.ToJson()).ToList();
+        }
+        public static Connection Reset(Connection oldConnection)
+        {
+            return new Connection { WebPlatformId =oldConnection.WebPlatformId, Messages = new List<Message>(), ModuleType = oldConnection.ModuleType };
         }
     }
 }

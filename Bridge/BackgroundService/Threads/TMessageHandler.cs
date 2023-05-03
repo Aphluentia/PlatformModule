@@ -3,6 +3,7 @@ using Bridge.BackgroundService.Monitors;
 using Bridge.ConfigurationSections;
 using Bridge.Dtos.Entities;
 using Bridge.Dtos.Status;
+using Bridge.Providers;
 using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -20,9 +21,9 @@ namespace Bridge.BackgroundService.Threads
         private BackgroundWorker _worker;
         private bool StopFlag;
         private readonly IKafkaMessageHandler _kafkaMonitor;
-        private readonly IConnectionManagerMessageHandler _connectionManager;
+        private readonly ConnectionManagerProvider _connectionManager;
         private KafkaStatus _status;
-        public TMessageHandler(MKafka mKafka, MConnectionManager mConnectionManager, KafkaStatus status)
+        public TMessageHandler(MKafka mKafka, ConnectionManagerProvider mConnectionManager, KafkaStatus status)
         {
             _kafkaMonitor = mKafka;
             _connectionManager = mConnectionManager;
@@ -53,21 +54,26 @@ namespace Bridge.BackgroundService.Threads
                         ModuleId = message.SourceId,
                         ModuleType = message.SourceModuleType
                     };
+                    Connection? conn = null;
                     switch (message.Action)
                     {
                         case Dtos.Enum.Action.Create_Connection:
-                            this._connectionManager.CreateConnection(connection);
+                            conn = this._connectionManager.CreateConnection(connection);
                             break;
                         case Dtos.Enum.Action.Close_Connection:
-                            this._connectionManager.CloseConnection(connection);
+                            conn = this._connectionManager.CloseConnection(connection);
                             break;
                         case Dtos.Enum.Action.Ping_Connection:
-                            this._connectionManager.PingConnection(connection);
+                            conn = this._connectionManager.CheckConnection(connection);
                             break;
                         case Dtos.Enum.Action.Update_Section:
-                            this._connectionManager.UpdateSection(connection);
+                            conn = this._connectionManager.CheckConnection(connection);
                             break;
                     };
+                    if (conn!=null)
+                    {
+                        this._connectionManager.AddMessage(conn, message);
+                    }
 
 
                     _status.MessagesProcessed.Add(message);

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-function Module({ moduleInformation , webPlatformId}) {
+function Module({ sessionData, webPlatformId, module}) {
   const [latestMessage, setLatestMessages] = useState(null);
-
   useEffect(() => {
-    const moduleSocket = new WebSocket('ws://localhost:'+moduleInformation.data);
+    console.log(sessionData);
+    const moduleSocket = new WebSocket(`ws://localhost:${module.serverPort}/${sessionData.sessionData.webPlatformId}`);
     
     moduleSocket.addEventListener('open', (event) => {
-        console.log("Connecting to Module")
-        console.log(moduleInformation)
-        moduleSocket.send('{"Action":"CREATE_CONNECTION","PlatformId":"'+webPlatformId+'", "ModuleId":"'+moduleInformation.moduleId+'"}');
+        console.log(module)
       });
     
       moduleSocket.addEventListener('close', (event) => {
@@ -24,7 +22,7 @@ function Module({ moduleInformation , webPlatformId}) {
         console.log(message);
         setLatestMessages(message);
       };
-  }, [moduleInformation, webPlatformId]);
+  }, [module, webPlatformId]);
 
 
   return (

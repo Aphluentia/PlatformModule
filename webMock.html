@@ -8,9 +8,14 @@
     <button id="send-button">Send Message</button>
     <script>
       
-        const socket = new WebSocket('ws://localhost:9000');
+        const socket = new WebSocket('ws://127.0.0.1:9000/AphluentiaPlusPlus');
         socket.onmessage = function(evt) {
-          console.log('Message received from server:', evt.data);
+		try {
+			  console.log('Message received from server:', evt.data);
+			} catch (error) {
+			  console.log('Message received from server:', error);
+			}
+          
         };
        
         socket.addEventListener('open', (event) => {
@@ -25,6 +30,8 @@
         
         socket.addEventListener('error', (event) => {
           console.log('Socket error occurred:', event);
+          console.log('Socket error occurred:', event.code);
+          console.log('Socket error occurred:', event.message);
         });
     
       

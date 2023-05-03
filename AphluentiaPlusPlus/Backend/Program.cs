@@ -1,3 +1,4 @@
+using Backend.Configs;
 using Backend.Providers;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
@@ -5,17 +6,18 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Register RedisCacheConfigSection first
+builder.Services.Configure<RedisCacheConfigSection>(builder.Configuration.GetSection("RedisCacheConfigSection"));
+builder.Services.Configure<BridgeModuleConfigSection>(builder.Configuration.GetSection("BridgeModuleConfigSection"));
+builder.Services.Configure<SessionConfigSection>(builder.Configuration.GetSection("SessionConfigSection"));
+builder.Services.AddSingleton<SessionProvider>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-
-
 builder.Services.AddDistributedMemoryCache();
 
-// Configure Session
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -31,13 +33,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseHttpsRedirection();
-
 app.UseSession();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+

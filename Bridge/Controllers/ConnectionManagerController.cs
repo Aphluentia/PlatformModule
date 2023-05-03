@@ -1,4 +1,5 @@
 ﻿using Bridge.Dtos.Dtos;
+using Bridge.Dtos.Entities;
 using Bridge.Dtos.Status;
 using Bridge.Providers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,32 +24,28 @@ namespace Bridge.Controllers
             _provider = provider;
             _status = status;
         }
-        [HttpGet("Status")]
-        public ConnectionProviderStatus GetData()
+        [HttpGet("Connection")]
+        public ICollection<Connection> GetConnections()
         {
-            return _status;
+            return _provider.connections;
         }
-        [HttpGet("SocketConnections")]
-        public Dictionary<string, object> GetConnections()
+        [HttpPost("Connection")]
+        public RegisterConnectionOutputDto RegisterWebPlatformConnection([FromBody] RegisterConnectionInputDto register)
         {
-            
-            var socketConnections = _provider.socketConnections.Select(s => (s.WebPlatformId, s.ClientSocket.Client.RemoteEndPoint.ToString(), s.ModuleType));
-            var withstandingSocketConnections = _provider.withstandingSocketConnections.Select(s => (s.Client.RemoteEndPoint.ToString()));
-            return new()
-            {
-                { "WithstandingSocketConnections", JsonConvert.SerializeObject(withstandingSocketConnections)},
-                { "SocketConnections", JsonConvert.SerializeObject(socketConnections)},
-            };
+            return new RegisterConnectionOutputDto { Success = _provider.RegisterWebPlatformConnection(register.WebPlatformId) };
         }
-        [HttpPost("Register")]
-        public RegisterConnectionOutputDto RegisterConnection([FromBody] RegisterConnectionInputDto input)
+        [HttpDelete("Connection")]
+        public RegisterConnectionOutputDto RemoveWebPlatformConnection([FromBody] RegisterConnectionInputDto register)
         {
-            return new RegisterConnectionOutputDto
-            {
-                Success = _provider.ProcessSocketConnection(input.WebPlatformId, input.ClientSocketAddress, input.ModuleType)
-            };
-           
+            return new RegisterConnectionOutputDto { Success = _provider.RemoveWebPlatformConnection(register.WebPlatformId) };
         }
+        [HttpGet("Poll")]
+        public PollMessagesOutputDto PollMessages([FromQuery] PollMessagesInputDto connection)
+        {
+            return new PollMessagesOutputDto { Success=true, Messages = _provider.PollMessages(connection.WebPlatformId, connection.ModuleType) };
+        }
+
+
 
 
     }

@@ -2,7 +2,7 @@
 
 namespace Backend.Models.Dtos
 {
-    public class GetModulesSessionInformationInputDto: InputDto
+    public class GetDashboardDataInputDto: InputDto
     {
     }
 }

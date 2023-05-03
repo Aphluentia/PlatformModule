@@ -1,55 +1,46 @@
 import React, {useEffect, useState} from 'react';
 import QRCode from 'qrcode.react';
-import GlobalHub from './GlobalHub.js'
+import Module from './Module.js'
 
 
-const Modules=()=> {
-    const [data, setData] = useState(null);
-    const [qrCodeUrl, setQrCodeUrl] = useState(null);
-    const [socket, setSocketHubConnection] = useState(null);
+const Modules=(sessionData)=> {
+    const [pageData, setPageData] = useState(null);
     useEffect(() => {
-        const posted = async () => {
-            await fetch('https://localhost:7176/api/Services', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    webPlatformId: 'string',
-                    sessionId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    isValidSession: true,
-                }),
-            });
-            return await fetch('https://localhost:7176/api/Modules?sessionId=3fa85f64-5717-4562-b3fc-2c963f66afa6', );
+
+        const fetchPageData = async () => {
+            var response = await fetch(`https://localhost:7176/api/Dashboard/FetchPageData?sessionId=${sessionData.sessionData.sessionId}`,);
+            var jsonified = await response.json();
+            setPageData(jsonified.data);
         };
        
-        posted().then((response) => response.json()).then((result) => {
-            setData(result.data);
-            setQrCodeUrl(result.data.qrCodeData)
-           
-
-        });
+        fetchPageData();
         
-    }, [setSocketHubConnection]);
+    }, [sessionData]);
 
     return (
         <div>
             <h1>Modules Dashboard</h1>
             <br/>
             <div>
-                <QRCode value={qrCodeUrl} />
-                {data ? 
+                {pageData ? 
                     <p>
-                        {JSON.stringify(data)}
+                        <QRCode value={pageData.qrCodeData}/>
                     </p> : <p>Loading...</p>}
-
-                    { data ? (
-                        <div className="chat-container">
-                        <GlobalHub socketPort={data.messageServerPort} webPlatformId = {data.sessionData.webPlatformId} />
-                        </div>
-                    ) : (
-                        <div>Not Connected</div>
-                    )}
+                {pageData ? 
+                    <p>
+                        {JSON.stringify(pageData)}
+                    </p> : <p>Loading...</p>}
+                    
+                { pageData && pageData.server ? (
+                    <div>
+                        {pageData.server.map(function (value, index) {
+                            return <Module sessionData={sessionData} webPlatformId={sessionData.webPlatformId} module= {value} key={index} />
+                        })}
+                        
+                    </div>
+                ) : (
+                    <div>Not Connected</div>
+                )}
 
             </div>
         </div>

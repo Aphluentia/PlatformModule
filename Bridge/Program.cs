@@ -20,14 +20,11 @@ builder.Services.AddSingleton<TKafkaConsumer>();
 
 
 builder.Services.AddSingleton<ConnectionManagerProvider>();
-builder.Services.AddSingleton<MConnectionManager>();
 builder.Services.AddSingleton<TMessageHandler>();
-builder.Services.AddSingleton<SocketServerProvider>();
 
 
 builder.Services.AddSingleton<KafkaStatus>();
 builder.Services.AddSingleton<ConnectionProviderStatus>();
-builder.Services.AddSingleton<ServerSocketStatus>();
 
 
 
@@ -47,8 +44,6 @@ messageHandler?.Start();
 var kafkaConsumer = app.Services.GetService<TKafkaConsumer>();
 kafkaConsumer?.Start();
 
-var serverSocketProvider = app.Services.GetService<SocketServerProvider>();
-serverSocketProvider?.StartServers();
 
 
     

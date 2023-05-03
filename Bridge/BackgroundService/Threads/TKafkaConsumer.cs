@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,12 +52,17 @@ namespace Bridge.BackgroundService.Threads
 
                 while (!StopFlag)
                 {
-                    var consumed = consumer.Consume(CancellationToken.None).Message.Value;
+                    Message newMessageAsJson = null;
+                    try
+                    {
+                        var consumed = consumer.Consume(CancellationToken.None).Message.Value;
+                        newMessageAsJson = JsonConvert.DeserializeObject<Message>(consumed);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex);
+                    }
                     
-                    
-                 
                    
-                    var newMessageAsJson = JsonConvert.DeserializeObject<Message>(consumed);
                     if (newMessageAsJson!=null) 
                         mKafka.AddIncomingMessage(newMessageAsJson);
 
