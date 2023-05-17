@@ -7,10 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Register RedisCacheConfigSection first
-builder.Services.Configure<RedisCacheConfigSection>(builder.Configuration.GetSection("RedisCacheConfigSection"));
 builder.Services.Configure<BridgeModuleConfigSection>(builder.Configuration.GetSection("BridgeModuleConfigSection"));
-builder.Services.Configure<SessionConfigSection>(builder.Configuration.GetSection("SessionConfigSection"));
-builder.Services.AddSingleton<SessionProvider>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

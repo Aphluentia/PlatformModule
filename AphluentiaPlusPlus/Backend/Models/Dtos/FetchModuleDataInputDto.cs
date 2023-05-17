@@ -4,5 +4,6 @@ namespace Backend.Models.Dtos
 {
     public class FetchModuleDataInputDto: InputDto
     {
-        public string ModuleId { get; set; }    }
+        public string ModuleId { get; set; }    
+    }
 }
