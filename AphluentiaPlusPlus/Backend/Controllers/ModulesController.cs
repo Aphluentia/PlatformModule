@@ -1,20 +1,15 @@
-﻿using Backend.Helpers;
-using Backend.Models.Dtos;
+﻿using Backend.Configs;
+using Backend.Helpers;
+using Backend.Models.Dtos.Authentication;
 using Backend.Models.Dtos.Base;
+using Backend.Models.Dtos.Modules;
+using Backend.Models.Entities;
+using Backend.Models.Enums;
 using Backend.Providers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.Drawing.Imaging;
-using QRCoder;
-using ZXing.QrCode.Internal;
 using Microsoft.Extensions.Options;
-using Backend.Configs;
-using Backend.Models.Entities;
 using Newtonsoft.Json;
-using Backend.Models;
-using Backend.Models.Enums;
-using System.Text;
 
 namespace Backend.Controllers
 {
@@ -22,44 +17,29 @@ namespace Backend.Controllers
     [ApiController]
     public class ModulesController : ControllerBase
     {
-        private ISessionProvider _provider;
-        public BridgeModuleConfigSection _config;
-        public ModulesController(SessionProvider provider, IOptions<BridgeModuleConfigSection> config)
+        private readonly IPublicApiProvider _provider;
+        private readonly BridgeModuleConfigSection _config;
+        public ModulesController(IPublicApiProvider provider, IOptions<BridgeModuleConfigSection> options)
         {
             _provider = provider;
-            _config = config.Value;
+            _config = options.Value;
         }
-
-
-        [HttpGet("Setup")]
-        public async Task<OutputDto> GetDashboardData([FromQuery]ModulesInputDto input) {
-            var validation = _provider.ValidateSession(input.SessionId);
-            if (validation.Item1 == false)
-                return OutputHelper.GetOutputMessage(new()).AddError(validation.Item2);
-           
-            var sessionData = _provider.GetSessionData((Guid)input.SessionId);
-            var moduleTypes = Enum.GetValues(typeof(ModuleType))
-                    .Cast<ModuleType>()
-                    .Where(mType => mType != ModuleType.AphluentiaPlusPlus_Web)
-                    .Select(ModuleTypeDto.FromModuleType)
+        [HttpGet]
+        public async Task<ActionResult<GetModulesPageOutputDto>> LoginAndGenerateSession([FromQuery] GetModulesPageInputDto input)
+        {
+            var result = await BridgeHelper.CreateConnection(input.WebPlatformId.ToString(), new Uri(_config.ConnectionString));
+            if (!result)
+                return NotFound();
+            var modules = ((ModuleType[])Enum.GetValues(typeof(ModuleType))).Where(moduleType => moduleType != ModuleType.AphluentiaPlusPlus_Web)
+                    .Select(moduleType => new ModuleTypeDetails { Code = moduleType })
                     .ToList();
-
-            var result = await BridgeHelper.CreateConnection(sessionData.WebPlatformId, new Uri(_config.Host));
-            var output = new ModulesOutputDto()
+            return new GetModulesPageOutputDto()
             {
-                QrCodeData = $"http://localhost:8008/pair?webPlatformId={sessionData.WebPlatformId}",
-                Modules = moduleTypes,
+                QrCodeUrl = $"http://localhost:8008/pair?webPlatformId={input.WebPlatformId}",
+                Modules = modules,
             };
-            return OutputHelper.GetOutputMessage(
-                output
-            );
 
 
         }
-
-
-
-
-
     }
 }

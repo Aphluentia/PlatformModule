@@ -3,8 +3,8 @@
     public class Metadata
     {
         public Guid MessageId { get; set; } = Guid.NewGuid();
-        public bool Success { get; set; }
-        public IList<string> Errors { get; set; } = new List<string>();
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public bool Success => !Errors.Any();
+        public ICollection<Error> Errors { get; set; } = new List<Error>();
+        public DateTime ActionTimestamp => DateTime.UtcNow;
     }
 }

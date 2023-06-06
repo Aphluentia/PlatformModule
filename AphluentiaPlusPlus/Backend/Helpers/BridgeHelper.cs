@@ -17,7 +17,6 @@ namespace Backend.Helpers
 
             if (response.IsSuccessStatusCode)
             {
-
                 return true;
             }
             else
