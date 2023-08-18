@@ -7,10 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Register RedisCacheConfigSection first
-builder.Services.Configure<BridgeModuleConfigSection>(builder.Configuration.GetSection("BridgeModuleConfigSection"));
-builder.Services.Configure<PublicApiConfigSection>(builder.Configuration.GetSection("PublicApiConfigSection"));
+builder.Services.Configure<SecurityManagerConfigSection>(builder.Configuration.GetSection("SecurityManagerConfigSection"));
+builder.Services.Configure<GatewayConfigSection>(builder.Configuration.GetSection("GatewayConfigSection"));
 
-builder.Services.AddSingleton<IPublicApiProvider, PublicApiProvider>();
+builder.Services.AddSingleton<IGatewayProvider, GatewayProvider>();
+builder.Services.AddSingleton<ISecurityManagerProvider, SecurityManagerProvider>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

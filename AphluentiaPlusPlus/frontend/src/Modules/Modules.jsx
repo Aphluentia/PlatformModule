@@ -10,7 +10,7 @@ export default function Modules({sessionData}) {
  
     useEffect(() => {
         if (sessionData){
-            fetch(`https://localhost:7176/api/Modules/Setup?SessionId=${sessionData.data.sessionId}`)
+            md(`https://localhost:7176/api/Modules/Setup?SessionId=${sessionData.data.sessionId}`)
                 .then(response => response.json())
                 .then(data => {console.log(data.data.modules);setPageInfo(data.data)})
         }

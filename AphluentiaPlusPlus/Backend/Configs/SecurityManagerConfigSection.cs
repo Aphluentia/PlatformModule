@@ -1,6 +1,6 @@
 ﻿namespace Backend.Configs
 {
-    public class PublicApiConfigSection
+    public class SecurityManagerConfigSection
     {
         public string ConnectionString { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Backend.Configs
 {
-    public class BridgeModuleConfigSection
+    public class GatewayConfigSection
     {
         public string ConnectionString { get; set; }
     }

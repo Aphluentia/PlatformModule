@@ -1,4 +1,3 @@
 import { createContext } from 'react';
-
-export const Context = createContext("AphluentiaPlusPlus");
-export const SessionData = createContext(null);
+export const Context = createContext("Context");
+export const IsLoggedIn = createContext("IsLoggedIn");

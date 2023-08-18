@@ -1,11 +1,11 @@
 ﻿using SystemGateway.Dtos.Enum;
 
-namespace Backend.Models.Dtos.Authentication
+namespace Backend.Models.Entities
 {
-    public class LoginInputDto
+    public class UserDetailsDto
     {
         public string Email { get; set; }
-        public string Password { get; set; }
         public UserType UserType { get; set; }
+        public string FullName { get; set; }
     }
 }
