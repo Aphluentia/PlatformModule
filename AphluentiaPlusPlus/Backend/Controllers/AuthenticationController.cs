@@ -96,12 +96,11 @@ namespace Backend.Controllers
         {
             var IsValidSession = await _security.ValidateSession(token);
             if (!IsValidSession) return new ValidateSessionOutputDto { IsValidSession = false };
-            var userData = await _security.GetTokenData(token);
-            var details = await _gateway.GetUserInformation(userData.Email);
-            if (!details.Success) return BadRequest(details.Message);
-            if (userData.IsExpired) IsValidSession = false;
+            var details = await _gateway.GetUserInformation(token);
 
-            return new ValidateSessionOutputDto { IsValidSession = IsValidSession, UserDetails = (UserDetailsDto) details.Data, SessionDetails = ExpirationData.FromSecurityData(userData) };
+            if (!details.Success) return BadRequest(details.Message);
+            var sessionData = await _security.GetTokenData(token);
+            return new ValidateSessionOutputDto { IsValidSession = IsValidSession, UserDetails = (UserDetailsDto) details.Data, SessionDetails = ExpirationData.FromSecurityData(sessionData) };
         }
 
     }

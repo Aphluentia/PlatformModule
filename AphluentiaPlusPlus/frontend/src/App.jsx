@@ -1,10 +1,10 @@
 
 import './App.css'
-import { BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 import Login from './Login/Login.jsx';
 import Register from './Register/Register.jsx';
 import Dashboard from './Dashboards/Dashboard.jsx';
-import {useContext, useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,12 +18,10 @@ function App() {
       axios
         .get("https://localhost:7176/api/Authentication/Validate/"+storedSessionData)
         .then(data =>{
-          console.log(data.data['isValidSession']);
-          console.log(data.data)
             if (data.data['isValidSession']){
-                localStorage.setItem('Email', data.data['email']);
-                localStorage.setItem("userType", data.data['userType']);
-                localStorage.setItem("fullName", data.data['fullName']);
+              console.log(data.data)
+                localStorage.setItem('Email', data.data.userDetails['email']);
+                localStorage.setItem('fullName', data.data.userDetails['fullName']);
                 localStorage.setItem('isLoggedIn','true');
                 navigate("/Dashboard")
             }else{
@@ -37,12 +35,11 @@ function App() {
  
 
  
-  return <Routes>
+  return <Routes >
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Register/>} />
           {isLoggedIn == true ? 
           <>
-            
             <Route path="/dashboard" element={<Dashboard/>} />
             
           </>

@@ -31,19 +31,18 @@ const LoginPage = () => {
     axios
         .post("https://localhost:7176/api/Authentication/Login", jsonData)
         .then(data =>{
-            console.log(JSON.stringify(data));
+            console.log(JSON.stringify(data) + "----------------");
             if (data.data['token']!==undefined){
                 localStorage.setItem("Authentication", data.data['token']);
-                localStorage.setItem('Email', jsonData['email']);
-                localStorage.setItem("userType", jsonData['userType']);
+                localStorage.setItem('Email', jsonData['Email']);
+                localStorage.setItem("userType", jsonData['UserType']);
                 localStorage.setItem("fullName", data.data['fullName']);
                 localStorage.setItem('isLoggedIn','true');
             }
             setResultValue(true);
             setResultMessage(data.data.message);
-            console.log(user)
-            if (user == 0 )
-              navigate("/Dashboard");
+            
+            navigate("/Dashboard");
           
 
         } )
@@ -57,7 +56,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="page">
+       <div className="login-container">
     <h2>Login Page</h2>
     <form onSubmit={handleLogin}>
       <input
@@ -89,6 +89,8 @@ const LoginPage = () => {
 
     </form>
   </div>
+    </div>
+   
   );
 };
 

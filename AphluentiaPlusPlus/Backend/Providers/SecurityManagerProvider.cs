@@ -47,7 +47,10 @@ namespace Backend.Providers
             var response = await _httpClient.GetAsync($"{_BaseUrl}/Session/ValidateSession/{_token}");
             if (!response.IsSuccessStatusCode)
                 return false;
-            return true;
+
+            var data = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(data)) return false;
+            return data == "true";
         }
 
         

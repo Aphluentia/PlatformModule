@@ -2,13 +2,5 @@
 .AppBody {
   margin:0;
   padding:0;
-  height:100vh;
-  border:2px solid red;
-  background-color: var(--background);
-}
-body {
-  background-color: var(--background);
-  height:100vh;
-  margin:0;
-  padding:0;
+  background-color: var(--mint-cream);
 }

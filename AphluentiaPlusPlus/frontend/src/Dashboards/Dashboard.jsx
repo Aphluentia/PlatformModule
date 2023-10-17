@@ -1,20 +1,27 @@
 import React from 'react';
-import axios from 'axios';
 import {useContext, useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '../Base/Navbar.jsx'
+import TherapistPage from './TherapistPage/TherapistPage.jsx';
+import PatientPage from './PatientPage/PatientPage.jsx';
 
 const DashboardPage = () => {
-  const navigate = useNavigate();
   var storedSessionData = {};
+  const userType = localStorage.getItem("userType");
   useEffect(() => {
     storedSessionData = localStorage.getItem('SessionData');
    
   }, []);
-  return (
+  return (<>
+    <Navbar sessionData={storedSessionData}/>
     <div className="AppBody"> 
-      <Navbar sessionData={storedSessionData}/>
-    </div>
+      {userType == 0 ? (
+        <PatientPage/>
+      ) : (
+        <TherapistPage/>
+      )}
+
+    </div></>
+    
   );
 };
 

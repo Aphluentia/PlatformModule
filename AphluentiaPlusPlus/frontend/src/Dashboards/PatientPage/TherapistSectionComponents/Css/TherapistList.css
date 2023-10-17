@@ -1,0 +1,23 @@
+.therapist-list-section-container{
+  width: 100%;
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+  width: '100%';
+  overflow-y: 'auto';
+}
+.therapist-list {
+  list-style:none; 
+  padding: 0;
+  border-radius: 25px;
+}
+
+.therapist-list-li {
+  margin:'1px';
+  border: '1px solid lightgrey';
+  display: 'flex'
+}
+.therapist-list p{
+  font-size: small;
+  margin: 0%;
+}

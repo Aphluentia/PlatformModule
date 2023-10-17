@@ -31,15 +31,3 @@ nav {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #00e6e6, 0 0 70px #00e6e6, 0 0 80px #00e6e6, 0 0 100px #00e6e6, 0 0 150px #00e6e6;
 
 }
-.SessionData{
-  float:right;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  color: red;
-}
-.SessionData a:hover{
-  float:right;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  color: red;
-}

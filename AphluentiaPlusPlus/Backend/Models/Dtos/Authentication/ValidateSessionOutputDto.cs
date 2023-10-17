@@ -6,6 +6,6 @@ namespace Backend.Models.Dtos.Authentication
     {
         public bool IsValidSession { get; set; }
         public UserDetailsDto? UserDetails { get; set; }
-        public ExpirationData SessionDetails { get; set; }  
+        public ExpirationData? SessionDetails { get; set; }  
     }
 }

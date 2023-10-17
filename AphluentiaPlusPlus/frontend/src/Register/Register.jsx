@@ -97,95 +97,97 @@ const RegisterPage = () => {
 
 
   return (
-    <div className="register-container">
-    <h2>Login Page</h2>
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-       <input
-        type="text"
-        placeholder="First Name"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-      />
-       <input
-        type="text"
-        placeholder="LastName"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-      />
-    
-      {
-        userType == 0 ?
-            <> 
-               <input
-                    type="text"
-                    placeholder="Country Code"
-                    value={countyCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="Phone Number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Condition Name"
-                    value={conditionName}
-                    onChange={(e) => setConditionName(e.target.value)}
-                />
-            </>
-            :
-            <>
-                <input
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Credentials"
-                    value={credentials}
-                    onChange={(e) => setCredentials(e.target.value)}
-                />
-            </>
-      }
-      
+    <div className="page">
+      <div className="register-container">
+      <h2>Login Page</h2>
+      <form onSubmit={handleRegister}>
         <input
-        type="number"
-        placeholder="Age"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-      />
-      <label >
-        Register As:
-        <select value={userType} onChange={handleUserTypeChange}>
-          <option value="0">Patient</option>
-          <option value="1">Therapist</option>
-        </select>
-      </label>
-      <input type="button" className="login-button" onClick={NavigateToLogin} value="Login"/>
-      <button className="register-button"  type="submit">Register</button>
-      {resultValue ? (
-        <p className="Success">{resultMessage}</p>
-      ) : (
-        <p  className="Error">{resultMessage}</p>
-      )}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="LastName"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      
+        {
+          userType == 0 ?
+              <> 
+                <input
+                      type="text"
+                      placeholder="Country Code"
+                      value={countyCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                  />
+                  <input
+                      type="number"
+                      placeholder="Phone Number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                  <input
+                      type="text"
+                      placeholder="Condition Name"
+                      value={conditionName}
+                      onChange={(e) => setConditionName(e.target.value)}
+                  />
+              </>
+              :
+              <>
+                  <input
+                      type="text"
+                      placeholder="Description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <input
+                      type="text"
+                      placeholder="Credentials"
+                      value={credentials}
+                      onChange={(e) => setCredentials(e.target.value)}
+                  />
+              </>
+        }
+        
+          <input
+          type="number"
+          placeholder="Age"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+        />
+        <label >
+          Register As:
+          <select value={userType} onChange={handleUserTypeChange}>
+            <option value="0">Patient</option>
+            <option value="1">Therapist</option>
+          </select>
+        </label>
+        <input type="button" className="login-button" onClick={NavigateToLogin} value="Login"/>
+        <button className="register-button"  type="submit">Register</button>
+        {resultValue ? (
+          <p className="Success">{resultMessage}</p>
+        ) : (
+          <p  className="Error">{resultMessage}</p>
+        )}
 
-    </form>
+      </form>
+    </div>
   </div>
   );
 };

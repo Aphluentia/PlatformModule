@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net.Http;
 using SystemGateway.Dtos.Enum;
+using static QRCoder.PayloadGenerator;
 
 namespace Backend.Providers
 {
@@ -25,9 +26,36 @@ namespace Backend.Providers
             return new GatewayOutput { Success = success, Message = result };  
         }
 
-        public async Task<GatewayOutput> GetUserInformation(string Email)
+        
+        public async Task<GatewayOutput> FetchAllTherapists(string token)
         {
-            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Authentication/Information/{Email}");
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{token}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var patientList = JsonConvert.DeserializeObject<List<Patient>>(result);
+            return new GatewayOutput { Success = success, Data = patientList };
+        }
+        public async Task<GatewayOutput> FetchAllPatients(string token)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Patient/{token}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var patientList = JsonConvert.DeserializeObject<List<Patient>>(result);
+            return new GatewayOutput { Success = success, Data = patientList };
+        }
+
+
+     
+
+        public async Task<GatewayOutput> GetTherapistData(string email, string token)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{email}/{token}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var userDetails = JsonConvert.DeserializeObject<Therapist>(result);
+            return new GatewayOutput { Success = success, Data = userDetails };
+        }
+
+        public async Task<GatewayOutput> GetUserInformation(string Token)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Authentication/Information/{Token}");
             if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
             var userDetails = JsonConvert.DeserializeObject<UserDetailsDto>(result);
             return new GatewayOutput { Success = success, Data = userDetails };
@@ -56,6 +84,72 @@ namespace Backend.Providers
 
             var (success, result) = await HttpHelper.Post($"{_BaseUrl}/Authentication/RegisterTherapist", therapist);
             return new GatewayOutput { Success = success, Message = result };
+        }
+
+        public async Task<GatewayOutput> TherapistAcceptPatient(string token, string PatientEmail)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{token}/Accept/{PatientEmail}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            return new GatewayOutput { Success = success, Data = null };
+        }
+
+        public async Task<GatewayOutput> TherapistRejectPatient(string token, string PatientEmail)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{token}/Reject/{PatientEmail}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            return new GatewayOutput { Success = success, Data = null };
+        }
+
+        public async Task<GatewayOutput> UpdateTherapistData(string token, Therapist therapist)
+        {
+            var (success, result) = await HttpHelper.Put($"{_BaseUrl}/Therapist/{token}", therapist);
+            return new GatewayOutput { Success = success, Message = result };
+        }
+
+
+        public async Task<GatewayOutput> FetchTherapistPatients(string token)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{token}/Patients");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var patientList = JsonConvert.DeserializeObject<TherapistPatients>(result);
+            return new GatewayOutput { Success = success, Data = patientList };
+        }
+
+        async Task<GatewayOutput> IGatewayProvider.FetchPatientData(string email, string token)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Patient/{email}/{token}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var userDetails = JsonConvert.DeserializeObject<Patient>(result);
+            return new GatewayOutput { Success = success, Data = userDetails };
+        }
+
+        async Task<GatewayOutput> IGatewayProvider.UpdatePatientData(string token, Patient patient)
+        {
+            var (success, result) = await HttpHelper.Put($"{_BaseUrl}/Patient/{token}", patient);
+            return new GatewayOutput { Success = success, Message = result };
+        }
+
+        async Task<GatewayOutput> IGatewayProvider.PatientRejectTherapist(string token, string TherapistEmail)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Patient/{token}/Reject/{TherapistEmail}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            return new GatewayOutput { Success = success, Data = null };
+        }
+
+        async Task<GatewayOutput> IGatewayProvider.PatientAcceptTherapist(string token, string TherapistEmail)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Patient/{token}/Accept/{TherapistEmail}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            return new GatewayOutput { Success = success, Data = null };
+        }
+
+        async Task<GatewayOutput> IGatewayProvider.FetchPatientTherapist(string token)
+        {
+
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Patient/{token}/Therapist");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput() { Success = success, Message = result };
+            var therapistList = JsonConvert.DeserializeObject<PatientTherapist>(result);
+            return new GatewayOutput { Success = success, Data = therapistList };
         }
     }
 }
