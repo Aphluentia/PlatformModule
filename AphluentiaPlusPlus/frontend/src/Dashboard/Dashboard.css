@@ -1,0 +1,47 @@
+/* PatientRow.css */
+.patient-row {
+    border: 1px solid #e0e0e0;
+    padding: 20px;  /* Increased padding for more space inside */
+    margin: 20px 0;  /* Increased margin for more space between rows */
+    border-radius: 10px;  /* Slightly more rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);  /* More pronounced shadow */
+    display: flex;
+    flex-direction: column;
+    min-width:90%;
+    background-color: #fff;  /* Optional: white background for better contrast */
+    margin: 20px 0;  /* Increased margin for more space between rows */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);  /* More pronounced shadow for each row */
+}
+/* Assuming it's still in PatientRow.css */
+.patient-container {
+    margin: 20px;  /* Margin between body and main div */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Shadow for the container */
+    
+    display: flex;
+    flex-direction: column;  /* Stack children vertically */
+    align-items: center;     /* Center children horizontally */
+}
+
+.patient-container h1 {
+    text-align: center;
+}
+.patient-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;  /* Increased margin for more space between info and modules */
+    padding-bottom: 10px;  /* Padding at the bottom for separation */
+    border-bottom: 1px solid #e0e0e0;  /* Optional: subtle line to separate patient info from modules */
+}
+
+.patient-info h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2em;  /* Slightly larger font for better emphasis */
+}
+
+.patient-info p {
+    margin: 0;
+    color: #555;
+    font-size: 1em;  /* Standard font size */
+}

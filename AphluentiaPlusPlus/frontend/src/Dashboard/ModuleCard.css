@@ -1,0 +1,20 @@
+.module-card {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
+    width: 220px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition for enlargement and shadow */
+}
+
+.module-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Darker box-shadow on hover */
+    transform: scale(1.05);  /* Enlarge the card by 5% */
+    cursor: pointer;  /* Change cursor to pointer */
+}
+
+.module-card h3, .module-card p {
+    margin: 5px 0;
+}

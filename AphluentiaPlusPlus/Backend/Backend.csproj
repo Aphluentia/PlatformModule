@@ -19,9 +19,4 @@
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Base\" />
-    <Folder Include="Models\Dtos\Modules\" />
-  </ItemGroup>
-
 </Project>

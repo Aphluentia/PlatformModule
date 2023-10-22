@@ -1,0 +1,8 @@
+/* AssociationsList.css */
+.associations-list {
+    display: flex;
+    overflow-x: auto;  /* Allows horizontal scrolling if the list exceeds the viewport width */
+    gap: 20px;  /* Spacing between cards */
+    padding: 20px;
+    white-space: nowrap;  /* Prevents wrapping of elements inside */
+}

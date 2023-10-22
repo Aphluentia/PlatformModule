@@ -1,0 +1,111 @@
+/* Container */
+.profile-page div {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.profile-page .Buttons {
+    align-content: space-between;
+}
+
+/* Base button styling */
+.edit-button,
+.upload-file-button {
+    padding: 10px 20px; /* Comfortable padding */
+    font-size: 1rem; /* Text size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor for interactivity */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+    display: inline-block; /* To allow for text-centering and other layout properties */
+}
+
+/* Edit button specific styles */
+.edit-button {
+    background-color: #007BFF; /* Primary color */
+    color: #fff; /* White text color */
+    margin-right: 10px; /* Space between buttons if they're side by side */
+}
+
+.edit-button:hover {
+    background-color: #0056b3; /* Darkened color on hover */
+    transform: scale(1.05); /* Slightly enlarge the button when hovered */
+}
+
+/* Upload file button specific styles */
+.upload-file-button {
+    background-color: #f8f9fa; /* Light gray background */
+    color: #333; /* Dark text color */
+    border: 2px solid #e0e0e0; /* Border color */
+}
+
+.upload-file-button:hover {
+    background-color: #e0e0e0; /* Slightly darker background on hover */
+    transform: scale(1.05); /* Slightly enlarge the button when hovered */
+}
+
+/* Profile Picture */
+.profile-picture {
+    text-align: center; /* Center the inner content */
+    margin-bottom: 20px; /* Add some margin at the bottom for spacing */
+}
+
+.profile-page .profile-picture img {
+    width: 150px; /* Set a fixed width */
+    height: 100px; /* Set a fixed height to make it rectangular */
+    object-fit: cover; /* Ensure the image covers the dimensions without distortion */
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.profile-page .profile-picture img:hover {
+    transform: scale(1.1);
+}
+
+/* Headings */
+.profile-page h2 {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.profile-page input[type="text"],
+.profile-page input[type="number"],
+.profile-page input[type="date"],
+.profile-page textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+/* File Input */
+.profile-page input[type="file"] {
+    margin-top: 20px;
+}
+
+/* Button */
+
+.profile-page input[type="button"]
+.profile-page button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.profile-page button:hover {
+    background-color: #0056b3;
+}

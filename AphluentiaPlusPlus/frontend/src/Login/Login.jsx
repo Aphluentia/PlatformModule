@@ -8,10 +8,12 @@ import './Login.css';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState(0);
+  const [userType, setUserType] = useState('0');
   const [resultMessage, setResultMessage] = useState('');
   const [resultValue, setResultValue] = useState('');
-
+  if (location.pathname === "/login" || location.pathname === "/signup") {
+    return null;
+  }
   const navigate = useNavigate();
   const NavigateToSignup = () => {
     navigate("/Signup");
@@ -25,29 +27,26 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     var user = parseInt(userType);
-    var jsonData = {'Email': email, 'Password': password, 'UserType':user};
-    console.log(jsonData);
+    var jsonData = {'email': email, 'password': password, 'userType': userType === '0' ? 0 : 1};
     e.preventDefault();
     axios
         .post("https://localhost:7176/api/Authentication/Login", jsonData)
         .then(data =>{
-            console.log(JSON.stringify(data) + "----------------");
-            if (data.data['token']!==undefined){
-                localStorage.setItem("Authentication", data.data['token']);
-                localStorage.setItem('Email', jsonData['Email']);
-                localStorage.setItem("userType", jsonData['UserType']);
-                localStorage.setItem("fullName", data.data['fullName']);
+            if (data.data.data!==undefined){
+                console.log(data.data.data);
+                localStorage.setItem("Token", data.data.data);
+                localStorage.setItem("UserType", userType === '0' ? 0 : 1);
                 localStorage.setItem('isLoggedIn','true');
+                setResultValue(true);
+                setResultMessage(data.data.message);
+                navigate("/home");
             }
-            setResultValue(true);
-            setResultMessage(data.data.message);
             
-            navigate("/Dashboard");
           
 
         } )
         .catch(error => {
-          
+          console.log(error);
           setResultValue(false);
           if (error.response == undefined) setResultMessage("Network Error");
           else setResultMessage(error.response.data.message);
@@ -75,8 +74,8 @@ const LoginPage = () => {
       <label >
         Login As:
         <select value={userType} onChange={handleUserTypeChange}>
-          <option value="0">Patient</option>
-          <option value="1">Therapist</option>
+          <option value='0'>Patient</option>
+          <option value='1'>Therapist</option>
         </select>
       </label>
       <button className="login-button" type="submit">Login</button>

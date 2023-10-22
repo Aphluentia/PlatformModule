@@ -1,0 +1,53 @@
+/* UserCard.css */
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;  /* Makes the scaling effect smooth */
+}
+
+.user-card:hover {
+    transform: scale(1.05);  /* Scales the card up by 5% when hovered */
+}
+
+.user-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.user-info p {
+    margin-bottom: 5px;
+}
+/* Additional CSS in UserCard.css */
+.user-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.user-actions button {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.user-actions button:hover {
+    background-color: #0056b3;
+}

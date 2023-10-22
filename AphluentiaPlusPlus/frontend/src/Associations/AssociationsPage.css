@@ -1,0 +1,34 @@
+/* Your CSS file */
+.associations-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers children horizontally */
+    justify-content: center; /* Centers children vertically, if there's space */
+    gap: 20px;
+    padding: 20px;
+    min-height: fit-content;
+    overflow-y: auto;
+}
+
+.associations-row {
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    width: 100%;  /* Take full available width */
+    max-width: 80%;  /* Set to desired max width */
+    margin: auto;  /* Centers the div if it's less than the max-width */
+    overflow-x: auto;
+}
+
+.associations-row h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.associations-row p {
+    margin: 0;
+    color: #888;
+}
