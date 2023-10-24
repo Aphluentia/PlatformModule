@@ -4,9 +4,11 @@ import axios from 'axios';
 import ModuleList from  './ModuleList.jsx';
 import './Dashboard.css';
 import SearchBar from  '../Base/SearchBar.jsx';
+import AddModule from './AddModule.jsx';
 const DashboardPage = () => {
     const userType = localStorage.getItem("UserType");
     const token = localStorage.getItem("Token");
+    const [isLoading, setLoading] = useState(false);
     const [patientList, setPatientList] = useState([]);
 
     let baseUrl = "https://localhost:7176/api/"+(userType == 0 ?  "Patient/"+token : "Therapist/"+token+"/Patients" )
@@ -15,29 +17,30 @@ const DashboardPage = () => {
             .get(baseUrl+"/All")
             .then(data => {
                 setPatientList(data.data.data);
+                setLoading(false);
             })
             .catch(error => {
                 // Handle error
         });
-
-       
-       
     }
     const getPatientsInfo = () => {
+        console.log(userType)
         userType == 0 ? 
             axios
                 .get(baseUrl)
                 .then(data => {
                     setPatientList(data.data.data);
+                    setLoading(false);
                 })
                 .catch(error => {
-                    // Handle error
+                    console.log(error)
                 })
             : 
             getTherapistData()
         
     }
     useEffect(() => {
+        setLoading(true);
         getPatientsInfo();
     }, []);
 
@@ -66,38 +69,43 @@ const DashboardPage = () => {
     };
   
     
-    return (<>
-             <div className="patient-container">
-                <h1>Patient's Modules</h1>
-                   
-                
-                {userType == 0 ? 
-                    <div className="patient-row">
-                    
-                        <div className="patient-info">
-                            <h3>{patientList.firstName} {patientList.lastName}</h3>
-                            <p>{patientList.email}</p>
-                        </div>
-                        <ModuleList key={patientList.email} patientEmail={patientList.email}/>
-                    </div>:
-                    <>
-                        <SearchBar placeholder="Search Patients..." onChange={(e) => {handleInputChange(e)}} />
-                        {list.map((patient, index) => {
-                            return  <div key={patient.email}  className="patient-row">
-                                        <div className="patient-info">
-                                            <h3>{patient.firstName} {patient.lastName}</h3>
-                                            <p>{patient.email}</p>
-                                            <p>{patient.conditionName}</p>
-                                        </div>
-                                        <ModuleList key={patient.email} patientEmail={patient.email}/>
-                                    </div>
+    return isLoading ? 
+            <div> Loading ...</div> 
+            :                
+            <>
 
-                        })}
-                    </>
-              }
-            </div>
-        </>
-        )
+                <div className="patient-container">
+                    <h1>Patient's Modules</h1>
+                        
+                    
+                    {userType == 0 ? 
+                        <div className="patient-row">
+                        
+                            <div className="patient-info">
+                                <h3>{patientList.firstName} {patientList.lastName}</h3>
+                                <p>{patientList.email}</p>
+                                <AddModule></AddModule>
+
+                            </div>
+                            <ModuleList key={patientList.email} patientEmail={patientList.email}/>
+                        </div>:
+                        <> 
+                            <SearchBar placeholder="Search Patients..." onChange={(e) => {handleInputChange(e)}} />
+                            {list.map((patient, index) => {
+                                return  <div key={patient.email}  className="patient-row">
+                                            <div className="patient-info">
+                                                <h3>{patient.firstName} {patient.lastName}</h3>
+                                                <p>{patient.email}</p>
+                                                <p>{patient.conditionName}</p>
+                                            </div>
+                                            <ModuleList key={patient.email} patientEmail={patient.email}/>
+                                        </div>
+
+                            })}
+                        </>
+                    }
+                </div>
+            </>
     };
 
 export default DashboardPage;

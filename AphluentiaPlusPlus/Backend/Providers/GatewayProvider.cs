@@ -10,8 +10,6 @@ using SystemGatewayAPI.Dtos.Entities;
 using SystemGatewayAPI.Dtos.Entities.Database;
 using SystemGatewayAPI.Dtos.Entities.Secure;
 using SystemGatewayAPI.Dtos.Entities.SecurityManager;
-using ZXing.Aztec.Internal;
-using static QRCoder.PayloadGenerator;
 
 namespace Backend.Providers
 {
@@ -21,6 +19,14 @@ namespace Backend.Providers
         public GatewayProvider(IOptions<GatewayConfigSection> options)
         {
             _BaseUrl = options.Value.ConnectionString;
+        }
+
+        public async Task<GatewayOutput<ICollection<Application>>> ApplicationFetchAll()
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Applications");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput<ICollection<Application>>() { Success = success, Message = result };
+            var patient = JsonConvert.DeserializeObject<ICollection<Application>>(result);
+            return new GatewayOutput<ICollection<Application>> { Success = success, Data = patient };
         }
 
         // ------------------------------------------------------------------------------------------------------------------------------------------

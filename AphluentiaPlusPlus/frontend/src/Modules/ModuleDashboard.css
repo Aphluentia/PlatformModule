@@ -1,0 +1,29 @@
+.module-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin: 20px 0;
+    height:100vh
+}
+.module-html-dashboard {
+    min-height: 50%;
+}
+.module-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.module-version {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+
+.module-data-structure {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}

@@ -1,0 +1,33 @@
+.module-html {
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border: 1px solid #d0d0d0;
+    background-color: #f5f5f5;
+    margin: 10px 0;
+}
+/* ModuleCSS.css */
+.input-button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2d87f0;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-button:hover {
+    background-color: #1c63ce;
+}
+.input-text {
+    width: 100%;        /* Fill the parent div width */
+    padding: 15px;      /* Increase padding for a larger feel */
+    margin: 5px 0;      /* Adjust margin as needed */
+    font-size: 18px;    /* Increase font size */
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+

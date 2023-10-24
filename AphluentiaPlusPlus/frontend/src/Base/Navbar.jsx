@@ -43,10 +43,9 @@ const Navbar = () => {
             <li className="route"><Link to="/home">Home</Link></li>
             <li className="route"><Link to="/profile">Profile</Link></li>
             <li className="route"><Link to="/associations">Associations</Link></li>
-            <li className="route"><Link to="/modules">Modules</Link></li>
             <li></li>
           </ul>
-            <input type="button" className="logout-button" onClick={Logout} value="Logout"/>
+            <a onClick={Logout} >Logout</a>
         </nav>
       </header>
   

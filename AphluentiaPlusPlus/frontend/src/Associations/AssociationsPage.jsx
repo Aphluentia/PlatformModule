@@ -8,6 +8,7 @@ import axios from 'axios';
 const AssociationsPage = () => {
     const userType = localStorage.getItem("UserType");
     const token = localStorage.getItem('Token');
+    const [isLoading, setLoading] = useState(false);
 
     const baseUrl = "https://localhost:7176/api/"+ (userType == 0 ? "Patient/":"Therapist/") + token;
     const [Accepted, setAccepted] = useState([]);
@@ -16,9 +17,11 @@ const AssociationsPage = () => {
     const [Pending, setPending] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     const intervalId = setInterval(() => {
         getAssociations();
-    }, 2000); // Run every 2000 milliseconds (2 second)
+        setLoading(false);
+    }, 1000); // Run every 2000 milliseconds (2 second)
     return () => clearInterval(intervalId);
   }, []);
 
@@ -60,22 +63,25 @@ const AssociationsPage = () => {
 
 
   const handleAccept = (email) => {
+    setLoading(true);
     axios
     .get(baseUrl+"/" + email)
     .then(data => {
         getAssociations();
+        setLoading(false);
     })
     .catch(error => {
       // Handle error
     });
   };
   const handleReject = (email) => {
+    setLoading(true);
     axios
     .delete(baseUrl+"/"+ email)
     .then(data => {
       
       getAssociations();
-      console.log(JSON.stringify(data));
+      setLoading(false);
     })
     .catch(error => {
       // Handle error
@@ -83,6 +89,7 @@ const AssociationsPage = () => {
   };
  
   return (
+    isLoading? <div>Loading...</div> :
     <div className="associations-container">
         <h1>Associations </h1>
     

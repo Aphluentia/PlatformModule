@@ -2,9 +2,14 @@
 using Backend.Providers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System.Drawing;
 using SystemGatewayAPI.Dtos.Entities;
 using SystemGatewayAPI.Dtos.Entities.Database;
 using SystemGatewayAPI.Dtos.Entities.Secure;
+using Newtonsoft.Json;
+using static QRCoder.PayloadGenerator;
+using QRCoder;
 
 namespace Backend.Controllers
 {
@@ -17,6 +22,32 @@ namespace Backend.Controllers
         {
             _gateway = provider;
 
+        }
+      
+        [HttpGet("QrCode/{ApplicationName}/Version/{VersionId}")]
+        public async Task<IActionResult> PatientGenerateQrCode(string ApplicationName, string VersionId)
+        {
+            var request = HttpContext.Request;
+            var host = request.Host;
+            var protocol = request.Scheme;
+            var baseUrl = $"{protocol}://{host}/api";
+            var data = new QrCodeData
+            {
+                ApplicationName = ApplicationName,
+                VersionId = VersionId,
+                Url = baseUrl
+            };
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(JsonConvert.SerializeObject(data), QRCodeGenerator.ECCLevel.Q);
+            PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+            byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(20);
+
+            string base64String = Convert.ToBase64String(qrCodeAsPngByteArr);
+            return Ok(new OutputDto<string>
+            {
+                Data = base64String,
+                Message = "Qr Code Generated Successfully"
+            });
         }
         // Missing Patient Fetch All
 

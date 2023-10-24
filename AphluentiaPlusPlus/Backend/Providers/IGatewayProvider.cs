@@ -53,5 +53,7 @@ namespace Backend.Providers
         public Task<GatewayOutput<ModuleStatusCheck>> TherapistModuleStatusCheck(string Token, string PatientEmail, Guid ModuleId);
         public Task<GatewayOutput<ICollection<SafePatient>>> TherapistFetchAllPatients(string Token);
 
+        public Task<GatewayOutput<ICollection<Application>>> ApplicationFetchAll();
+
     }
 }
