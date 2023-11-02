@@ -29,6 +29,14 @@ namespace Backend.Providers
             return new GatewayOutput<ICollection<Application>> { Success = success, Data = patient };
         }
 
+        public async Task<GatewayOutput<Application>> ApplicationFetchById(string ApplicationName)
+        {
+            var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Applications/{ApplicationName}");
+            if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput<Application>() { Success = success, Message = result };
+            var patient = JsonConvert.DeserializeObject<Application>(result);
+            return new GatewayOutput<Application> { Success = success, Data = patient };
+        }
+
         // ------------------------------------------------------------------------------------------------------------------------------------------
         // Authentication ---------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -117,6 +125,18 @@ namespace Backend.Providers
             return new GatewayOutput<Associations<SafeTherapist>> { Success = success, Data = associations };
         }
 
+        public async Task<GatewayOutput<string>> PatientModuleCreateProfile(string Token, Guid ModuleId, string ProfileName)
+        {
+            var (success, result) = await HttpHelper.Post($"{_BaseUrl}/Patient/{Token}/Modules/{ModuleId}/Profile/{ProfileName}", "");
+            return new GatewayOutput<string>() { Success = success, Message = result };
+        }
+
+        public async Task<GatewayOutput<string>> PatientModuleDeleteProfile(string Token, Guid ModuleId, string ProfileName)
+        {
+            var (success, result) = await HttpHelper.Delete($"{_BaseUrl}/Patient/{Token}/Modules/{ModuleId}/Profile/{ProfileName}");
+            return new GatewayOutput<string>() { Success = success, Message = result };
+        }
+
         public async Task<GatewayOutput<ModuleStatusCheck>> PatientModuleStatusCheck(string Token, Guid ModuleId)
         {
             var (success, result) = await HttpHelper.Get($"{_BaseUrl}/Therapist/{Token}/Modules/{ModuleId}/Status");
@@ -146,6 +166,12 @@ namespace Backend.Providers
         public async Task<GatewayOutput<string>> PatientUpdate(string Token, Patient patient)
         {
             var (success, result) = await HttpHelper.Put($"{_BaseUrl}/Patient/{Token}", patient);
+            return new GatewayOutput<string>() { Success = success, Message = result };
+        }
+
+        public async Task<GatewayOutput<string>> PatientUpdateModule(string Token, Guid ModuleId, Module Module)
+        {
+            var (success, result) = await HttpHelper.Put($"{_BaseUrl}/Patient/{Token}/Modules/{ModuleId}", Module);
             return new GatewayOutput<string>() { Success = success, Message = result };
         }
 
@@ -224,6 +250,18 @@ namespace Backend.Providers
             if (string.IsNullOrEmpty(result) || !success) return new GatewayOutput<ModuleStatusCheck>() { Success = success, Message = result };
             var module = JsonConvert.DeserializeObject<ModuleStatusCheck>(result);
             return new GatewayOutput<ModuleStatusCheck> { Success = success, Data = module };
+        }
+
+        public async Task<GatewayOutput<string>> TherapistPatientModuleCreateProfile(string Token, string patientEmail, Guid ModuleId, string ProfileName)
+        {
+            var (success, result) = await HttpHelper.Post($"{_BaseUrl}/Therapist/{Token}/Patients/{patientEmail}/Modules/{ModuleId}/Profile/{ProfileName}", "");
+            return new GatewayOutput<string>() { Success = success, Message = result };
+        }
+
+        public async Task<GatewayOutput<string>> TherapistPatientModuleDeleteProfile(string Token, string patientEmail, Guid ModuleId, string ProfileName)
+        {
+            var (success, result) = await HttpHelper.Delete($"{_BaseUrl}/Therapist/{Token}/Patients/{patientEmail}/Modules/{ModuleId}/Profile/{ProfileName}");
+            return new GatewayOutput<string>() { Success = success, Message = result };
         }
 
         public async Task<GatewayOutput<string>> TherapistRegister(Therapist therapist)

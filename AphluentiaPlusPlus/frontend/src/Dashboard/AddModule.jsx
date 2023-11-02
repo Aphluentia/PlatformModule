@@ -81,12 +81,18 @@ const AddModule = () => {
                     </select>
                 </div>
                 <Popup
-                trigger={ 
-                    <Button variant="outlined" >
-                        Generate QR Code
-                    </Button>}
-                modal
-                nested >
+                    trigger={ 
+                        selectedVersion === '' ?
+                       
+                         <p variant="outlined">
+                         Select a Version to Generate QR Code
+                         </p>:
+                          <Button variant="outlined">
+                            Generate QR Code
+                        </Button>
+                         }
+                    modal
+                    nested >
 
                 {close => (
                     <div className="modal">

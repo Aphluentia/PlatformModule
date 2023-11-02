@@ -16,9 +16,8 @@
   --color1: #03b5aa;
   --color2: #35605a;
   --color3: #00120b;
-
-
 }
+
 body {
   background-color: var(--mint-cream);
   margin:0;

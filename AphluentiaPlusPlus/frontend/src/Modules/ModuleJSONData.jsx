@@ -12,7 +12,8 @@ const ModuleJSONData = ({initialDatapoint, handleDataChange}) => {
     }
     return (
              <div>
-               <h1>Section {sectionName}</h1>
+               <h3>Section: {sectionName}</h3>
+               <h5>Profile: {initialDatapoint.contextName}</h5>
                <div>
                 { isEditable ? 
                     <ReactJson key={initialDatapoint.sectionName} onEdit={handleJsonChange} onAdd={handleJsonChange} onDelete={handleJsonChange} src={initialDatapoint.content} />

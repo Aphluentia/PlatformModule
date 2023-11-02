@@ -4,6 +4,7 @@ import AssociationsList from './AssociationsList.jsx';
 import './AssociationsPage.css';
 import SearchBar from '../Base/SearchBar.jsx';
 import axios from 'axios';
+import Loading from '../Base/Loading.jsx';
 
 const AssociationsPage = () => {
     const userType = localStorage.getItem("UserType");
@@ -17,15 +18,12 @@ const AssociationsPage = () => {
     const [Pending, setPending] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    const intervalId = setInterval(() => {
+    
         getAssociations();
-        setLoading(false);
-    }, 1000); // Run every 2000 milliseconds (2 second)
-    return () => clearInterval(intervalId);
   }, []);
 
   const getAssociations = () =>{
+    setLoading(true);
     axios
     .get(baseUrl+(userType == 0 ? "/Therapists":"/Patients" ))
     .then(data =>{
@@ -33,6 +31,7 @@ const AssociationsPage = () => {
         setRequested(data.data.data.requested);
         setAvailable(data.data.data.available);
         setPending(data.data.data.pending);
+        setLoading(false);
     } )
     .catch(error => {
     });
@@ -89,7 +88,7 @@ const AssociationsPage = () => {
   };
  
   return (
-    isLoading? <div>Loading...</div> :
+    isLoading? <Loading/> :
     <div className="associations-container">
         <h1>Associations </h1>
     

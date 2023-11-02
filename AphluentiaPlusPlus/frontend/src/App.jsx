@@ -22,6 +22,7 @@ function App() {
       axios
         .get("https://localhost:7176/api/Authentication/"+token)
         .then(data =>{
+          console.log(data);
             if (data.data['isExpired']){
                 localStorage.setItem('Email', data.data.userDetails['email']);
                 localStorage.setItem('fullName', data.data.userDetails['fullName']);
@@ -60,7 +61,7 @@ function App() {
               <Route path="/login" element={<Login/>} />
               <Route path="/signup" element={<Register/>} />
             </Routes>    
-        )};
+        )}
     </>
 };
 

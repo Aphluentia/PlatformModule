@@ -37,11 +37,11 @@
 .patient-info h3 {
     margin: 0;
     color: #333;
-    font-size: 1.2em;  /* Slightly larger font for better emphasis */
+    font-size: 1.2em;
 }
 
 .patient-info p {
     margin: 0;
     color: #555;
-    font-size: 1em;  /* Standard font size */
+    font-size: 1em;
 }

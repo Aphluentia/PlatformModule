@@ -8,6 +8,7 @@ namespace SystemGatewayAPI.Dtos.Entities.Database
     public class DataPoint
     {
         public string SectionName { get; set; }
+        public string ContextName { get; set; }
         public bool isDataEditable { get; set; }
 
         private object _Content { get; set; }

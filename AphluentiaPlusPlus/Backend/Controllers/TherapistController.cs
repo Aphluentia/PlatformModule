@@ -256,8 +256,40 @@ namespace Backend.Controllers
                     });
         }
 
-      
 
+        [HttpPost("{token}/Patients/{PatientEmail}/Modules/{ModuleId}/Profile/{ProfileName}")]
+        public async Task<IActionResult> PatientModuleCreateProfile(string token, string PatientEmail, Guid ModuleId, string ProfileName)
+        {
+            var response = await _gateway.TherapistPatientModuleCreateProfile(token, PatientEmail, ModuleId, ProfileName);
+            if (response.Success)
+                return Ok(new OutputDto<string>
+                {
+                    Message = response.Message
+                });
+            else
+                return BadRequest(
+                    new OutputDto<string>
+                    {
+                        Message = response.Message
+                    });
+        }
+
+        [HttpDelete("{token}/Patients/{PatientEmail}/Modules/{ModuleId}/Profile/{ProfileName}")]
+        public async Task<IActionResult> PatientModuleDeleteProfile(string token, string PatientEmail, Guid ModuleId, string ProfileName)
+        {
+            var response = await _gateway.TherapistPatientModuleDeleteProfile(token, PatientEmail, ModuleId, ProfileName);
+            if (response.Success)
+                return Ok(new OutputDto<string>
+                {
+                    Message = response.Message
+                });
+            else
+                return BadRequest(
+                    new OutputDto<string>
+                    {
+                        Message = response.Message
+                    });
+        }
 
     }
 }

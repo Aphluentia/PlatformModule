@@ -5,6 +5,8 @@ import ModuleList from  './ModuleList.jsx';
 import './Dashboard.css';
 import SearchBar from  '../Base/SearchBar.jsx';
 import AddModule from './AddModule.jsx';
+import Loading from '../Base/Loading.jsx';
+
 const DashboardPage = () => {
     const userType = localStorage.getItem("UserType");
     const token = localStorage.getItem("Token");
@@ -70,7 +72,7 @@ const DashboardPage = () => {
   
     
     return isLoading ? 
-            <div> Loading ...</div> 
+            <Loading/>
             :                
             <>
 

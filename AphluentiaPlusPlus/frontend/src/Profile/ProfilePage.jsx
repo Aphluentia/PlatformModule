@@ -4,11 +4,13 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import Button from '@mui/material/Button';
 import isBase64 from 'is-base64';
 import './ProfilePage.css'
+import Loading from '../Base/Loading';
 
 
 
 const ProfilePage = () => {
     const [user, setUser] = useState('');
+    const [loading, setLoading] = useState(user === '');
     const [edit, setEdit] = useState(false);
     const token = localStorage.getItem('Token');
     const userType = localStorage.getItem('UserType');
@@ -18,26 +20,35 @@ const ProfilePage = () => {
     }, []);
 
     const getTherapistData= ()=>{
+        
+        setLoading(true);
         axios
         .get("https://localhost:7176/api/Therapist/" + token)
         .then(data => {
             setUser(data.data.data);
+            
+            setLoading(false);
         })
         .catch(error => {
             // Handle error
         });
     }
     const getPatientData= ()=>{
+        
+        setLoading(true);
         axios
         .get("https://localhost:7176/api/Patient/" + token)
         .then(data => {
             setUser(data.data.data);
+            
+            setLoading(false);
         })
         .catch(error => {
             // Handle error
         });
     }
     const saveChanges=()=>{
+        setLoading(true);
         let url = "https://localhost:7176/api/";
         console.log(user);
             userType == 0 ? url+=("Patient/"+token) : url+=("Therapist/"+token) ;
@@ -47,6 +58,8 @@ const ProfilePage = () => {
                         setEdit(false);
 
                         if (userType == 0 ? getPatientData() : getTherapistData());
+                        
+                        setLoading(false);
                         })
                     .catch(error => {
                     // Handle error
@@ -65,6 +78,7 @@ const ProfilePage = () => {
     });
   };
   function handleFileChange(event) {
+    setLoading(true);
       let reader = new FileReader();
       reader.readAsDataURL( event.target.files[0]);
         reader.onload = function () {
@@ -72,6 +86,8 @@ const ProfilePage = () => {
             ...user,
             ['profilePicture']:reader.result,
           });
+          
+        setLoading(false);
       };
       reader.onerror = function (error) {
           console.log('Error: ', error);
@@ -84,10 +100,8 @@ const ProfilePage = () => {
  
 return (<>
         <div className="profile-page">
-        {user === '' ? 
-            <div>
-                <p>Loading...</p>
-            </div>
+        {loading == true ? 
+            <Loading/>
             : (
             <>
             <div className="profile-picture">

@@ -1,9 +1,8 @@
-/* Your CSS file */
 .associations-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers children horizontally */
-    justify-content: center; /* Centers children vertically, if there's space */
+    align-items: center;
+    justify-content: center;
     gap: 20px;
     padding: 20px;
     min-height: fit-content;
@@ -15,9 +14,9 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #f7f7f7;
-    width: 100%;  /* Take full available width */
-    max-width: 80%;  /* Set to desired max width */
-    margin: auto;  /* Centers the div if it's less than the max-width */
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
     overflow-x: auto;
 }
 

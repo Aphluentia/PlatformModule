@@ -3,16 +3,25 @@ import ReactJson from 'react-json-view';
 import {useContext, useState, useEffect} from 'react';
 import './ModuleHTML.css';
 
-const ModuleHTML = ({htmlDashboard, datastructure, handleHtmlChange}) => {
+const ModuleHTML = ({module, handleHtmlChange}) => {
     const [edit, setEdit] = useState(false);
-    const [inputValue, setInputValue] = useState(htmlDashboard); 
-    const [parsedValue, setParsedValue] = useState(htmlDashboard); 
+    const [htmlSection, setHtmlSection] = useState(0); // 0 is card
+    const [inputValue, setInputValue] = useState(module.moduleData.htmlCard); 
+    const [parsedValue, setParsedValue] = useState(module.moduleData.htmlCard); 
 
-    const replacePlaceholders = (templateString, dataStructure) => {
+    const dataStructure = module.moduleData.dataStructure.filter(data=> 
+        data.contextName === module.moduleData.activeContextName
+    )
+    const replacePlaceholders = (templateString) => {
         return templateString.replace(/{{(.*?)}}/g, (match, placeholder) => {
             const sectionName = placeholder.split('.')[0];
             const section = dataStructure.find(s => s.sectionName === sectionName);
             return getJsonDirective(placeholder.split('.').slice(1), section.content);  
+        });
+    };
+    const replaceCardPlaceholders = (templateString) => {
+        return templateString.replace(/{{(.*?)}}/g, (match, placeholder) => {
+            return getJsonDirective(placeholder.split('.'), module);  
         });
     };
     const getJsonDirective=(keys, section)=>{
@@ -26,31 +35,46 @@ const ModuleHTML = ({htmlDashboard, datastructure, handleHtmlChange}) => {
     const changeEditMode= ()=>{
         setEdit(!edit);
         if (edit == true){
-            setParsedValue(replacePlaceholders(inputValue, datastructure))
+            const value = htmlSection == 0 ? (replaceCardPlaceholders(inputValue)) : (replacePlaceholders(inputValue))
+            setParsedValue(value);
+            
+        }
+    }
+    const changeBetweenCardAndDashboard= ()=>{
+        if (htmlSection == 0){
+            setInputValue(module.moduleData.htmlDashboard);
+            const value = replacePlaceholders(module.moduleData.htmlDashboard);
+            setParsedValue(value);
+            setHtmlSection(1);
+        }else{
+            setInputValue(module.moduleData.htmlCard);
+            const value = replaceCardPlaceholders(module.moduleData.htmlCard);
+            setParsedValue(value);
+            setHtmlSection(0);
         }
     }
     const updateHtml= ()=>{
-        setEdit(false);
-        setParsedValue(replacePlaceholders(inputValue, datastructure))
-        if (inputValue != htmlDashboard){
-            handleHtmlChange(inputValue);
+        setEdit(false); 
+        const value = htmlSection == 0 ? (replaceCardPlaceholders(inputValue)) : (replacePlaceholders(inputValue))
+        setParsedValue(value);
+        if (inputValue != module.moduleData.htmlDashboard && inputValue != module.moduleData.htmlCard){
+            handleHtmlChange(inputValue, htmlSection==0 );
         }
     }
+    
+    useEffect(() => {
+        updateHtml();
+    }, []);
     return (
-            <> 
-               <input 
-                    className="input-button"
-                    type="button" 
-                    value="Edit"
-                    onClick={changeEditMode} 
-                />
-                <input 
-                    className="input-button"
-                    type="submit" 
-                    value="Save"
-                    onClick={updateHtml} 
-                />
-
+            <> <p className="module-html-title">
+                    Currently Editing Application's {htmlSection == 0 ? "Card" : "Dashboard"}
+                    <input 
+                        className="input-button-change"
+                        type="button" 
+                        value={"Change To Edit "+(htmlSection == 0? "Dashboard" : "Card")}
+                        onClick={changeBetweenCardAndDashboard} 
+                    />
+                </p>
                 {edit ? 
                     <div className="module-html">
                         <textarea 
@@ -64,6 +88,20 @@ const ModuleHTML = ({htmlDashboard, datastructure, handleHtmlChange}) => {
                     : 
                     <div className="module-html" dangerouslySetInnerHTML={{ __html: parsedValue }}></div>
                 }
+                 
+                 <input 
+                    className="input-button"
+                    type="button" 
+                    value="Edit"
+                    onClick={changeEditMode} 
+                />
+               
+                <input 
+                    className="input-button"
+                    type="submit" 
+                    value="Save"
+                    onClick={updateHtml} 
+                />
         </>
         )
     };

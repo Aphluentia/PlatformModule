@@ -277,5 +277,57 @@ namespace Backend.Controllers
                     });
         }
 
+
+        [HttpPut("{token}/Modules/{ModuleId}")]
+        public async Task<IActionResult> PatientUpdateModule(string token, Guid ModuleId, [FromBody] Module Module)
+        {
+            var response = await _gateway.PatientUpdateModule(token, ModuleId, Module);
+            if (response.Success)
+                return Ok(new OutputDto<string>
+                {
+                    Message = response.Message
+                });
+            else
+                return BadRequest(
+                    new OutputDto<string>
+                    {
+                        Message = response.Message
+                    });
+        }
+
+        [HttpPost("{token}/Modules/{ModuleId}/Profile/{ProfileName}")]
+        public async Task<IActionResult> PatientModuleCreateProfile(string token, Guid ModuleId, string ProfileName)
+        {
+            var response = await _gateway.PatientModuleCreateProfile(token, ModuleId, ProfileName);
+            if (response.Success)
+                return Ok(new OutputDto<string>
+                {
+                    Message = response.Message
+                });
+            else
+                return BadRequest(
+                    new OutputDto<string>
+                    {
+                        Message = response.Message
+                    });
+        }
+
+        [HttpDelete("{token}/Modules/{ModuleId}/Profile/{ProfileName}")]
+        public async Task<IActionResult> PatientModuleDeleteProfile(string token, Guid ModuleId, string ProfileName)
+        {
+            var response = await _gateway.PatientModuleDeleteProfile(token, ModuleId, ProfileName);
+            if (response.Success)
+                return Ok(new OutputDto<string>
+                {
+                    Message = response.Message
+                });
+            else
+                return BadRequest(
+                    new OutputDto<string>
+                    {
+                        Message = response.Message
+                    });
+        }
+
     }
 }

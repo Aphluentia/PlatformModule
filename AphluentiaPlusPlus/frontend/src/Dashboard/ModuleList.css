@@ -1,9 +1,6 @@
-
-/* ModulesRow.css */
 .modules-row {
     display: flex;
-    overflow-x: auto;
+    overflow-x: scroll;
     gap: 10px;
     padding: 10px;
-    white-space: nowrap;
 }

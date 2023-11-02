@@ -35,6 +35,23 @@ namespace Backend.Controllers
                         Message = loginResponse.Message
                     });
         }
+        [HttpGet("{ApplicationName}")]
+        public async Task<IActionResult> FetchAllApplicationsVersions(string ApplicationName)
+        {
+            var loginResponse = await _gateway.ApplicationFetchById(ApplicationName);
+            if (loginResponse.Success)
+                return Ok(new OutputDto<Application>
+                {
+                    Data = loginResponse.Data,
+                    Message = "Applications Fetched"
+                });
+            else
+                return BadRequest(
+                    new OutputDto<Application>
+                    {
+                        Message = loginResponse.Message
+                    });
+        }
 
     }
 }

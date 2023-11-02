@@ -3,8 +3,11 @@ import {useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 import { json, useNavigate, useParams } from 'react-router-dom';
 import './ModuleDashboard.css';
-import ModuleJSONData from './ModuleJSONData';
 import ModuleHTML from './ModuleHTML';
+import ModuleJSONDataList from './ModuleJSONDataList.jsx';
+import ModuleDetails from './ModuleDetails.jsx';
+import ModuleProfiles from './ModuleProfiles.jsx';
+import { InfinitySpin } from  'react-loader-spinner'
 
 const ModuleDashboardPage = () => {
     const navigate = useNavigate();
@@ -12,17 +15,51 @@ const ModuleDashboardPage = () => {
     const token = localStorage.getItem("Token");
     const [module, setModule] = useState(null);
     const {moduleId, patient} = useParams();
+    const [availableProfiles, setAvailableProfiles] = useState([])
     let baseUrl = '';
  
-    
+    const createProfile = (profileName) => {
+        baseUrl = "https://localhost:7176/api/"+(userType == 0 ?  "Patient/"+token : "Therapist/"+token+"/Patients/"+patient )
+        axios
+            .post(baseUrl+"/Modules/"+moduleId+"/Profile/"+profileName, "")
+            .then(data => {
+                getModuleInformation();
+            })
+            .catch(error => {
+                // Handle error
+            })
+        
+    }
+    const deleteProfile = (profileName) => {
+        baseUrl = "https://localhost:7176/api/"+(userType == 0 ?  "Patient/"+token : "Therapist/"+token+"/Patients/"+patient )
+        axios
+            .delete(baseUrl+"/Modules/"+moduleId+"/Profile/"+profileName)
+            .then(data => {
+                getModuleInformation();
+            })
+            .catch(error => {
+                console.log(error);
+                // Handle error
+            })
+        
+    }
+    const updateCurrentProfile = (profileName) => {
+        module.moduleData.activeContextName = profileName;
+        setModule(module);
+        updateModuleInformation(module)
+    }
   
     const getModuleInformation = () => {
-        console.log("Hello???")
         baseUrl = "https://localhost:7176/api/"+(userType == 0 ?  "Patient/"+token : "Therapist/"+token+"/Patients/"+patient )
         axios
             .get(baseUrl+"/Modules/"+moduleId)
             .then(data => {
                 setModule(data.data.data);
+                let temp = []
+                for (let datapoint of data.data.data.moduleData.dataStructure){
+                    temp.push(datapoint.contextName);
+                }  
+                setAvailableProfiles(temp);
             })
             .catch(error => {
                 // Handle error
@@ -42,7 +79,21 @@ const ModuleDashboardPage = () => {
             })
         
     }
-  
+   
+    const updateModuleToVersion = (versionId) => {
+        baseUrl = "https://localhost:7176/api/"+(userType == 0 ?  "Patient/"+token : "Therapist/"+token+"/Patients/"+patient )
+        axios
+            .put(baseUrl+"/Modules/"+moduleId+"/Version/"+versionId, "")
+            .then(data => {
+                alert("Updated To Version");
+                getModuleInformation();
+            })
+            .catch(error => {
+                // Handle error
+            })
+        
+    }
+
     useEffect(() => {
         if (moduleId == undefined){
             alert("No Module Data Provided");
@@ -62,7 +113,8 @@ const ModuleDashboardPage = () => {
     const handleInputChange = (sectionName, content) => {
         let tempModule = module;
         for (let section of tempModule.moduleData.dataStructure) {
-            if (section.sectionName === sectionName) {
+            console.log(section);
+            if (section.sectionName === sectionName && section.contextName == module.moduleData.activeContextName) {
                 section.content = content;
                 break;
             }
@@ -71,34 +123,33 @@ const ModuleDashboardPage = () => {
         updateModuleInformation(module)
        
       };
-      const handleHtmlChange = (newHtmlCode) => {
+      const handleHtmlChange = (newHtmlCode, card) => {
         let tempModule = module;
-        tempModule.moduleData.htmlDashboard = newHtmlCode;
+        if (card){
+            tempModule.moduleData.htmlCard = newHtmlCode;
+        }else{
+            tempModule.moduleData.htmlDashboard = newHtmlCode;
+        }
         setModule(tempModule);
         updateModuleInformation(module)
         
       };
     return (
         module === null 
-        ? null 
+        ? 
+        <InfinitySpin 
+            width='200'
+            color="#4fa94d"
+        /> 
         : (
             <div className="module-container">
-                <h1 className="module-title">{module.moduleData.applicationName}</h1>
-                <p className="module-version">{module.moduleData.versionId}</p>
-                <div className="module-html-dashboard">
-                    <ModuleHTML htmlDashboard={module.moduleData.htmlDashboard} datastructure={module.moduleData.dataStructure} handleHtmlChange={handleHtmlChange} setModule={setModule}></ModuleHTML>
+                <ModuleDetails module={module} updateToVersion={updateModuleToVersion}/>
+                <div className="module-inner-container">
+                    <ModuleProfiles updateCurrentProfile={updateCurrentProfile} profilesList={availableProfiles} currentProfile={module.moduleData.activeContextName} createProfile={createProfile} deleteProfile={deleteProfile}/>
+                    <ModuleJSONDataList module={module} handleDataChange={handleInputChange} setModule={setModule} />
                 </div>
-                <div className="module-data-structure">
-                    {module.moduleData.dataStructure.map((datapoint, index) => {
-                        return (
-                            <ModuleJSONData 
-                                key={index} 
-                                initialDatapoint={datapoint} 
-                                handleDataChange={handleInputChange} 
-                                setModule={setModule}
-                            />
-                        );
-                    })}
+                <div className="module-inner-container">
+                    <ModuleHTML module={module} datastructure={module.moduleData.dataStructure} handleHtmlChange={handleHtmlChange} setModule={setModule}></ModuleHTML>
                 </div>
             </div>
         )

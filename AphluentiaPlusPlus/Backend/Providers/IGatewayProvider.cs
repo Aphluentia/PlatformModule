@@ -24,6 +24,7 @@ namespace Backend.Providers
         public Task<GatewayOutput<string>> PatientUpdate(string token, Patient therapist);
         public Task<GatewayOutput<string>> PatientAddNewModule(string Token, Module module);
         public Task<GatewayOutput<string>> PatientUpdateModuleToVersion(string Token, Guid ModuleId, string VersionId);
+        public Task<GatewayOutput<string>> PatientUpdateModule(string Token, Guid ModuleId, Module Module);
         public Task<GatewayOutput<string>> PatientDeleteModule(string Token, Guid ModuleId);
         public Task<GatewayOutput<string>> PatientRejectTherapist(string Token, string TherapistEmail);
         public Task<GatewayOutput<string>> PatientAcceptTherapist(string Token, string TherapistEmail);
@@ -33,6 +34,8 @@ namespace Backend.Providers
         public Task<GatewayOutput<ICollection<SafePatient>>> PatientFetchAll();
         public Task<GatewayOutput<ModuleStatusCheck>> PatientModuleStatusCheck(string Token, Guid ModuleId);
         public Task<GatewayOutput<Associations<SafeTherapist>>> PatientFetchTherapists(string Token);
+        public Task<GatewayOutput<string>> PatientModuleCreateProfile(string Token, Guid ModuleId, string ProfileName);
+        public Task<GatewayOutput<string>> PatientModuleDeleteProfile(string Token, Guid ModuleId, string ProfileName);
 
 
 
@@ -42,6 +45,8 @@ namespace Backend.Providers
         public Task<GatewayOutput<string>> TherapistDelete(string Token);
         public Task<GatewayOutput<string>> TherapistRejectPatient(string token, string patientEmail);
         public Task<GatewayOutput<string>> TherapistAcceptPatient(string token, string patientEmail);
+        public Task<GatewayOutput<string>> TherapistPatientModuleCreateProfile(string Token, string patientEmail, Guid ModuleId, string ProfileName);
+        public Task<GatewayOutput<string>> TherapistPatientModuleDeleteProfile(string Token, string patientEmail, Guid ModuleId, string ProfileName);
         public Task<GatewayOutput<Therapist>> TherapistFetchData(string Token);
         public Task<GatewayOutput<ICollection<SafeTherapist>>> TherapistsFetchAll();
         public Task<GatewayOutput<Associations<SafePatient>>> TherapistFetchPatients(string Token);
@@ -53,7 +58,10 @@ namespace Backend.Providers
         public Task<GatewayOutput<ModuleStatusCheck>> TherapistModuleStatusCheck(string Token, string PatientEmail, Guid ModuleId);
         public Task<GatewayOutput<ICollection<SafePatient>>> TherapistFetchAllPatients(string Token);
 
+
+
         public Task<GatewayOutput<ICollection<Application>>> ApplicationFetchAll();
+        public Task<GatewayOutput<Application>> ApplicationFetchById(string ApplicationName);
 
     }
 }

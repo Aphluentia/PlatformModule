@@ -43,9 +43,11 @@ const Navbar = () => {
             <li className="route"><Link to="/home">Home</Link></li>
             <li className="route"><Link to="/profile">Profile</Link></li>
             <li className="route"><Link to="/associations">Associations</Link></li>
-            <li></li>
+            
           </ul>
-            <a onClick={Logout} >Logout</a>
+          <ul className="options">
+            <li  className="route" onClick={Logout}><a>Logout</a></li>
+          </ul>
         </nav>
       </header>
   
