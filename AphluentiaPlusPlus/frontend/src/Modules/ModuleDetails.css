@@ -1,0 +1,45 @@
+.module-title {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+.module-version-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin: 20px 0;
+    height:100%;
+}
+
+.module-version {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.module-version span {
+    margin-right: auto;
+}
+
+.version-select {
+    padding: 0.5em 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 1em;
+}
+
+
+.update-version-button {
+    background-color: #007BFF;
+    color: #FFFFFF;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-version-button:hover {
+    background-color: #0056b3;
+}

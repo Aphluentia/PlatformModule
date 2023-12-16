@@ -1,0 +1,6 @@
+.modules-row {
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+    padding: 10px;
+}

@@ -1,0 +1,20 @@
+.module-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin: 20px 0;
+    height:100%
+}
+.module-inner-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin: 10px 0;
+    height:100%
+}
+.module-html-dashboard {
+    min-height: 50%;
+}
+

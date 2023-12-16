@@ -1,0 +1,40 @@
+nav {
+    width: 100vw;
+    background-color: var(--color1);
+    display: flex;
+    align-content: space-between;
+}
+
+.nav-links {
+    list-style: none;
+    display: inline-block;
+    width:90vw;
+  }
+.options {
+    list-style: none;
+    display: inline-block;
+}
+  
+.route {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+  
+.route a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: var(--highlight)
+  }
+
+.route a:hover {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transform: scale(1.2);
+    color: var(--highlight);
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #00e6e6, 0 0 70px #00e6e6, 0 0 80px #00e6e6, 0 0 100px #00e6e6, 0 0 150px #00e6e6;
+
+}

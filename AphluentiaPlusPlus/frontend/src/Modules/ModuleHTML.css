@@ -1,0 +1,56 @@
+.module-html {
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border: 1px solid #d0d0d0;
+    background-color: #f5f5f5;
+    margin: 10px 0;
+}
+
+.input-button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2d87f0;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-button:hover {
+    background-color: #1c63ce;
+}
+.module-html-title {
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.input-button-change {
+    background-color: #FFA500;
+    color: #FFFFFF;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-button-change:hover {
+    background-color: #FF8C00;
+}
+
+
+.input-text {
+    width: 100%; 
+    padding: 15px;  
+    margin: 5px 0; 
+    font-size: 18px;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+

@@ -1,0 +1,33 @@
+.associations-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    min-height: fit-content;
+    overflow-y: auto;
+}
+
+.associations-row {
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+    overflow-x: auto;
+}
+
+.associations-row h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.associations-row p {
+    margin: 0;
+    color: #888;
+}

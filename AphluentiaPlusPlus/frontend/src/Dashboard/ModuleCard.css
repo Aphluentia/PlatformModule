@@ -1,0 +1,41 @@
+.module-card {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
+    width: 220px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.module-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.module-card h3, .module-card p {
+    margin: 5px 0;
+}
+
+
+.button-remove {
+    padding: 0.5em 1em;
+    border: 1px solid #dc3545; /* red accent border */
+    background-color: #f8d7da; /* light red background */
+    color: #721c24; /* dark red text */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+.button-remove:hover {
+    background-color: #dc3545; /* darker red background on hover */
+    color: #ffffff; /* white text on hover */
+}
