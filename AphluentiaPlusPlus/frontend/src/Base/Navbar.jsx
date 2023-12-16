@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     getSessionData();
   }, []);
@@ -24,15 +26,17 @@ const Navbar = () => {
         }
       } )
       .catch(error => {
-        setResultValue(false);
-        if (error.response == undefined) setResultMessage("Network Error");
-        else setResultMessage(error.response.data.message);
+        
+          navigate("/Register");
       });
   
 };
   const Logout = ()=>{
     localStorage.clear();
     navigate("/Login");
+  }
+  if (location.pathname.toLocaleLowerCase() === '/login' || location.pathname.toLocaleLowerCase() === '/register') {
+    return null;
   }
   return (
     <>

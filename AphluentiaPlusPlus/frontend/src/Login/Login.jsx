@@ -16,7 +16,7 @@ const LoginPage = () => {
   }
   const navigate = useNavigate();
   const NavigateToSignup = () => {
-    navigate("/Signup");
+    navigate("/register");
   }
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -79,7 +79,7 @@ const LoginPage = () => {
         </select>
       </label>
       <button className="login-button" type="submit">Login</button>
-      <input type="button" className="register-button" onClick={NavigateToSignup} value="Register"/>
+      <input type="button" className="register-button" onClick={NavigateToSignup} value="Go To Signup"/>
       {resultValue ? (
         <p className="Success">{resultMessage}</p>
       ) : (
